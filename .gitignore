@@ -1,0 +1,95 @@
+### maven 
+target/classes
+target/generated-sources
+target/generated-test-sources
+target/maven-archiver
+target/maven-status
+target/test-classes
+target/springboot_vue-0.0.1-SNAPSHOT.jar.original
+
+!.mvn/wrapper/maven-wrapper.jar
+
+### JAVA
+*.class
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.pydevproject
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+.idea/
+*.ipr
+*.iml
+*.iws
+
+### NetBeans ###
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+
+## images
+*.lpop
+
+## NodeJS
+/dist/
+logs
+*.log
+bin
+node_modules/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+test/unit/coverage
+test/e2e/reports
+selenium-debug.log
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+## temp file
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+
+## package file
+*.war
+*.ear
+
+## kdiff3 ignore
+*.orig
+
+## maven ignore
+target/
+
+## eclipse ignore
+.settings/
+.project
+.classpath
+
+## system ignore
+.DS_Store
+Thumbs.db
+
+
+
+
+
