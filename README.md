@@ -3,6 +3,13 @@
 
 ## backend 后端代码
 
+## 项目目录
+```
+
+pojo: (Plain Old Java Object)持久化类
+```
+
+
 
 ## fronted 前端代码
 
