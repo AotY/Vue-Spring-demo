@@ -91,6 +91,10 @@ target/
 Thumbs.db
 
 
+## maven
+classes
+classes/
+
 
 
 

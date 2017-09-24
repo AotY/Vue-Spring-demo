@@ -1,28 +1,30 @@
 <template>
   <div>
+    <v-search-input></v-search-input>
     <v-carousel></v-carousel>
     <div class="floor-wrapper">
-      <h1 class="floor-title">F1 数码电器</h1>
-      <!--<ul class="floor-con">-->
-      <!--<li class="floor-item">-->
-      <!--<a>-->
-      <!--<span class="floor-text">双开门冰箱</span>-->
-      <!--<img class="floor-img" src="../../../static/images/5.png"/>-->
-      <!--</a>-->
-      <!--</li>-->
-      <!--</ul>-->
+      <h1 class="floor-title">数码电子</h1>
       <el-row :gutter="20">
         <el-col :span="6" v-for="item in list">
           <el-card :body-style="{ padding: '0px'}">
-            <img v-bind:src="item.imageHost + item.mainImage" class="image">
-            <div style="padding: 15px;">
-              <div class="line"></div>
-              <span class="name-span">{{ item.name }}</span>
-              <div class="bottom clearfix">
-                <time class="time">{{ item.price }}</time>
-                <el-button type="text" class="button" v-bind:data-id="item.id">立即购买</el-button>
+            <a v-bind:href="'/detail/productId/' + item.id"  class="card-link">
+              <img v-bind:src="item.imageHost + item.mainImage" class="image">
+              <div style="padding: 15px;">
+                <div class="line"></div>
+                <span class="name-span">{{ item.name }}</span>
+                <div class="bottom clearfix">
+                  <el-rate
+                    v-model="value5"
+                    disabled
+                    show-text
+                    text-color="#ff9900"
+                    text-template="{value}">
+                  </el-rate>
+                  <span class="price">{{ item.price }}<span>.00 元</span></span>
+                  <!--<el-button type="text" class="button" v-bind:data-id="item.id">立即购买</el-button>-->
+                </div>
               </div>
-            </div>
+            </a>
           </el-card>
         </el-col>
       </el-row>
@@ -32,13 +34,18 @@
 
 <script>
   // 这个页面是主要展示的页面
+
   import vCarousel from './../common/Carousel.vue'
+  import vSearchInput from './../common/Search.vue'
   import productApi from '../../api/productapi.js'
+
+//  import vSearch from './../common/Search.vue'
   // 请求服务器数据
   export default {
     data () {
       return {
-        list: []
+        list: [],
+        value5: 3.7
       }
     },
     created () {
@@ -55,7 +62,7 @@
       }
     },
     components: {
-      vCarousel
+      vCarousel, vSearchInput
     }
   }
 </script>
@@ -68,9 +75,10 @@
     padding-top: 50px;
   }
 
-  .time {
-    font-size: 13px;
-    color: #999;
+  .price {
+
+    font-size: 14px;
+    color: #222;
   }
 
   .bottom {
@@ -86,8 +94,8 @@
   .image {
     padding-top: 10px;
     margin: 0 auto;
-    width: 90%;
-    height: 250px;
+    width: 85%;
+    height: 260px;
     display: block;
   }
 
@@ -119,5 +127,6 @@
     font-size: 13px;
     color: #333;
   }
+
 
 </style>
