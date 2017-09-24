@@ -1,17 +1,20 @@
 <template>
-  <div class="header">
-    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-      <el-menu-item index="1">处理中心</el-menu-item>
-      <el-submenu index="2">
-        <template slot="title">我的工作台</template>
-        <el-menu-item index="2-1">选项1</el-menu-item>
-        <el-menu-item index="2-2">选项2</el-menu-item>
-        <el-menu-item index="2-3">选项3</el-menu-item>
-      </el-submenu>
-    </el-menu>
+  <div class="header-wrapper">
+    <header class="header">
+      <div class="container">
+        <h1>
+          <a>
+            <img class="nav-logo" src="../../../static/images/nav-logo.png"/>
+          </a>
+        </h1>
+        <!--<ul class="nav">-->
+        <!--<li class="nav-item">-->
+        <!--<a></a>-->
+        <!--</li>-->
+        <!--</ul>-->
 
-    <div class="line"></div>
-
+      </div>
+    </header>
   </div>
 
 </template>
@@ -32,9 +35,44 @@
 
 </script>
 
-
 <style>
-  .header {
-    margin: 0px auto;
+  .header-wrapper {
+    height: 60px;
   }
+
+  .header .container {
+    box-sizing: border-box;
+    height: 100%;
+  }
+  .header {
+    width: 100%;
+    height: 70px;
+    /*position: relative;*/
+    top: 0;
+    left: 0;
+    line-height: 80px;
+    color: #fff;
+    background-color: #c60023;
+  }
+
+  .container {
+    /*border: 2px red solid;*/
+    width: 1080px;
+    margin: 0 auto;
+    padding: 0 30px;
+  }
+
+  .header h1 {
+    margin: 0;
+    float: left;
+    left: 0px;
+  }
+  .header .nav-logo {
+
+    vertical-align: sub;
+    height: 40px;
+    width: 150px;
+  }
+
 </style>
+

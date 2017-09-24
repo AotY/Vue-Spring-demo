@@ -12,13 +12,14 @@ export default {
 </script>
 
 <style>
-  /*@import "../static/css/main.css";*/
   #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif;
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
+    height: 100%;
     /*margin-top: 60px;*/
   }
 </style>

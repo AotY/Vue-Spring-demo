@@ -1,6 +1,7 @@
 <template>
   <div class="carousel-wrapper">
-    <el-carousel indicator-position="outside" height="400px">
+    <div id="carousel-left"></div>
+    <el-carousel indicator-position="outside" height="350px">
       <!-- :key="image"-->
       <el-carousel-item v-for="image in images">
         <img v-bind:src="image.url" class="image"></img>
@@ -29,8 +30,17 @@
 </script>
 
 <style >
+  #carousel-left {
+    float: left;
+    height: 348px;
+    border: 2px red solid;
+    width: 300px
+  }
   .carousel-wrapper {
+    width: 1080px;
     padding-top: 20px;
+    margin: 0 auto;
+    float: right;
     /*right: auto;*/
     /*width: 80%;*/
   }
@@ -43,7 +53,7 @@
     /*background-color: #d3dce6;*/
   /*}*/
   .image {
-    width: 100%;
+    width: 780px;
     display: block;
     height: 100%;
   }

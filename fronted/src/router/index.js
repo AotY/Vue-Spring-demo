@@ -12,11 +12,11 @@ export default new Router({
       children: [
         {
           path: '/',
-          component: resolve => require(['../components/page/Hello.vue'], resolve)
+          component: resolve => require(['../components/page/Index.vue'], resolve)
         },
         {
-          path: '/hello',
-          component: resolve => require(['../components/page/Hello.vue'], resolve)
+          path: '/index',
+          component: resolve => require(['../components/page/Index.vue'], resolve)
         }
       ]
     }
