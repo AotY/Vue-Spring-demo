@@ -1,19 +1,35 @@
 # Vue-Spring-demo
 
+**目前效果图：（目前v1.0版本）**
+
+## ![屏幕快照 2017-09-24 09.58.25](../../Desktop/屏幕快照 2017-09-24 09.58.25.png)
+
+
+
+
 
 ## backend 后端代码
 
-## 项目目录
+### 项目目录
 ```
-
 pojo: (Plain Old Java Object)持久化类
 ```
+
+### 配置
+1. Mysql
+2. vsftpd
+3. nginx
+4. tomcat
+5. Spring
+6. MyBatis
+
+
 
 
 
 ## fronted 前端代码
 
-## Build Setup
+### Build Setup
 
 ``` bash
 # install dependencies
