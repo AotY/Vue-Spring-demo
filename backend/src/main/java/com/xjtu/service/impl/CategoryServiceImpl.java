@@ -11,6 +11,7 @@ import com.xjtu.service.ICategoryService;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +26,9 @@ public class CategoryServiceImpl implements ICategoryService {
 
     private Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
+    @Autowired
     private CategoryMapper categoryMapper;
+
     /**
      * 获取当前类别的子类别（只获取一级子类别）
      * @param categoryId
@@ -40,6 +43,7 @@ public class CategoryServiceImpl implements ICategoryService {
         }
         return ServerResponse.createBySuccess(categories);
     }
+
 
     /**
      * 获取所有子类别（需要进行递归）
