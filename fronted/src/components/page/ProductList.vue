@@ -34,7 +34,7 @@
 <script>
   // 这个页面是主要展示的页面
   import vCarousel from './../common/Carousel.vue'
-  import productApi from '../../api/productapi.js'
+  import productApi from '../../api/portal/productapi.js'
   // 请求服务器数据
   export default {
     data () {

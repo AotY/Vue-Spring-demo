@@ -19,30 +19,30 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, category_id, name, subtitle, main_image, sub_images, detail, price, stock, rate, 
+    id, category_id, name, subtitle, main_image, sub_images, detail, price, stock, rate,
     status, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from product
     where id = #{id,jdbcType=INTEGER}
   </select>
-    
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from product
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.xjtu.pojo.Product">
-    insert into product (id, category_id, name, 
-      subtitle, main_image, sub_images, 
-      detail, price, stock, 
-      rate, status, create_time, 
+    insert into product (id, category_id, name,
+      subtitle, main_image, sub_images,
+      detail, price, stock,
+      rate, status, create_time,
       update_time)
-    values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{subtitle,jdbcType=VARCHAR}, #{mainImage,jdbcType=VARCHAR}, #{subImages,jdbcType=VARCHAR}, 
-      #{detail,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{stock,jdbcType=INTEGER}, 
-      #{rate,jdbcType=REAL}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+      #{subtitle,jdbcType=VARCHAR}, #{mainImage,jdbcType=VARCHAR}, #{subImages,jdbcType=VARCHAR},
+      #{detail,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{stock,jdbcType=INTEGER},
+      #{rate,jdbcType=REAL}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.xjtu.pojo.Product">
@@ -188,8 +188,8 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-  
+
+
   <select id="selectList" resultMap="BaseResultMap">
     SELECT
     <include refid="Base_Column_List"/>
@@ -198,19 +198,30 @@
   </select>
 
 
-  <select id="selectByKeywordAndCategoryIdList" resultMap="BaseResultMap">
+  <select id="selectByKeywordAndCategoryIdList" resultMap="BaseResultMap" parameterType="map">
     SELECT
-    <include refid="Base_Column_List"/>
-    FROM product
-    WHERE status = 1
+    <include refid="Base_Column_List"></include>
+    from product
+    where status = 1
     <if test="keyword != null">
       and name like #{keyword}
     </if>
-    <if test="categoryIdList != null">
+    <if test="categoryIdList != null" >
       and category_id in
-      <foreach collection="categoryIdList" item="item" index="index" open="(" separator="," close=")">
+      <foreach item="item" index="index" open="(" separator="," close=")" collection="categoryIdList">
         #{item}
       </foreach>
     </if>
   </select>
+
+
+
+
+
+
+
+
+
+
+
 </mapper>

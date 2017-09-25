@@ -36,7 +36,7 @@ public class ProductController {
 
     @RequestMapping(value = "list.do", method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse getList(@RequestParam(value = "category", required = false) Integer categoryId,
+    public ServerResponse getList(@RequestParam(value = "categoryId", required = false) Integer categoryId,
                                   @RequestParam(value = "keyword", required = false) String keyword,
                                   @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                   @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,

@@ -166,10 +166,11 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
             }
         }
 
-        List<Product> products = productMapper.selectByKeywordAndCategoryIdList(
-                CollectionUtils.isEmpty(categoryIdList) ? null : categoryIdList,
-                StringUtils.isBlank(keyword) ? null : keyword
-        );
+
+        categoryIdList = CollectionUtils.isEmpty(categoryIdList) ? null : categoryIdList;
+        keyword = StringUtils.isBlank(keyword) ? null : keyword;
+        List<Product> products = productMapper.selectByKeywordAndCategoryIdList(categoryIdList, keyword);
+
 
         List<ProductListVo> productListVoList = Lists.newArrayList();
         for (Product product: products) {
@@ -179,7 +180,7 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
         PageInfo pageInfo = new PageInfo(products);
         pageInfo.setList(productListVoList);
 
-        return ServerResponse.createBySuccess(productListVoList);
+        return ServerResponse.createBySuccess(pageInfo);
     }
 
     /**

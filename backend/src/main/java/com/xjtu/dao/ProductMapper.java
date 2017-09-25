@@ -1,6 +1,7 @@
 package com.xjtu.dao;
 
 import com.xjtu.pojo.Product;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,5 +20,5 @@ public interface ProductMapper {
 
     List<Product> selectList();
 
-    List<Product> selectByKeywordAndCategoryIdList(List<Integer> categoryIdList, String keyword);
+    List<Product> selectByKeywordAndCategoryIdList(@Param("categoryIdList")List<Integer> categoryIdList, @Param("keyword")String keyword);
 }

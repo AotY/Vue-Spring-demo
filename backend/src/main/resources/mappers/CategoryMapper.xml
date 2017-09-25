@@ -128,10 +128,11 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="selectCategoryChildrenByParentId" resultMap="BaseResultMap">
+  <select id="selectCategoryChildrenByParentId" resultMap="BaseResultMap" parameterType="int">
     SELECT
-    FROM category
     <include refid="Base_Column_List"/>
-    WHERE parent_id = #{categoryId}
+    FROM category
+    WHERE parent_id = #{parentId}
   </select>
+
 </mapper>
