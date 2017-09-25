@@ -17,6 +17,7 @@ public class ProductDetailVo {
     private String detail;
     private BigDecimal price;
     private Integer stock;
+    private Float rate;
     private Integer status;
     private String createTime;
     private String updateTime;
@@ -98,6 +99,14 @@ public class ProductDetailVo {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public Float getRate() {
+        return rate;
+    }
+
+    public void setRate(Float rate) {
+        this.rate = rate;
     }
 
     public Integer getStatus() {

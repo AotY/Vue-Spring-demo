@@ -20,6 +20,8 @@ public class ProductListVo {
 
     private BigDecimal price;
 
+    private Float rate;
+
     private Integer status;
 
     private String imageHost;
@@ -74,6 +76,14 @@ public class ProductListVo {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public Float getRate() {
+        return rate;
+    }
+
+    public void setRate(Float rate) {
+        this.rate = rate;
     }
 
     public Integer getStatus() {

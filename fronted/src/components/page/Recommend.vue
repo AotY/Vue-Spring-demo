@@ -2,10 +2,11 @@
   <div>
     <v-search-input></v-search-input>
     <v-carousel></v-carousel>
-    <div class="floor-wrapper">
-      <h1 class="floor-title">数码电子</h1>
+
+    <div class="floor-wrapper" v-for="category in categorys">
+      <h1 class="floor-title">{{ category.name }}</h1>
       <el-row :gutter="20">
-        <el-col :span="6" v-for="item in list">
+        <el-col :span="6" v-for="item in category.list">
           <el-card :body-style="{ padding: '0px'}">
             <a v-bind:href="'/detail/productId/' + item.id"  class="card-link">
               <img v-bind:src="item.imageHost + item.mainImage" class="image">
@@ -14,14 +15,13 @@
                 <span class="name-span">{{ item.name }}</span>
                 <div class="bottom clearfix">
                   <el-rate
-                    v-model="value5"
+                    v-model="item.rate"
                     disabled
                     show-text
                     text-color="#ff9900"
                     text-template="{value}">
                   </el-rate>
                   <span class="price">{{ item.price }}<span>.00 元</span></span>
-                  <!--<el-button type="text" class="button" v-bind:data-id="item.id">立即购买</el-button>-->
                 </div>
               </div>
             </a>
@@ -44,8 +44,10 @@
   export default {
     data () {
       return {
-        list: [],
-        value5: 3.7
+        categorys: [
+          {name: 'F1 数码3C', categoryId: 100002, list: []},
+          {name: 'F2 家用电器', categoryId: 100001, list: []}
+        ]
       }
     },
     created () {
@@ -55,9 +57,12 @@
       getData () {
         console.log('--- getData ---')
         let self = this
-        productApi.getList(this, 10, 1).then((res) => {
-          self.list = res.data.data.list
-          console.log(self.list)
+        self.categorys.forEach(function (category) {
+          productApi.getList(this, category.categoryId).then((res) => {
+//            self.list = res.data.data.list
+            category.list = res.data.data.list
+          })
+          console.log(self.categorys)
         })
       }
     },

@@ -22,12 +22,12 @@
         </li>
       </ul>
     </div>
-    <el-carousel indicator-position="outside" height="370px">
-      <!-- :key="image"-->
+    <el-carousel height="370px">
       <el-carousel-item v-for="image in images">
         <img v-bind:src="image.url" class="image"></img>
       </el-carousel-item>
     </el-carousel>
+
   </div>
 </template>
 
@@ -68,7 +68,7 @@
   }
 
   .image {
-    width: 780px;
+    width: 100%;
     display: block;
     height: 100%;
   }

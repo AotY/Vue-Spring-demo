@@ -3,15 +3,21 @@ package com.xjtu.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.mysql.fabric.Server;
 import com.xjtu.common.Const;
 import com.xjtu.common.ResponseCode;
 import com.xjtu.common.ServerResponse;
+import com.xjtu.dao.CategoryMapper;
 import com.xjtu.dao.ProductMapper;
+import com.xjtu.pojo.Category;
 import com.xjtu.pojo.Product;
+import com.xjtu.service.ICategoryService;
 import com.xjtu.util.DateTimeUtil;
 import com.xjtu.util.PropertiesUtil;
 import com.xjtu.vo.ProductDetailVo;
 import com.xjtu.vo.ProductListVo;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +33,12 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
 
     @Autowired
     private ProductMapper productMapper;
+
+    @Autowired
+    private ICategoryService iCategoryService;
+
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     /**
      * 获取商品详情
@@ -66,6 +78,7 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
         productDetailVo.setCategoryId(product.getCategoryId());
         productDetailVo.setDetail(product.getDetail());
         productDetailVo.setName(product.getName());
+        productDetailVo.setRate(product.getRate());
         productDetailVo.setStatus(product.getStatus());
         productDetailVo.setStock(product.getStock());
 
@@ -109,6 +122,67 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
     }
 
     /**
+     * 根据categoryId和keyword查找类别和产品
+     * @param categoryId
+     * @param keyword
+     * @param pageNum
+     * @param pageSize
+     * @param orderBy
+     * @return
+     */
+    @Override
+    public ServerResponse getProductByCategoryKeyword(Integer categoryId, String keyword, int pageNum, int pageSize, String orderBy) {
+        if (categoryId == null && StringUtils.isBlank(keyword)) {
+            return ServerResponse.createByError(ResponseCode.ILLEGAL_ARGUMENT.getId(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+        List<Integer> categoryIdList = null;
+        // 如果查找类别不为空
+        if (categoryId != null) {
+            Category category = categoryMapper.selectByPrimaryKey(categoryId);
+            // 如果没有当前类别，同时没有提供关键词查找，这个时候返回一个空的结果集,不报错
+            if (category == null && StringUtils.isBlank(keyword)) {
+                PageHelper.startPage(pageNum, pageSize);
+                List<ProductListVo> productListVos = Lists.newArrayList();
+                PageInfo pageInfo = new PageInfo(productListVos);
+                return ServerResponse.createBySuccess(productListVos);
+            }
+            // 如果当前类别不为空，则查找子类别，获得满足查找条件的categoryId
+            categoryIdList = iCategoryService.selectCategoryAndChildrenById(categoryId).getData();
+        }
+
+        // 如果搜索关键词不为空，拼接查找条件
+        if (StringUtils.isNoneBlank(keyword)) {
+            keyword = new StringBuilder().append("%").append(keyword).append("%").toString();
+        }
+
+        PageHelper.startPage(pageNum, pageSize);
+
+        // 排序处理
+        if (StringUtils.isNoneBlank(orderBy)) {
+            if (Const.ProductListOrderBy.PRICE_ASC_DESC.contains(orderBy)) {
+                String[] fieldAndOrder = orderBy.split("_");
+                PageHelper.orderBy(fieldAndOrder[0] + " " + fieldAndOrder[1]);
+            }
+        }
+
+        List<Product> products = productMapper.selectByKeywordAndCategoryIdList(
+                CollectionUtils.isEmpty(categoryIdList) ? null : categoryIdList,
+                StringUtils.isBlank(keyword) ? null : keyword
+        );
+
+        List<ProductListVo> productListVoList = Lists.newArrayList();
+        for (Product product: products) {
+            ProductListVo productListVo = assembleProductListVo(product);
+            productListVoList.add(productListVo);
+        }
+        PageInfo pageInfo = new PageInfo(products);
+        pageInfo.setList(productListVoList);
+
+        return ServerResponse.createBySuccess(productListVoList);
+    }
+
+    /**
      * 组装ProductListVo对象
      * @param product
      * @return
@@ -122,6 +196,7 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
         productListVo.setMainImage(product.getMainImage());
         productListVo.setPrice(product.getPrice());
         productListVo.setSubtitle(product.getSubtitle());
+        productListVo.setRate(product.getRate());
         productListVo.setStatus(product.getStatus());
         return productListVo;
     }

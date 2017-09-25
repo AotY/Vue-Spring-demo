@@ -18,4 +18,6 @@ public interface ProductMapper {
     int updateByPrimaryKey(Product record);
 
     List<Product> selectList();
+
+    List<Product> selectByKeywordAndCategoryIdList(List<Integer> categoryIdList, String keyword);
 }

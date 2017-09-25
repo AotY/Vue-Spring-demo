@@ -1,5 +1,9 @@
 package com.xjtu.common;
 
+import com.google.common.collect.Sets;
+
+import java.util.Set;
+
 /**
  * Created by LeonTao on 2017/9/22.
  * 一些常量
@@ -16,6 +20,7 @@ public class Const {
     public static final String PROPERTIESFILENAME = "vue-spring-demo.properties";
     public static final String READPROPERTIESERROR = "读取配置文件错误";
     public static final java.lang.String FTPSERVERHTTPPREFIX = "ftp.server.http.prefix";
+    public static final String NOCHILDRENCATEGORIES = "未找到当前分类的子分类";
 
 
     public enum ProductStatusEnum {
@@ -43,5 +48,12 @@ public class Const {
         public void setValue(String value) {
             this.value = value;
         }
+    }
+
+    /**
+     * 定义商品排序方式
+     */
+    public interface ProductListOrderBy{
+        Set<String> PRICE_ASC_DESC = Sets.newHashSet("price_desc","price_asc");
     }
 }

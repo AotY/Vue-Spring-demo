@@ -36,10 +36,13 @@ public class ProductController {
 
     @RequestMapping(value = "list.do", method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse getList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                                                   @RequestParam(value = "pageSize", defaultValue = "10") int pageSize)
+    public ServerResponse getList(@RequestParam(value = "category", required = false) Integer categoryId,
+                                  @RequestParam(value = "keyword", required = false) String keyword,
+                                  @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                  @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+                                  @RequestParam(value = "orderBy", defaultValue = "") String orderBy)
     {
-        return iProductService.getProductList(pageNum, pageSize);
+        return iProductService.getProductByCategoryKeyword(categoryId, keyword, pageNum, pageSize, orderBy);
     }
 
 

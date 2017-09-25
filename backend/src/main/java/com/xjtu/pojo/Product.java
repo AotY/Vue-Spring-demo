@@ -22,13 +22,15 @@ public class Product {
 
     private Integer stock;
 
+    private Float rate;
+
     private Integer status;
 
     private Date createTime;
 
     private Date updateTime;
 
-    public Product(Integer id, Integer categoryId, String name, String subtitle, String mainImage, String subImages, String detail, BigDecimal price, Integer stock, Integer status, Date createTime, Date updateTime) {
+    public Product(Integer id, Integer categoryId, String name, String subtitle, String mainImage, String subImages, String detail, BigDecimal price, Integer stock, Float rate, Integer status, Date createTime, Date updateTime) {
         this.id = id;
         this.categoryId = categoryId;
         this.name = name;
@@ -38,6 +40,7 @@ public class Product {
         this.detail = detail;
         this.price = price;
         this.stock = stock;
+        this.rate = rate;
         this.status = status;
         this.createTime = createTime;
         this.updateTime = updateTime;
@@ -117,6 +120,14 @@ public class Product {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public Float getRate() {
+        return rate;
+    }
+
+    public void setRate(Float rate) {
+        this.rate = rate;
     }
 
     public Integer getStatus() {
