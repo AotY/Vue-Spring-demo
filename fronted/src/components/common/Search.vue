@@ -3,9 +3,10 @@
     <el-input
       placeholder="请输入商品名称"
       icon="search"
-      v-model="input2"
+      v-model="keyword"
       size="large"
-      :on-icon-click="handleIconClick">
+      :on-icon-click="handleIconClick"
+      @keyup.enter.native="handleIconClick">
     </el-input>
 
   </div>
@@ -15,12 +16,15 @@
   export default {
     data () {
       return {
-        input2: ''
+        keyword: ''
       }
     },
     methods: {
       handleIconClick (ev) {
+        console.log('handleIconClick')
+        console.log(this.keyword)
         console.log(ev)
+        this.$router.push('/list/keyword/' + this.keyword)
       }
     }
   }
@@ -29,11 +33,9 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .input-wrapper {
-    padding-top: 20px;
     margin: 0 auto;
+    margin-top: 20px;
     width: 800px;
   }
-
-
 
 </style>

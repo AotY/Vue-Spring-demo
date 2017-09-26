@@ -10,14 +10,8 @@ typora-copy-images-to: ipic
 
 
 
-## backend 后端代码
 
-### 项目目录
-```
-pojo: (Plain Old Java Object)持久化类
-```
-
-### 配置
+## 配置
 1. mysql
 
    [mysql配置](http://learning.happymmall.com/mysql/mysqlconfig/)
@@ -29,6 +23,43 @@ pojo: (Plain Old Java Object)持久化类
 3. nginx配置
 
    [nginx配置](http://learning.happymmall.com/nginx/linux_conf/)
+
+
+4. tomcat
+
+   ```
+   下载：
+   wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-8/v8.5.20/bin/apache-tomcat-8.5.20.tar.gz
+   解压：
+   tar -xvf apache-tomcat-8.5.20.tar.gz
+
+   配置环境变量
+   export CATALINA_HOME = /xx/apache-tomcat-8.5.20(填写自己的路径)
+
+   遇到的问题
+   1. tcp6：
+   solution 1: 在server.xml(Connector port="8080"节点)添加address="0.0.0.0"
+   Solution 2：在bin文件夹下添加setenv.sh文件，输入 JVM_REQUIRED_ARGS="-Djava.awt.headless=true -Datlassian.standalone=JIRA -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true -Dmail.mime.decodeparameters=true -Djava.net.preferIPv4Stack=true" ，然后保存
+
+   2. 编码：
+   在server.xml（Connector port="8080"节点）添加 URIEncoding="UTF-8"
+   ```
+
+5. Spring
+
+   ​
+
+6. MyBatis
+
+
+
+## backend 后端代码
+
+### 项目目录
+```
+pojo: (Plain Old Java Object)持久化类
+```
+
 
    ```
    配置图片服务器：
@@ -111,36 +142,6 @@ pojo: (Plain Old Java Object)持久化类
        }
    }
    ```
-
-   ​
-
-4. tomcat
-
-   ```
-   下载：
-   wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-8/v8.5.20/bin/apache-tomcat-8.5.20.tar.gz
-   解压：
-   tar -xvf apache-tomcat-8.5.20.tar.gz
-
-   配置环境变量
-   export CATALINA_HOME = /xx/apache-tomcat-8.5.20(填写自己的路径)
-
-   遇到的问题
-   1. tcp6：
-   solution 1: 在server.xml(Connector port="8080"节点)添加address="0.0.0.0"
-   Solution 2：在bin文件夹下添加setenv.sh文件，输入 JVM_REQUIRED_ARGS="-Djava.awt.headless=true -Datlassian.standalone=JIRA -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true -Dmail.mime.decodeparameters=true -Djava.net.preferIPv4Stack=true" ，然后保存
-
-   2. 编码：
-   在server.xml（Connector port="8080"节点）添加 URIEncoding="UTF-8"
-   ```
-
-   ​
-
-5. Spring
-
-   ​
-
-6. MyBatis
 
 
 

@@ -13,21 +13,39 @@ export default new Router({
           path: '/',
           component: resolve => require(['../components/page/Recommend.vue'], resolve)
         },
+        // /query/:keyword
         {
-          path: '/index',
-          component: resolve => require(['../components/page/Recommend.vue'], resolve)
+          path: '/list',
+          component: resolve => require(['../components/common/Product.vue'], resolve),
+          children: [
+            {
+              path: '/list/category/:categoryId',
+              component: resolve => require(['../components/page/ProductList.vue'], resolve),
+              children: [
+                {
+                  path: '/list/category/:categoryId/keyword/:keyword',
+                  component: resolve => require(['../components/page/ProductList.vue'], resolve)
+                }
+              ]
+            },
+            {
+              path: '/list/keyword/:keyword',
+              component: resolve => require(['../components/page/ProductList.vue'], resolve),
+              children: [
+                {
+                  path: '/list/keyword/:keyword/category/:categoryId',
+                  component: resolve => require(['../components/page/ProductList.vue'], resolve)
+                }
+              ]
+            }
+          ]
+        },
+        {
+          // 商品详情页面
+          path: '/detail/productId/:productId',
+          component: resolve => require(['../components/page/ProductDetail.vue'], resolve)
         }
       ]
-    },
-    {
-      // 商品详情页面
-      path: '/detail/productId/:productId',
-      component: resolve => require(['../components/page/ProductDetail.vue'])
-    },
-    {
-      // 用户搜索关键词、选择列表后展示的列表
-      path: '/list/:category/:keyword',
-      component: resolve => require(['../components/page/ProductList.vue'])
     }
   ]
 })

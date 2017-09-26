@@ -1,40 +1,50 @@
 <template>
   <div>
-    <v-carousel></v-carousel>
-    <div class="floor-wrapper">
-      <h1 class="floor-title">所有商品</h1>
-      <el-row :gutter="20">
+    <div class="list-wrapper">
+
+      <ul class="sorter-con">
+        <li class="sorter-item active" data-type="default">
+          <span>推荐排序</span>
+        </li>
+        <li class="sorter-item" data-type="price">
+          <span>价格</span>
+          <i class="fa fa-sort-asc"></i>
+          <i class="fa fa-sort-desc"></i>
+        </li>
+      </ul>
+
+      <el-row :gutter="10">
         <el-col :span="6" v-for="item in list">
           <el-card :body-style="{ padding: '0px'}">
-            <a href="/" class="card-link">
+            <a v-bind:href="'#/detail/productId/' + item.id" class="card-link">
               <img v-bind:src="item.imageHost + item.mainImage" class="image">
               <div style="padding: 15px;">
                 <div class="line"></div>
                 <span class="name-span">{{ item.name }}</span>
+                <el-rate
+                  v-model="item.rate"
+                  disabled
+                  show-text
+                  text-color="#ff9900"
+                  text-template="{value}">
+                </el-rate>
+                <span class="price">{{ item.price }}<span>.00 元</span></span>
                 <div class="bottom clearfix">
-                  <el-rate
-                    v-model="value5"
-                    disabled
-                    show-text
-                    text-color="#ff9900"
-                    text-template="{value}">
-                  </el-rate>
-                  <span class="price">{{ item.price }}<span>.00 元</span></span>
-                  <!--<el-button type="text" class="button" v-bind:data-id="item.id">立即购买</el-button>-->
                 </div>
               </div>
-            </a>
+              </a>
           </el-card>
         </el-col>
       </el-row>
+
     </div>
   </div>
 </template>
 
 <script>
-  // 这个页面是主要展示的页面
-  import vCarousel from './../common/Carousel.vue'
+  // 这个页面是商品列表展示页面
   import productApi from '../../api/portal/productapi.js'
+  import vCrumb from './../common/BreadCrumb.vue'
   // 请求服务器数据
   export default {
     data () {
@@ -44,53 +54,48 @@
       }
     },
     created () {
-      this.getData()
+      console.log('path', this.$route.path)
+      console.log('params', this.$route.params)
+//      parts = this.$route.path.split('/')
+//      if (parts.length )
+//      let categoryId =
+//      let keyword = this.$route.path.split('/')[4]
+      this.getData(this.$route.params)
     },
     methods: {
-      getData () {
+      getData (params) {
         console.log('--- getData ---')
         let self = this
-        productApi.getList(this, 10, 1).then((res) => {
+        productApi.getList(this, params).then((res) => {
+          console.log(res.data)
           self.list = res.data.data.list
           console.log(self.list)
         })
       }
     },
     components: {
-      vCarousel
+      vCrumb
     }
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-
-  .floor-wrapper {
-    padding-top: 50px;
+  .list-wrapper {
+    margin: 0 auto;
+    width: 1080px;
   }
 
   .price {
-
-    font-size: 14px;
+    font-size: 12px;
     color: #222;
-  }
-
-  .bottom {
-    margin-top: 13px;
-    line-height: 12px;
-  }
-
-  .button {
-    padding: 0;
-    float: right;
   }
 
   .image {
     padding-top: 10px;
     margin: 0 auto;
-    width: 85%;
-    height: 260px;
+    width: 56%;
+    height: 180px;
     display: block;
   }
 
@@ -104,23 +109,42 @@
     clear: both
   }
 
-  /*.floor-wrapper {*/
-  /*overflow: hidden;*/
-  /*}*/
-  .floor-wrapper .floor-title {
-    width: 100%;
-    float: left;
-    color: #d58717;
-    border-bottom: 1px solid #d58717;
-    height: 50px;
-    line-height: 50px;
-    font-weight: 400;
-    font-size: 20px;
-  }
 
   .name-span {
     font-size: 13px;
     color: #333;
+  }
+
+  a {
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+
+  .sorter-con {
+    padding: 0px ;
+    overflow: auto;
+  }
+
+
+  .sorter-con .sorter-item {
+    float: left;
+    display: inline-block;
+    position: relative;
+    padding: 0 8px;
+    height: 23px;
+    line-height: 23px;
+    border: 1px solid #ccc;
+    margin-right: -1px;
+    background: #fff;
+    color: #333;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .sorter-con .sorter-item.active {
+    background: #c60023;
+    border: 1px solid #c60023;
+    color: #fff;
   }
 
 

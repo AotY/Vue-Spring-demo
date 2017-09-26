@@ -3,18 +3,19 @@
     <div class="category-wrapper">
       <ul class="category-list">
         <li class="category-item">
-          <a class="category-link" target="_blank" href="./list.html?keyword=手机">手机</a>
-          <a class="category-link" target="_blank" href="./list.html?keyword=数码">数码</a>
+          <!--<router-link class="category-link" to="/list/category/100001">手机 </router-link>-->
+          <a class="category-link" target="_blank" href="#/list/keyword/手机">手机</a>
+          <a class="category-link" target="_blank" href="#/list/keyword/手机">数码</a>
         </li>
         <li class="category-item">
-          <a class="category-link" target="_blank" href="./list.html?keyword=电脑">电脑</a>
-          <a class="category-link" target="_blank" href="./list.html?keyword=办公配件">办公配件</a>
+          <a class="category-link" target="_blank" href="/list/keyword/电脑">电脑</a>
+          <a class="category-link" target="_blank" href="/list/keyword/办公配件">办公配件</a>
         </li>
         <li class="category-item">
-          <a class="category-link" target="_blank" href="./list.html?keyword=电视">电视</a>
-          <a class="category-link" target="_blank" href="./list.html?keyword=空调">空调</a>
-          <a class="category-link" target="_blank" href="./list.html?keyword=冰箱">冰箱</a>
-          <a class="category-link" target="_blank" href="./list.html?keyword=洗衣机">洗衣机</a>
+          <a class="category-link" target="_blank" href="/list/keyword/电视">电视</a>
+          <a class="category-link" target="_blank" href="./list/keyword/空调">空调</a>
+          <a class="category-link" target="_blank" href="/list/keyword/冰箱">冰箱</a>
+          <a class="category-link" target="_blank" href="/list/keyword/洗衣机">洗衣机</a>
         </li>
         <li class="category-item">
           <a class="category-link" target="_blank" href="./list.html?keyword=厨卫家电">厨卫家电</a>
@@ -22,7 +23,7 @@
         </li>
       </ul>
     </div>
-    <el-carousel height="370px">
+    <el-carousel height="410px">
       <el-carousel-item v-for="image in images">
         <img v-bind:src="image.url" class="image"></img>
       </el-carousel-item>
@@ -45,26 +46,50 @@
       }
     }
   }
-//  setActiveItem(index) {
-//    this.$refs.carousel.setActiveItem(index);
-//  }
+  //  setActiveItem(index) {
+  //    this.$refs.carousel.setActiveItem(index);
+  //  }
 </script>
 
-<style >
-  #category-wrapper {
-    float: left;
-    height: 350px;
-    /*border: 2px red solid;*/
-    width: 240px;
-    background-color: #777;
-    margin-right: 10px;
-    /*margin: 0 auto;*/
-  }
+<style scoped>
+
   .carousel-wrapper {
     width: 1080px;
     padding-top: 20px;
     margin: 0 auto;
-    float: right;
+    margin-top: 30px;
+  }
+
+  .category-wrapper {
+    float: left;
+    padding: 10px 0px;
+    height: 390px;
+    width: 240px;
+    background-color: #777;
+    margin-right: 10px;
+    color: #ffffff;
+    text-align: left;
+    font-weight: 800;
+  }
+
+  .category-wrapper .category-list {
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .category-wrapper .category-item {
+    /*position: relative;*/
+    overflow: hidden;
+    padding-left: 12px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 14px;
+  }
+
+  .category-wrapper .category-item .category-link {
+    margin-right: 3px;
+    color: #fff;
+    text-decoration: none;
   }
 
   .image {
@@ -73,32 +98,13 @@
     height: 100%;
   }
 
-  .category-wrapper {
-    float: left;
-    padding: 10px 0;
-    width: 240px;
-    margin-right: 10px;
-    height: 350px;
-    background: #666;
-    color: #fff;
-  }
-
-  .category-wrapper .category-item {
-    position: relative;
-    overflow: hidden;
-    padding-left: 12px;
-    height: 35px;
-    line-height: 35px;
-    font-size: 14px;
-  }
-
-  li {
-    list-style: none;
-  }
-
-  .category-wrapper .category-item .category-link {
-    margin-right: 3px;
-    color: #fff;
+  .category-wrapper .category-item .category-link:hover {
+    color: #c60023;
     text-decoration: none;
   }
+
+  a {
+    text-decoration: none;
+  }
+
 </style>

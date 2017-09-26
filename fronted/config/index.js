@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       // '/product': {
-      //   target: 'http://www.vuespringdemo.com', // 远程服务域名
+      //   target: 'http://backend.vuespringdemo.com', // 远程服务域名
       //   changeOrigin: true,
       //   pathRewrite: {
       //     '^/product': '/product'

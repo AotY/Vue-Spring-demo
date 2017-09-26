@@ -3,16 +3,11 @@
     <header class="header">
       <div class="container">
         <h1>
-          <a>
+          <!--<a href="https://github.com/AotY/Vue-Spring-demo">-->
+          <a href="/">
             <img class="nav-logo" src="../../../static/images/nav-logo.png"/>
           </a>
         </h1>
-        <!--<ul class="nav">-->
-        <!--<li class="nav-item">-->
-        <!--<a></a>-->
-        <!--</li>-->
-        <!--</ul>-->
-
       </div>
     </header>
   </div>
@@ -21,21 +16,26 @@
 
 <script>
   export default {
-    data () {
-      return {
-        activeIndex: '1'
-      }
-    },
-    methods: {
-      handleSelect (key, keyPath) {
-        console.log(key, keyPath)
-      }
-    }
+//    data () {
+//      return {
+//        activeIndex: '1'
+//      }
+//    },
+//    methods: {
+//      handleSelect (key, keyPath) {
+//        console.log(key, keyPath)
+//      }
+//    }
   }
 
 </script>
 
-<style>
+<style scoped>
+
+  h1 {
+    height: 40px;
+    width: 150px;
+  }
   .header-wrapper {
     height: 60px;
   }
@@ -44,10 +44,10 @@
     box-sizing: border-box;
     height: 100%;
   }
+
   .header {
     width: 100%;
     height: 70px;
-    /*position: relative;*/
     top: 0;
     left: 0;
     line-height: 80px;
@@ -56,7 +56,6 @@
   }
 
   .container {
-    /*border: 2px red solid;*/
     width: 1080px;
     margin: 0 auto;
     padding: 0 30px;
@@ -68,11 +67,13 @@
     left: 0px;
   }
   .header .nav-logo {
-
+    margin-bottom: 10px;
     vertical-align: sub;
     height: 40px;
     width: 150px;
   }
+
+
 
 </style>
 

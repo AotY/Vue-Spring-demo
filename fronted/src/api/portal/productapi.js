@@ -1,9 +1,10 @@
-const API_URL = 'http://backend.vuespringdemo.com/product'
 // const API_URL = 'http://127.0.0.1:8082/product'
+const API_URL = 'http://backend.vuespringdemo.com/product'
 
 export default {
-  getList (context, category, keyword) {
-    return context.$axios.get(API_URL + '/list.do')
+  getList (context, params) {
+    // return context.$axios.get(API_URL + '/list.do', {categoryId: 100001, keyword: '手机'})
+    return context.$axios.get(API_URL + '/list.do', {params})
   },
   getDetail (context, productId) {
     return context.$axios.get(API_URL + '/detail.do', {productId: productId})

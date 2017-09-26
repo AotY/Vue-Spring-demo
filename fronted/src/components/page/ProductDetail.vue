@@ -1,26 +1,5 @@
 <template>
   <div>
-    <v-carousel></v-carousel>
-    <div class="floor-wrapper">
-      <h1 class="floor-title">F1 数码电器</h1>
-      <el-row :gutter="20">
-        <el-col :span="6" v-for="item in list">
-          <el-card :body-style="{ padding: '0px'}">
-            <a href="" class="card-link">
-              <img v-bind:src="item.imageHost + item.mainImage" class="image">
-              <div style="padding: 15px;">
-                <div class="line"></div>
-                <span class="name-span">{{ item.name }}</span>
-                <div class="bottom clearfix">
-                  <time class="time">{{ item.price }}</time>
-                  <!--<el-button type="text" class="button" v-bind:data-id="item.id">立即购买</el-button>-->
-                </div>
-              </div>
-            </a>
-            </el-card>
-        </el-col>
-      </el-row>
-    </div>
   </div>
 </template>
 
@@ -57,61 +36,5 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-
-  .floor-wrapper {
-    padding-top: 50px;
-  }
-
-  .time {
-    font-size: 13px;
-    color: #999;
-  }
-
-  .bottom {
-    margin-top: 13px;
-    line-height: 12px;
-  }
-
-  .button {
-    padding: 0;
-    float: right;
-  }
-
-  .image {
-    padding-top: 10px;
-    margin: 0 auto;
-    width: 90%;
-    height: 250px;
-    display: block;
-  }
-
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-
-  .clearfix:after {
-    clear: both
-  }
-
-  /*.floor-wrapper {*/
-  /*overflow: hidden;*/
-  /*}*/
-  .floor-wrapper .floor-title {
-    width: 100%;
-    float: left;
-    color: #d58717;
-    border-bottom: 1px solid #d58717;
-    height: 50px;
-    line-height: 50px;
-    font-weight: 400;
-    font-size: 20px;
-  }
-
-  .name-span {
-    font-size: 13px;
-    color: #333;
-  }
 
 </style>
