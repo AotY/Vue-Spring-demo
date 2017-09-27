@@ -1,17 +1,13 @@
----
-typora-copy-images-to: ipic
----
-
 # Vue-Spring-demo
 
 **目前效果图：（目前v1.0版本）**
 
-![屏幕快照 2017-09-24 09.58.25](https://ws3.sinaimg.cn/large/006tKfTcly1fjuff4vjw6j31kw12vhdu.jpg)
+![屏幕快照 2017-09-24 09.58.25](https://ws4.sinaimg.cn/large/006tNc79ly1fjya8noqzcj31kw0zkn67.jpg)
 
 
 
 
-## 配置
+## 环境配置
 1. mysql
 
    [mysql配置](http://learning.happymmall.com/mysql/mysqlconfig/)
