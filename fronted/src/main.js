@@ -23,3 +23,10 @@ new Vue({
   template: '<App/>',
   components: {App}
 })
+
+// 全局过滤器
+Vue.filter('priceFormat', function (price) {
+  if (!price) return ''
+  price = price.toString()
+  return '￥' + parseFloat(price).toFixed(2)
+})

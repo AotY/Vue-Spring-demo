@@ -16,7 +16,7 @@
       <el-row :gutter="10">
         <el-col :span="6" v-for="item in list">
           <el-card :body-style="{ padding: '0px'}">
-            <a v-bind:href="'/detail/productId/' + item.id" class="card-link">
+            <a v-bind:href="'#/detail/productId/' + item.id" class="card-link">
               <img v-bind:src="item.imageHost + item.mainImage" class="image">
               <div style="padding: 15px;">
                 <div class="line"></div>
@@ -28,7 +28,8 @@
                   text-color="#ff9900"
                   text-template="{value}">
                 </el-rate>
-                <span class="price">{{ item.price }}<span>.00 元</span></span>
+                <!--先经过过滤器处理-->
+                <span class="price">{{ item.price | priceFormat}}</span>
                 <div class="bottom clearfix">
                 </div>
               </div>

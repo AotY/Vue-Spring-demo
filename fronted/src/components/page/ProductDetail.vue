@@ -17,7 +17,7 @@
         <p class="p-subtitle">{{ data.subtitle }}</p>
         <div class="info-item p-price-con">
           <span class="label">价格:</span>
-          <span class="p-price">{{data.price | formatPrice }} </span>
+          <span class="p-price">{{data.price | priceFormat }} </span>
         </div>
         <div class="info-item p-quantity-con"><span class="label">库存:</span> <span class="p-price">{{data.stock}}</span>
         </div>
@@ -95,11 +95,11 @@
       vCarousel
     },
     filters: {
-      formatPrice: function (price) {
-        if (!price) return ''
-        price = price.toString()
-        return '￥' + parseFloat(price).toFixed(2)
-      }
+//      priceFormat: function (price) {
+//        if (!price) return ''
+//        price = price.toString()
+//        return '￥' + parseFloat(price).toFixed(2)
+//      }
     }
   }
 </script>
