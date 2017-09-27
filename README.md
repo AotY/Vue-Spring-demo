@@ -2,7 +2,7 @@
 
 **目前效果图：（目前v1.0版本）**
 
-![屏幕快照 2017-09-24 09.58.25](https://ws4.sinaimg.cn/large/006tNc79ly1fjya8noqzcj31kw0zkn67.jpg)
+![](https://ws4.sinaimg.cn/large/006tNc79ly1fjyad61120j31kw0zkn67.jpg)
 
 
 
