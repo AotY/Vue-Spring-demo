@@ -1,6 +1,7 @@
 package com.xjtu.vo;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by LeonTao on 2017/9/23.
@@ -13,7 +14,7 @@ public class ProductDetailVo {
     private String name;
     private String subtitle;
     private String mainImage;
-    private String subImages;
+    private List<String> subImages;
     private String detail;
     private BigDecimal price;
     private Integer stock;
@@ -69,11 +70,11 @@ public class ProductDetailVo {
         this.mainImage = mainImage;
     }
 
-    public String getSubImages() {
+    public List<String> getSubImages() {
         return subImages;
     }
 
-    public void setSubImages(String subImages) {
+    public void setSubImages(List<String> subImages) {
         this.subImages = subImages;
     }
 

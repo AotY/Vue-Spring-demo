@@ -6,8 +6,8 @@ export default {
     // return context.$axios.get(API_URL + '/list.do', {categoryId: 100001, keyword: '手机'})
     return context.$axios.get(API_URL + '/list.do', {params})
   },
-  getDetail (context, productId) {
-    return context.$axios.get(API_URL + '/detail.do', {productId: productId})
+  getDetail (context, params) {
+    return context.$axios.get(API_URL + '/detail.do', {params})
   }
 }
 

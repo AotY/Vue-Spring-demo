@@ -16,7 +16,7 @@
       <el-row :gutter="10">
         <el-col :span="6" v-for="item in list">
           <el-card :body-style="{ padding: '0px'}">
-            <a v-bind:href="'#/detail/productId/' + item.id" class="card-link">
+            <a v-bind:href="'/detail/productId/' + item.id" class="card-link">
               <img v-bind:src="item.imageHost + item.mainImage" class="image">
               <div style="padding: 15px;">
                 <div class="line"></div>
@@ -147,5 +147,8 @@
     color: #fff;
   }
 
+  .el-rate span {
+    height: 15px;
+  }
 
 </style>

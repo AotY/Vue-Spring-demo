@@ -74,7 +74,7 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
         productDetailVo.setSubtitle(product.getSubtitle());
         productDetailVo.setPrice(product.getPrice());
         productDetailVo.setMainImage(product.getMainImage());
-        productDetailVo.setSubImages(product.getSubImages());
+        productDetailVo.setSubImages(Lists.newArrayList(product.getSubImages().split(",")));
         productDetailVo.setCategoryId(product.getCategoryId());
         productDetailVo.setDetail(product.getDetail());
         productDetailVo.setName(product.getName());

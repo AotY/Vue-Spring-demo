@@ -15,7 +15,7 @@ export default new Router({
         },
         // /query/:keyword
         {
-          path: '/list',
+          path: '/product',
           component: resolve => require(['../components/common/Product.vue'], resolve),
           children: [
             {
@@ -42,8 +42,14 @@ export default new Router({
         },
         {
           // 商品详情页面
-          path: '/detail/productId/:productId',
-          component: resolve => require(['../components/page/ProductDetail.vue'], resolve)
+          path: '/detail',
+          component: resolve => require(['../components/common/Product.vue'], resolve),
+          children: [
+            {
+              path: '/detail/productId/:productId',
+              component: resolve => require(['../components/page/ProductDetail.vue'], resolve)
+            }
+          ]
         }
       ]
     }
