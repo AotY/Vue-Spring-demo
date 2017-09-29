@@ -19,11 +19,19 @@
 <style scoped>
 
   .footer-wrapper {
+    width:100%;
+    /*position:fixed;*/
+    left:0px;
+    bottom:0px;
+    /*background:#eee;*/
+    /*height:100px;*/
     margin-top: 50px;
-    margin-bottom: 10px;
   }
 
+
+
   .footer-wrapper .links {
+    height: 30px;
     margin: 15px 0;
     text-align: center;
     color: #666;
@@ -37,6 +45,7 @@
   }
 
   .footer-wrapper .copyright {
+    height: 30px;
     font-size: 14px;
     margin: 10px 0;
     text-align: center;

@@ -30,7 +30,10 @@
 
             </bean>
         </mvc:message-converters>
+
+
     </mvc:annotation-driven>
+
 
 
     <!--文件上传-->

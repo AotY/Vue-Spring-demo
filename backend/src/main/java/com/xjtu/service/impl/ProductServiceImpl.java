@@ -3,7 +3,6 @@ package com.xjtu.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
-import com.mysql.fabric.Server;
 import com.xjtu.common.Const;
 import com.xjtu.common.ResponseCode;
 import com.xjtu.common.ServerResponse;
@@ -21,7 +20,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,7 +46,7 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
     @Override
     public ServerResponse<ProductDetailVo> getProductDetail(Integer productId) {
         if (productId == null){
-            return ServerResponse.createByError(ResponseCode.ILLEGAL_ARGUMENT.getId(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+            return ServerResponse.createByError(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
         Product product = productMapper.selectByPrimaryKey(productId);
         if (product == null){
@@ -133,7 +131,7 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
     @Override
     public ServerResponse getProductByCategoryKeyword(Integer categoryId, String keyword, int pageNum, int pageSize, String orderBy) {
         if (categoryId == null && StringUtils.isBlank(keyword)) {
-            return ServerResponse.createByError(ResponseCode.ILLEGAL_ARGUMENT.getId(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+            return ServerResponse.createByError(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
 
         List<Integer> categoryIdList = null;

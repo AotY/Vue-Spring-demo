@@ -58,7 +58,7 @@ CREATE TABLE `cart` (
   `user_id` int(11) NOT NULL,
   `product_id` int(11) DEFAULT NULL COMMENT '商品id',
   `quantity` int(11) DEFAULT NULL COMMENT '商品数量',
-  `checked` int(11) DEFAULT NULL COMMENT '是否选择，1=已勾选，0=未勾选',
+  `checked` tinyint(1) DEFAULT NULL COMMENT '是否选择，1=已勾选，0=未勾选',
   `create_time` datetime DEFAULT NULL COMMENT '记录创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '记录更新时间',
   PRIMARY KEY (`id`),

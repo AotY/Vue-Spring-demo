@@ -14,6 +14,8 @@ public class Const {
     public static final String PASSWORD = "password";
     public static final String EMAIL = "email";
 
+    public static final String CURRENTUSER = "cur_user";
+
     public static final String PRODUCTDELETED = "商品已删除";
     public static final String PRODUCTNOTONSALE = "商品已下架";
 
@@ -22,6 +24,19 @@ public class Const {
     public static final java.lang.String FTPSERVERHTTPPREFIX = "ftp.server.http.prefix";
     public static final String NOCHILDRENCATEGORIES = "未找到当前分类的子分类";
 
+
+    public static final String USERNOTEXISTS = "用户名不存在";
+    public static final String USERNAMEORPASSWORDERROR = "用户名或密码错误";
+
+    public static final String PASSWORDSALT = "password.salt";
+
+
+    public interface UserRole {
+        //普通用户
+        int NORMAL = 0;
+        //管理员
+        int ADMIN = 1;
+    }
 
     public enum ProductStatusEnum {
         ONSLAE(1, "在线");
@@ -55,5 +70,17 @@ public class Const {
      */
     public interface ProductListOrderBy{
         Set<String> PRICE_ASC_DESC = Sets.newHashSet("price_desc","price_asc");
+    }
+
+
+    public interface Cart {
+        String LIMIT_NUM_SUCCESS = "LIMIT_NUM_SUCCESS";
+        String LIMIT_NUM_FAIL = "LIMIT_NUM_FAIL";
+
+        // 当前为选择状态
+        int CHECKED = 1;
+
+        //
+        int UN_CHECKED = 0;
     }
 }

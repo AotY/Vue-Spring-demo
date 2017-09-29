@@ -1,0 +1,431 @@
+<template>
+  <div class="cart-wrapper">
+
+    <div class="cart-header">
+      <table class="cart-table">
+        <tbody>
+        <tr>
+          <th class="cart-cell cell-check">
+            <label>
+              <el-checkbox @change=changeAllSelect(data.allChecked) class="cart-select-all" v-model="data.allChecked" >
+                全选
+              </el-checkbox>
+            </label>
+          </th>
+          <th class="cart-cell cell-info">商品信息</th>
+          <th class="cart-cell cell-price">单价</th>
+          <th class="cart-cell cell-count">数量</th>
+          <th class="cart-cell cell-total">合计</th>
+          <th class="cart-cell cell-opera">操作</th>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cart-list">
+      <table class="cart-table" data-product-id="32" data-checked="1">
+        <tbody>
+        <tr v-for="cartProductVo in data.cartProductVoList">
+          <td class="cart-cell cell-check">
+            <el-checkbox class="cart-select" v-model="cartProductVo.productChecked" @change=changeSelect(cartProductVo.productId,cartProductVo.productChecked)></el-checkbox>
+          </td>
+
+          <td class="cart-cell cell-img">
+            <a v-bind:href="'#/detail/productId/' + cartProductVo.productId" target="_blank">
+            <img class="p-img" v-bind:src="data.imageHost + cartProductVo.productMainImage"
+                 v-bind:alt="cartProductVo.productSubtitle"></a>
+          </td>
+
+          <td class="cart-cell cell-info">
+            <a class="link p-name" v-bind:href="'#/detail/productId/' + cartProductVo.productId" target="_blank">{{cartProductVo.productName}}</a>
+          </td>
+
+          <td class="cart-cell cell-price">{{ cartProductVo.productPrice | priceFormat }}</td>
+
+          <td class="cart-cell cell-count">
+            <span class="count-btn" data-opera-type="minus" v-on:click="changeCount(cartProductVo, 'minus')">-</span>
+            <el-input class="count-input" v-model="cartProductVo.quantity" @keyup.enter.native="handleCountInput(cartProductVo)"></el-input>
+            <span class="count-btn" data-opera-type="plus" v-on:click="changeCount(cartProductVo, 'plus')">+</span>
+          </td>
+
+          <td class="cart-cell cell-total">{{ cartProductVo.productTotalPrice | priceFormat }}</td>
+          <td class="cart-cell cell-opera">
+            <a class="link cart-delete">删除</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cart-footer">
+
+      <div class="select-con">
+        <label>
+          <el-checkbox class="cart-select-all" v-model="data.allChecked" @change=changeAllSelect(data.allChecked)>全选</el-checkbox>
+        </label>
+      </div>
+
+      <div class="delete-con">
+        <a class="cart-delete-seleced link">
+          <i class="el-icon-delete" aria-hidden="true"></i>
+          <span>删除选中</span>
+        </a>
+      </div>
+
+      <div class="submit-con">
+        <span>总价：</span>
+        <span class="submit-total">{{ data.cartTotalPrice | priceFormat }}</span>
+        <span class="btn submit-btn">去结算</span>
+      </div>
+    </div>
+
+  </div>
+</template>
+
+<script>
+  // 请求服务器数据
+  import cartApi from './../../api/portal/cartapi'
+  export default {
+
+    data () {
+      return {
+        data: {}
+      }
+    },
+    created () {
+      this.getCartData()
+    },
+    methods: {
+      getCartData () {
+        let self = this
+        cartApi.getList(self).then(function (response) {
+          console.log(response.data)
+          if (response.data.status === 0) {
+            self.data = response.data.data
+          } else if (response.data.status === 3) {
+            self.$router.push('/login')
+          }
+        })
+      },
+      // 全选，取消全选
+      changeAllSelect (allChecked) {
+        console.log('----changeAllSelect----', allChecked)
+        let self = this
+        // 反转全选
+        cartApi.reverseAllSelect(self, allChecked).then(function (response) {
+          console.log(response.data)
+          if (response.data.status === 0) {
+            self.getCartData()
+            // 重新加载页面
+//            self.$router.go({
+//              path: '/',
+//              force: true
+//            })
+          }
+        })
+      },
+      changeSelect (productId, productChecked) {
+        console.log('----changeSelect----', productId, productChecked)
+        let self = this
+        cartApi.reverseSelect(self, productId, productChecked).then(function (response) {
+          console.log(response.data)
+          if (response.data.status === 0) {
+            self.getCartData()
+          }
+        })
+      },
+      changeCount (cartProductVo, type) {
+        console.log(cartProductVo, type)
+        let self = this
+        // 转为int
+        cartProductVo.quantity = parseInt(cartProductVo.quantity)
+        if (type === 'plus') {
+          if (cartProductVo.quantity < cartProductVo.productStock) {
+            cartProductVo.quantity += 1
+          } else {
+            cartProductVo.quantity = cartProductVo.productStock
+          }
+        } else {
+          if (cartProductVo.quantity > 1) {
+            cartProductVo.quantity -= 1
+          } else {
+            cartProductVo.quantity = 1
+          }
+        }
+        console.log('cartProductVo.quantity: ', cartProductVo.quantity)
+        cartApi.changeQuantity(self, cartProductVo.productId, cartProductVo.quantity).then(function (response) {
+          console.log(response.data)
+          if (response.data.status === 0) {
+            self.getCartData()
+          }
+        })
+      },
+      handleCountInput (cartProductVo) {
+        let self = this
+        // 检查输入是否合法，为数值，同时在范围之内
+//        console.log(cartProductVo.quantity)
+        var quantity = parseInt(cartProductVo.quantity, 10)
+        console.log(quantity)
+        if (isNaN(quantity)) {
+          self.$message({
+            message: '输入数量非法',
+            type: 'success'
+          })
+        }
+        // 如果为数值
+        if (quantity > 0 && quantity < cartProductVo.productStock) {
+          cartProductVo.quantity = quantity
+          cartApi.changeQuantity(self, cartProductVo.productId, cartProductVo.quantity).then(function (response) {
+            if (response.data.status === 0) {
+              self.getCartData()
+            }
+          })
+        }
+      }
+    },
+    components: {},
+    filters: {
+      checkedFilter (value) {
+        console.log('checkedFilter: ', value)
+      }
+    }
+  }
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+
+  .cart-wrapper {
+    width: 1080px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    margin-top: 20px !important;
+    text-align: left;
+  }
+
+  .cart-wrapper .cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ebebeb;
+    margin-bottom: 10px;
+  }
+
+  .cart-wrapper .cart-header {
+    background-color: #eee;
+  }
+
+  tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+  }
+
+  label {
+    cursor: pointer;
+  }
+
+  input {
+    cursor: pointer;
+  }
+
+  tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+  }
+
+  span {
+    font-size: 14px;
+  }
+
+  th {
+    font-size: 14px;
+  }
+
+  td {
+    font-size: 14px;
+  }
+
+
+  .cart-wrapper .cart-header .cart-cell {
+    height: 40px;
+    line-height: 40px;
+  }
+
+  .cart-wrapper .cart-table .cell-check {
+    width: 30px;
+    padding-left: 20px;
+    text-align: left;
+  }
+
+  .cart-wrapper .cart-header .cell-check {
+    width: 130px;
+  }
+
+  .cart-wrapper .cart-table .cell-info {
+    width: 400px;
+    padding: 0 10px;
+  }
+
+  .cart-wrapper .cart-table .cell-price {
+    width: 100px;
+    text-align: center;
+  }
+
+  .cart-wrapper .cart-table .cell-count {
+    width: 200px;
+    text-align: center;
+  }
+
+  .cart-wrapper .cart-table .cell-total {
+    width: 100px;
+    text-align: center;
+  }
+
+  .cart-wrapper .cart-table .cell-opera {
+    width: 110px;
+    text-align: center;
+  }
+
+  .p-img {
+    width: 80px;
+  }
+
+  .cart-wrapper .cart-list .cart-table .cell-img {
+    width: 80px;
+    padding: 10px;
+  }
+
+  .cart-wrapper .cart-table .cell-info {
+    width: 400px;
+    padding: 0 10px;
+  }
+
+  .cart-wrapper .cart-table .cell-info .p-name {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .cart-wrapper .cart-table .cell-price {
+    width: 100px;
+    text-align: center;
+  }
+
+  .cart-wrapper .cart-table .cell-count {
+    width: 200px;
+    text-align: center;
+  }
+
+  .cart-wrapper .cart-table .cell-count .count-btn {
+    display: inline-block;
+    width: 20px;
+    height: 34px;
+    line-height: 28px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+    cursor: pointer;
+    background: #fff;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .cart-wrapper .cart-table .cell-count .count-input {
+    /*margin-top: 0px;*/
+    width: 60px;
+    text-align: center;
+    /*height: 20%;*/
+    /*height: 20px;*/
+    /*line-height: 28px;*/
+    /*border: 1px solid #ddd;*/
+    /*text-align: center;*/
+    /*vertical-align: middle;*/
+    /*outline: none;*/
+  }
+
+  .cart-wrapper .cart-list .cart-table .cell-total {
+    color: #000;
+    font-weight: 700;
+  }
+
+  .cart-wrapper .cart-table .cell-total {
+    width: 100px;
+    text-align: center;
+  }
+
+  .cart-wrap .cart-table .cell-opera {
+    width: 110px;
+    text-align: center;
+  }
+
+  .link {
+    color: #999;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+
+  .cart-wrapper .cart-footer {
+    height: 50px;
+    margin-top: 10px;
+    position: relative;
+    line-height: 50px;
+    background: #eee;
+  }
+
+  .cart-wrapper .cart-footer .select-con {
+    float: left;
+    padding-left: 20px;
+  }
+
+  .cart-wrapper .cart-footer .delete-con {
+    float: left;
+    margin-left: 20px;
+  }
+
+  .link {
+    color: #999;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .cart-wrapper .cart-footer .submit-con {
+    float: right;
+  }
+
+
+  .cart-wrapper .cart-footer .submit-con .submit-total {
+    font-size: 18px;
+    color: #c60023;
+    font-weight: 700;
+    margin-right: 30px;
+    vertical-align: middle;
+  }
+
+  .cart-wrap .cart-footer .submit-con .submit-btn {
+    height: 50px;
+    line-height: 50px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0 20px;
+    height: 50px;
+    line-height: 40px;
+    vertical-align: middle;
+    border: none;
+    background-color: #c60023;
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .el-input__inner {
+    height: 30px;
+  }
+</style>

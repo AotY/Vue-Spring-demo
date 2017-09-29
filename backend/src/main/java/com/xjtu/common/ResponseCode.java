@@ -11,16 +11,16 @@ public enum  ResponseCode {
     ILLEGAL_ARGUMENT(2, "ILLEGAL ARGUMENT"),
     NEED_LOGIN(3, "NEED LOGIN");
 
-    private int id;
+    private int code;
     private String desc;
 
     ResponseCode(int id, String desc) {
-        this.id = id;
+        this.code = id;
         this.desc = desc;
     }
 
-    public int getId() {
-        return id;
+    public int getCode() {
+        return code;
     }
 
     public String getDesc() {

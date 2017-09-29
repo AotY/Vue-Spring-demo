@@ -28,11 +28,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // '/product': {
+      // '/cart': {
       //   target: 'http://backend.vuespringdemo.com', // 远程服务域名
       //   changeOrigin: true,
       //   pathRewrite: {
-      //     '^/product': '/product'
+      //     '^/cart': '/cart'
       //   }
       // }
     },

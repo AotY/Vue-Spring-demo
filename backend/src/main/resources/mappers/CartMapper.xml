@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjtu.dao.CartMapper">
+  <resultMap id="BaseResultMap" type="com.xjtu.pojo.Cart">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="product_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="checked" javaType="java.lang.Boolean" jdbcType="BIT" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, user_id, product_id, quantity, checked, create_time, update_time
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cart
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cart
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <!--其中now()为MySQL内置函数-->
+  <insert id="insert" parameterType="com.xjtu.pojo.Cart">
+    insert into cart (id, user_id, product_id, 
+      quantity, checked, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, 
+      #{quantity,jdbcType=INTEGER}, #{checked,jdbcType=BIT}, now(), now())
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.xjtu.pojo.Cart">
+    insert into cart
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="checked != null">
+        checked,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="checked != null">
+        #{checked,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        now(),
+      </if>
+      <if test="updateTime != null">
+        now(),
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtu.pojo.Cart">
+    update cart
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="checked != null">
+        checked = #{checked,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = now(),
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.xjtu.pojo.Cart">
+    update cart
+    set user_id = #{userId,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
+      quantity = #{quantity,jdbcType=INTEGER},
+      checked = #{checked,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectQuantitySumByUserId" resultType="Integer" parameterType="Integer">
+    SELECT
+    sum(quantity)
+    FROM cart
+    WHERE user_id = #{userId}
+  </select>
+
+  <select id="selectListByUserId" resultMap="BaseResultMap" parameterType="Integer">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM cart
+    WHERE user_id = #{userId}
+  </select>
+
+  <select id="selectByUserIdAndProductId" resultType="com.xjtu.pojo.Cart">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM cart
+    WHERE user_id = #{userId} and product_id = #{productId}
+  </select>
+
+  <update id="reverseAllSelect" parameterType="map">
+    UPDATE cart
+    SET checked=#{checked}
+    WHERE user_id=#{userId}
+  </update>
+
+  <update id="reverseSelect" parameterType="map">
+    UPDATE cart
+    SET checked=#{checked}
+    where user_id = #{userId} and product_id = #{productId}
+  </update>
+
+</mapper>

@@ -1,5 +1,6 @@
 package com.xjtu.common;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.io.Serializable;
@@ -38,6 +39,7 @@ public class ServerResponse<T> implements Serializable {
         this.data = data;
     }
 
+
     public int getStatus() {
         return status;
     }
@@ -51,16 +53,20 @@ public class ServerResponse<T> implements Serializable {
     }
 
 
+    @JsonIgnore
+    public boolean isSuccess() {
+        return this.status == ResponseCode.SUCCESS.getCode();
+    }
 
     /*
     SUCCESS
      */
     public static <T> ServerResponse<T> createBySuccess(){
-        return new ServerResponse<T>(ResponseCode.SUCCESS.getId(), ResponseCode.SUCCESS.getDesc());
+        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getDesc());
     }
 
     public static <T> ServerResponse<T> createBySuccess(String msg){
-        return new ServerResponse<T>(ResponseCode.SUCCESS.getId(), msg);
+        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), msg);
     }
 
     public static <T> ServerResponse<T> createBySuccess(int status, String msg){
@@ -68,11 +74,11 @@ public class ServerResponse<T> implements Serializable {
     }
 
     public static <T> ServerResponse<T> createBySuccess(T data){
-        return new ServerResponse<T>(ResponseCode.SUCCESS.getId(), data);
+        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), data);
     }
 
     public static <T> ServerResponse<T> createBySuccess(String msg, T data){
-        return new ServerResponse<T>(ResponseCode.SUCCESS.getId(), msg, data);
+        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), msg, data);
     }
 
 
@@ -80,15 +86,15 @@ public class ServerResponse<T> implements Serializable {
     ERROR
      */
     public static <T> ServerResponse<T> createByError(){
-        return new ServerResponse<T>(ResponseCode.ERROR.getId(), ResponseCode.ERROR.getDesc());
+        return new ServerResponse<T>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getDesc());
     }
 
     public static <T> ServerResponse<T> createByError(String msg){
-        return new ServerResponse<T>(ResponseCode.ERROR.getId(), msg);
+        return new ServerResponse<T>(ResponseCode.ERROR.getCode(), msg);
     }
 
     public static <T> ServerResponse<T> createByError(T data){
-        return new ServerResponse<T>(ResponseCode.ERROR.getId(), data);
+        return new ServerResponse<T>(ResponseCode.ERROR.getCode(), data);
     }
 
     public static <T> ServerResponse<T> createByError(int status, String msg){
@@ -96,7 +102,7 @@ public class ServerResponse<T> implements Serializable {
     }
 
     public static <T> ServerResponse<T> createByError(String msg, T data){
-        return new ServerResponse<T>(ResponseCode.ERROR.getId(), msg, data);
+        return new ServerResponse<T>(ResponseCode.ERROR.getCode(), msg, data);
     }
 
 

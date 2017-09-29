@@ -4,22 +4,24 @@
       <ul class="category-list">
         <li class="category-item">
           <!--<router-link class="category-link" to="/list/category/100001">手机 </router-link>-->
-          <a class="category-link" target="_blank" href="#/list/keyword/手机">手机</a>
-          <a class="category-link" target="_blank" href="#/list/keyword/手机">数码</a>
+          <router-link class="category-link" :to="{name: 'ListKeyword', params: { keyword: '手机' }}">手机</router-link>
+          <!--<a class="category-link" target="_blank" href="#/list/keyword/手机">手机</a>-->
+          <router-link class="category-link" :to="{name: 'ListKeyword', params: { keyword: '数码' }}">数码</router-link>
+          <!--<a class="category-link" target="_blank" href="#/list/keyword/数码">数码</a>-->
         </li>
         <li class="category-item">
-          <a class="category-link" target="_blank" href="/list/keyword/电脑">电脑</a>
-          <a class="category-link" target="_blank" href="/list/keyword/办公配件">办公配件</a>
+          <router-link class="category-link" :to="{name: 'ListKeyword', params: { keyword: '电脑' }}">电脑</router-link>
+          <router-link class="category-link" :to="{name: 'ListKeyword', params: { keyword: '办公配件' }}">办公配件</router-link>
         </li>
         <li class="category-item">
-          <a class="category-link" target="_blank" href="/list/keyword/电视">电视</a>
-          <a class="category-link" target="_blank" href="./list/keyword/空调">空调</a>
-          <a class="category-link" target="_blank" href="/list/keyword/冰箱">冰箱</a>
-          <a class="category-link" target="_blank" href="/list/keyword/洗衣机">洗衣机</a>
+          <router-link class="category-link" :to="{name: 'ListKeyword', params: { keyword: '电视' }}">电视</router-link>
+          <router-link class="category-link" :to="{name: 'ListKeyword', params: { keyword: '空调' }}">空调</router-link>
+          <router-link class="category-link" :to="{name: 'ListKeyword', params: { keyword: '冰箱' }}">冰箱</router-link>
+          <router-link class="category-link" :to="{name: 'ListKeyword', params: { keyword: '洗衣机' }}">洗衣机</router-link>
         </li>
         <li class="category-item">
-          <a class="category-link" target="_blank" href="./list.html?keyword=厨卫家电">厨卫家电</a>
-          <a class="category-link" target="_blank" href="./list.html?keyword=小家电">小家电</a>
+          <router-link class="category-link" :to="{name: 'ListKeyword', params: { keyword: '厨卫家电' }}">厨卫家电</router-link>
+          <router-link class="category-link" :to="{name: 'ListKeyword', params: { keyword: '小家电' }}">小家电</router-link>
         </li>
       </ul>
     </div>

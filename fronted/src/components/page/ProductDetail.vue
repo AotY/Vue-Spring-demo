@@ -28,7 +28,9 @@
           <!--<span class="p-count-btn plus" data-opera-type="plus" v-on:click="count += 1">+</span>-->
           <span class="p-count-btn plus" data-opera-type="plus" v-on:click="changeCount('plus')">+</span>
           <span class="p-count-btn minus" data-opera-type="minus"  v-on:click="changeCount('minus')">-</span></div>
-        <div class="info-item"><a class="btn cart-add">加入购物车</a></div>
+        <div class="info-item">
+          <a class="btn cart-add" v-on:click="add2Cart">加入购物车</a>
+        </div>
       </div>
 
     </div>
@@ -49,11 +51,12 @@
   // 这个页面是主要展示的页面
   import vCarousel from './../common/Carousel.vue'
   import productApi from '../../api/portal/productapi.js'
+  import cartapi from '../../api/portal/cartapi'
   // 请求服务器数据
   export default {
     data () {
       return {
-        data: {stock: 0},
+        data: {},
         activeName2: 'first',
         count: 1
       }
@@ -78,8 +81,6 @@
       changeCount (type) {
         let self = this
         console.log('changeCount')
-        console.log(self.data)
-
         if (type === 'plus') {
           if (self.count < self.data.stock) {
             self.count += 1
@@ -89,6 +90,33 @@
             self.count -= 1
           }
         }
+      },
+      // 加入购物车
+      add2Cart () {
+        let self = this
+
+        cartapi.add2Cart(self, self.data.id, self.count).then(function (response) {
+          console.log('add2Cart: ', response.data)
+          // 需要登入
+          if (response.data.status === 3) {
+            self.$router.push('/login')
+          } else if (response.data.status === 2) {
+            self.$message({
+              message: '添加失败',
+              type: 'success'
+            })
+          } else {
+            // 重新加载页面
+            self.$router.go({
+              path: self.$router.path,
+              force: true
+            })
+            self.$message({
+              message: '添加成功',
+              type: 'success'
+            })
+          }
+        })
       }
     },
     components: {

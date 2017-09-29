@@ -3,13 +3,17 @@
     <div class="list-wrapper">
 
       <ul class="sorter-con">
-        <li class="sorter-item active" data-type="default">
-          <span>推荐排序</span>
+        <li v-bind:class="{active: isDefaultActive}" class="sorter-item " v-on:click="sort('default')" >
+          <span>默认排序</span>
         </li>
-        <li class="sorter-item" data-type="price">
+
+        <li v-bind:class="{active: isPriceActive}" class="sorter-item" v-on:click="sort('price')" >
+        <!--<li class="sorter-item" v-on:clik="sort('price')">-->
           <span>价格</span>
-          <i class="fa fa-sort-asc"></i>
-          <i class="fa fa-sort-desc"></i>
+          <!--<i class="sort-caret ascending"></i>-->
+          <!--<i class="sort-caret descending"></i>-->
+          <i v-bind:class="{active: isDesc}" class="fa fa-sort-asc"></i>
+          <i v-bind:class="{active: isAsc}" class="fa fa-sort-desc"></i>
         </li>
       </ul>
 
@@ -46,32 +50,76 @@
   // 这个页面是商品列表展示页面
   import productApi from '../../api/portal/productapi.js'
   import vCrumb from './../common/BreadCrumb.vue'
+  import './../../../static/css/font-awesome.css'
   // 请求服务器数据
   export default {
     data () {
       return {
         list: [],
-        value5: 3.7
+        isDefaultActive: true,
+        isPriceActive: false,
+        isAsc: false,
+        isDesc: false
       }
     },
     created () {
-      console.log('path', this.$route.path)
-      console.log('params', this.$route.params)
+      console.log('Productlist path', this.$route.path)
+      console.log('Productlist params', this.$route.params)
 //      parts = this.$route.path.split('/')
 //      if (parts.length )
 //      let categoryId =
 //      let keyword = this.$route.path.split('/')[4]
-      this.getData(this.$route.params)
+      this.params = this.$route.params
+      this.getData(this.params)
     },
     methods: {
       getData (params) {
         console.log('--- getData ---')
         let self = this
         productApi.getList(this, params).then((res) => {
-          console.log(res.data)
           self.list = res.data.data.list
           console.log(self.list)
         })
+      },
+      sort (type) {
+        if (type === 'price') {
+          this.isPriceActive = true
+          this.isDefaultActive = false
+          if (this.isAsc === false && this.isDesc === false) {
+            this.isAsc = true
+            this.isDesc = false
+            this.params['orderBy'] = 'price_asc'
+          } else if (this.isAsc === true) {
+            this.isAsc = false
+            this.isDesc = true
+            this.params['orderBy'] = 'price_desc'
+          } else if (this.isDesc === true) {
+            this.isAsc = true
+            this.isDesc = false
+            this.params['orderBy'] = 'price_asc'
+          } else {
+            this.isAsc = true
+            this.isDesc = false
+            this.params['orderBy'] = 'price_desc'
+          }
+          console.log(this.params)
+          this.getData(this.params)
+        } else {
+          this.isPriceActive = false
+          this.isDefaultActive = true
+          this.isAsc = false
+          this.isDesc = false
+          this.params['orderBy'] = ''
+          console.log(this.params)
+          this.getData(this.params)
+        }
+      }
+    },
+    watch: {
+      '$route' (route) {
+        console.log('productlist: ', route)
+        this.getData(route.params)
+        // 根据 route.query重新请求数据，然后赋值给vm
       }
     },
     components: {
@@ -81,6 +129,8 @@
 </script>
 
 <style scoped>
+
+
 
   .list-wrapper {
     margin: 0 auto;
@@ -148,8 +198,26 @@
     color: #fff;
   }
 
+  .fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .sorter-con .sorter-item .fa-sort-desc {
+    position: absolute;
+    top: 7px;
+    right: 8px;
+  }
+
   .el-rate span {
     height: 15px;
   }
 
+  .sorter-item i.active {
+    opacity: .6;
+  }
 </style>

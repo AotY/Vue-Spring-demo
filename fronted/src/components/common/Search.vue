@@ -19,12 +19,22 @@
         keyword: ''
       }
     },
+    created () {
+      console.log('search: ', this.$route.params)
+      this.keyword = this.$route.params['keyword']
+    },
     methods: {
       handleIconClick (ev) {
         console.log('handleIconClick')
-        console.log(this.keyword)
-        console.log(ev)
-        this.$router.push('/list/keyword/' + this.keyword)
+        this.$router.push({name: 'ListKeyword', params: { keyword: this.keyword }})
+//        this.$router.push('/list/keyword/' + this.keyword)
+//        this.$router.go(1)
+      }
+    },
+    watch: {
+      '$route' (route) {
+        console.log('search: ', route)
+        this.keyword = route.params['keyword']
       }
     }
   }

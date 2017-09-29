@@ -42,11 +42,8 @@
   // 这个页面是主要展示的页面
 
   import vCarousel from './../common/Carousel.vue'
-
-  //  import productApi from '../../api/portal/productapi.js'
   import categoryApi from '../../api/portal/categoryapi'
 
-  //  import vSearch from './../common/Search.vue'
   // 请求服务器数据
   export default {
     data () {

@@ -30,7 +30,8 @@
         <File>/Users/LeonTao/IntelliJProjects/Tools/apache-tomcat-7.0.73/logs/Vue_Spring_demo_error.log</File>
         <!--<File>/developer/apache-tomcat-8.5.20/logs/Vue_Spring_demo_error.log</File>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/devsoft/apache-tomcat-7.0.73/logs/Vue_Spring_demo_error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>/Users/LeonTao/IntelliJProjects/Tools/apache-tomcat-7.0.73/logs/Vue_Spring_demo_error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <!--<fileNamePattern>/devsoft/apache-tomcat-7.0.73/logs/Vue_Spring_demo_error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>-->
             <!--<fileNamePattern>/devsoft/apache-tomcat-8.5.20/logs/Vue_Spring_demo_error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>-->
             <append>true</append>
             <maxHistory>10</maxHistory>
