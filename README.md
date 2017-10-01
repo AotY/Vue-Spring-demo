@@ -1,50 +1,239 @@
+---
+typora-copy-images-to: ipic
+---
+
 # Vue-Spring-demo
 
-**目前效果图：（目前v1.0版本）**
+**目前效果图：（目前v2.0版本）**
+
+- 首页
+
+![index](https://ws3.sinaimg.cn/large/006tKfTcly1fk2tvdiq2wj31kw0zkn86.jpg)
+
+- 列表
 
 ![](https://ws4.sinaimg.cn/large/006tNc79ly1fjyad61120j31kw0zkn67.jpg)
 
+- 详情
+
+![detail](https://ws3.sinaimg.cn/large/006tKfTcly1fk2tvj0yt3j31kw0zkagw.jpg)
+
+- 购物车
+
+![cart](https://ws3.sinaimg.cn/large/006tKfTcly1fk2tvmrwnpj31kw0zk10k.jpg)
 
 
-## 环境配置
-1. mysql
 
-   [mysql配置](http://learning.happymmall.com/mysql/mysqlconfig/)
+## 1. 环境配置
 
-2. vsftpd配置
+### 1.1 安装CentOS
 
-   [vsftpd配置](http://learning.happymmall.com/vsftpdconfig/)
+1. 下载地址
 
-3. nginx配置
+   http://mirrors.aliyun.com/centos/6.8/isos/x86_64/CentOS-6.8-x86_64-bin-DVD1.iso 
 
-   [nginx配置](http://learning.happymmall.com/nginx/linux_conf/)
+2. 安装
 
-
-4. tomcat
+3. 配置阿里云Linux安装软件镜像源
 
    ```
-   下载：
-   wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-8/v8.5.20/bin/apache-tomcat-8.5.20.tar.gz
-   解压：
-   tar -xvf apache-tomcat-8.5.20.tar.gz
-
-   配置环境变量
-   export CATALINA_HOME = /xx/apache-tomcat-8.5.20(填写自己的路径)
-
-   遇到的问题
-   1. tcp6：
-   solution 1: 在server.xml(Connector port="8080"节点)添加address="0.0.0.0"
-   Solution 2：在bin文件夹下添加setenv.sh文件，输入 JVM_REQUIRED_ARGS="-Djava.awt.headless=true -Datlassian.standalone=JIRA -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true -Dmail.mime.decodeparameters=true -Djava.net.preferIPv4Stack=true" ，然后保存
-
-   2. 编码：
-   在server.xml（Connector port="8080"节点）添加 URIEncoding="UTF-8"
+   1. 备份你的原镜像文件
+   sudo mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bac
+   2. 下载新的CentOS-Base.repo 到/etc/yum.repos.d/
+   sudo wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-6.repo
+   3. 运行yum makecache生成缓存
+   sudo yum clean all
+   sudo yum makecache
    ```
 
-5. Spring
+4. 安装SSH（远程登录）
+
+   ```
+   sudo yum -y install openssh-server
+   ```
 
    ​
 
-6. MyBatis
+
+### 1.2 配置iptables
+
+1. 关闭防火墙
+
+   ```
+   sudo systemctl stop firewalld 
+   sudo systemctl mask firewalld
+   ```
+
+2. 安装iptables
+
+   ```
+   sudo yum install iptables-services
+   sudo systemctl enable iptables
+   ```
+
+3. 配置
+
+   ```
+   sudo wget -O /etc/sysconfig/iptables https://github.com/AotY/Vue-Spring-demo/blob/master/config/iptables
+   ```
+
+4. 启动
+
+   ```
+   sudo service iptables save
+   sudo systemctl start iptables
+   ```
+
+
+
+### 1.3 selinux配置
+
+```
+sudo wget -O /etc/sysconfig/selinux https://github.com/AotY/Vue-Spring-demo/blob/master/config/selinux/config
+```
+
+
+
+### 1.4 MySQL配置
+
+1. 安装
+
+   ```
+   1. 查看系统是否安装了MySQL，如果安装了使用(sudo rpm -e --nodeps mysql-*卸载)
+   rpm -qa | grep mysql
+   2. 安装MySQL
+   sudo yum -y install mysql-server
+   3. 安装完成后执行初始化命令
+   sudo service mysqld start 
+   ```
+
+2. 配置
+
+   修改MySQL的配置文件(my.cnf)
+
+   ```
+   sudo wget -O /etc/my.cnf https://github.com/AotY/Vue-Spring-demo/blob/master/config/mysql/my.cnf
+   重启MySQL服务
+   sudo service mysqld restart 
+   ```
+
+3. 登录
+
+   ```
+   mysql -uroot -p (第一次登录不用密码)
+   ```
+
+4. 修改root密码
+
+   ```
+   1. 查看用户
+   select user, host, password from mysql.user\G;
+   2. 设置密码
+   set password for root@localhost=password('xxxx');
+   3.刷新权限
+   flush privileges; 
+   ```
+
+5. 新增用户 
+
+   ```
+   insert into mysql.user(Host, User, Password) values ("localhost", "qingtao", password("xxxx"));
+   ```
+
+6. 新增数据库
+
+   ```
+   grant all privileges on vue_spring_demo.* to qintao@localhost identified by 'qingtao'
+   ```
+
+7. 赋予用户权限
+
+   ```
+   1. 本地权限
+   grant all privileges on vue_spring_demo.* to qintao@localhost identified by 'xxxx'
+   2. 远程权限
+   grant all privileges on vue_spring_demo.* to qingtao@'%' identified by 'xxxx';
+   ```
+
+
+### 1.5 Java配置
+
+1. 下载
+
+   ```
+   wget http://learning.happymmall.com/jdk/jdk-7u80-linux-x64.rpm
+   ```
+
+2. 安装 (安装默认位置在/usr/java/)
+
+   ```
+   sudo rpm -Uvh jdk-7u80-linux-x64.rpm
+   ```
+
+3. 配置profile
+
+   ```
+   wget wget -O /etc/profile https://github.com/AotY/Vue-Spring-demo/blob/master/config/profile
+   ```
+
+
+
+### 1.6 安装Maven
+
+```
+wget http://learning.happymmall.com/maven/apache-maven-3.0.5-bin.tar.gz
+tar -xvf apache-maven-3.0.5
+mv apache-maven-3.0.5 maven
+mv maven /developer
+```
+
+
+
+### 1.7 安装git
+
+```
+sudo yum -y install git 
+```
+
+
+
+### 1.6 Tomcat配置
+
+ 	1. 下载安装
+
+```
+wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-8/v8.5.20/bin/apache-tomcat-8.5.20.tar.gz
+tar -xvf apache-tomcat-8.5.20.tar.gz
+mv apache-tomcat-8.5.20 /developer
+```
+
+2. 启动
+
+   ```
+   /developer/apache-tomcat-8.5.20/bin/startup.sh
+   ```
+
+   ​
+
+> 遇到的问题
+>
+> 1. tcp6：
+>   solution 1: 在server.xml(Connector port="8080"节点)添加address="0.0.0.0"
+>   Solution 2：在bin文件夹下添加setenv.sh文件，输入 JVM_REQUIRED_ARGS="-Djava.awt.headless=true -Datlassian.standalone=JIRA -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true -Dmail.mime.decodeparameters=true -Djava.net.preferIPv4Stack=true" ，然后保存
+>
+> 2. 编码：
+>   在server.xml（Connector port="8080"节点）添加 URIEncoding="UTF-8"
+
+
+
+### 1. 8 vsftpd配置
+
+1. [vsftpd配置](http://learning.happymmall.com/vsftpdconfig/)
+
+
+### 1.9 nginx配置 
+
+[nginx配置](http://learning.happymmall.com/nginx/linux_conf/)
 
 
 
