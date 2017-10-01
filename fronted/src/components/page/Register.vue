@@ -1,221 +1,173 @@
 <template>
-  <div>
-    <div class="list-wrapper">
+  <div class="user-wrapper">
 
-      <ul class="sorter-con">
-        <li v-bind:class="{active: isDefaultActive}" class="sorter-item " v-on:click="sort('default')" >
-          <span>默认排序</span>
-        </li>
+    <div class="user-con">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px" label-position="right"
+               class="demo-ruleForm">
 
-        <li v-bind:class="{active: isPriceActive}" class="sorter-item" v-on:click="sort('price')" >
-        <!--<li class="sorter-item" v-on:clik="sort('price')">-->
-          <span>价格</span>
-          <i v-bind:class="{active: isDesc}" class="fa fa-sort-asc"></i>
-          <i v-bind:class="{active: isAsc}" class="fa fa-sort-desc"></i>
-        </li>
-      </ul>
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="ruleForm.username"></el-input>
+        </el-form-item>
 
-      <el-row :gutter="10">
-        <el-col :span="6" v-for="item in list">
-          <el-card :body-style="{ padding: '0px'}">
-            <a v-bind:href="'#/detail/productId/' + item.id" class="card-link">
-              <img v-bind:src="item.imageHost + item.mainImage" class="image">
-              <div style="padding: 15px;">
-                <div class="line"></div>
-                <span class="name-span">{{ item.name }}</span>
-                <el-rate
-                  v-model="item.rate"
-                  disabled
-                  show-text
-                  text-color="#ff9900"
-                  text-template="{value}">
-                </el-rate>
-                <!--先经过过滤器处理-->
-                <span class="price">{{ item.price | priceFormat}}</span>
-                <div class="bottom clearfix">
-                </div>
-              </div>
-              </a>
-          </el-card>
-        </el-col>
-      </el-row>
+        <el-form-item prop="email" label="邮箱">
+          <el-input v-model="ruleForm.email"></el-input>
+        </el-form-item>
+
+        <el-form-item label="密码" prop="password">
+          <el-input type="password" v-model="ruleForm.password" auto-complete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="确认密码" prop="checkPassword">
+          <el-input type="password" v-model="ruleForm.checkPassword" @keyup.enter.native="submitForm('ruleForm')"
+                    auto-complete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm')">注册</el-button>
+          <el-button @click="cancel">取消</el-button>
+        </el-form-item>
+
+      </el-form>
 
     </div>
   </div>
+
 </template>
 
 <script>
-  // 这个页面是商品列表展示页面
-  import productApi from '../../api/portal/productapi.js'
-  import vCrumb from './../common/BreadCrumb.vue'
+  import userApi from './../../api/portal/userapi.js'
 
-  // 请求服务器数据
   export default {
     data () {
-      return {
-        list: [],
-        isDefaultActive: true,
-        isPriceActive: false,
-        isAsc: false,
-        isDesc: false
+      var validatePassword = (rule, value, callback) => {
+        if (this.ruleForm.checkPassword !== '') {
+          this.$refs.ruleForm.validateField('checkPassword')
+        }
+        callback()
       }
-    },
-    created () {
-      console.log('Productlist path', this.$route.path)
-      console.log('Productlist params', this.$route.params)
-//      parts = this.$route.path.split('/')
-//      if (parts.length )
-//      let categoryId =
-//      let keyword = this.$route.path.split('/')[4]
-      this.params = this.$route.params
-      this.getData(this.params)
-    },
-    methods: {
-      getData (params) {
-        console.log('--- getData ---')
-        let self = this
-        productApi.getList(this, params).then((res) => {
-          self.list = res.data.data.list
-          console.log(self.list)
-        })
-      },
-      sort (type) {
-        if (type === 'price') {
-          this.isPriceActive = true
-          this.isDefaultActive = false
-          if (this.isAsc === false && this.isDesc === false) {
-            this.isAsc = true
-            this.isDesc = false
-            this.params['orderBy'] = 'price_asc'
-          } else if (this.isAsc === true) {
-            this.isAsc = false
-            this.isDesc = true
-            this.params['orderBy'] = 'price_desc'
-          } else if (this.isDesc === true) {
-            this.isAsc = true
-            this.isDesc = false
-            this.params['orderBy'] = 'price_asc'
-          } else {
-            this.isAsc = true
-            this.isDesc = false
-            this.params['orderBy'] = 'price_desc'
-          }
-          console.log(this.params)
-          this.getData(this.params)
+      var validatePassword2 = (rule, value, callback) => {
+        if (value !== this.ruleForm.password) {
+          callback(new Error('两次输入密码不一致!'))
         } else {
-          this.isPriceActive = false
-          this.isDefaultActive = true
-          this.isAsc = false
-          this.isDesc = false
-          this.params['orderBy'] = ''
-          console.log(this.params)
-          this.getData(this.params)
+          callback()
+        }
+      }
+      var validateUsername = (rule, value, callback) => {
+        // 向服务器验证用户名是否已经存在
+        userApi.checkValid(this, value, 'username').then(function (response) {
+          console.log('validateUsername: ', response.data)
+          if (response.data.status !== 0) {
+            callback(new Error(response.data.msg))
+          } else {
+            callback()
+          }
+        })
+      }
+      var validateEmail = (rule, value, callback) => {
+        // 向服务器验证用户名是否已经存在
+        userApi.checkValid(this, value, 'email').then(function (response) {
+          console.log('validateEmail: ', response.data)
+          if (response.data.status !== 0) {
+            callback(new Error(response.data.msg))
+          } else {
+            callback()
+          }
+        })
+      }
+      return {
+        ruleForm: {
+          username: '',
+          email: '',
+          password: '',
+          checkPassword: ''
+        },
+        rules: {
+          username: [
+            {required: true, message: '请输入用户名', trigger: 'blur'},
+            {min: 4, max: 20, message: '长度在 4 到 20 个字符', trigger: 'blur'},
+            {validator: validateUsername, trigger: 'blur'}
+          ],
+          email: [
+            {required: true, message: '请输入邮箱地址', trigger: 'blur'},
+            {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change'},
+            {validator: validateEmail, trigger: 'blur'}
+          ],
+          password: [
+            {required: true, message: '请输入密码', trigger: 'blur'},
+            {validator: validatePassword, trigger: 'blur'}
+          ],
+          checkPassword: [
+            {required: true, message: '请输入确认密码', trigger: 'blur'},
+            {validator: validatePassword2, trigger: 'blur'}
+          ]
         }
       }
     },
-    watch: {
-      '$route' (route) {
-        console.log('productlist: ', route)
-        this.getData(route.params)
-        // 根据 route.query重新请求数据，然后赋值给vm
+    methods: {
+      submitForm (formName) {
+        console.log('submitForm')
+        let self = this
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            userApi.register(self, self.ruleForm.username, self.ruleForm.email, self.ruleForm.password).then(function (response) {
+              if (response.data.status === 0) {
+                self.$message({
+                  message: '注册成功',
+                  type: 'success'
+                })
+                self.$router.push({name: 'Login'})
+              }
+            })
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
+      },
+      cancel () {
+        window.history.back()
+//        this.$router.go(-1)
       }
-    },
-    components: {
-      vCrumb
     }
   }
 </script>
 
 <style scoped>
 
-
-
-  .list-wrapper {
-    margin: 0 auto;
-    width: 1080px;
+  .user-wrapper {
+    width: 100%;
+    padding: 40px 0;
+    background: #ecf0f1;
   }
 
-  .price {
+  .user-con {
+    position: relative;
+    margin: 0 auto;
+    padding: 40px;
+    width: 400px;
+    background: #fff;
+    text-align: left;
+  }
+
+  .user-con .link-item {
+    text-align: left;
+    line-height: 2;
     font-size: 12px;
-    color: #222;
+    height: 30px;
+    margin: 0px auto 0;
+    text-align: right;
+    color: #666;
   }
 
-  .image {
-    padding-top: 10px;
-    margin: 0 auto;
-    width: 56%;
-    height: 180px;
-    display: block;
-  }
-
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-
-  .clearfix:after {
-    clear: both
-  }
-
-
-  .name-span {
-    font-size: 13px;
-    color: #333;
-  }
-
-  a {
-    color: #FFFFFF;
+  .user-con .link {
+    padding: 0 5px;
+    color: #666;
     text-decoration: none;
   }
 
-  .sorter-con {
-    padding: 0px ;
-    overflow: auto;
-  }
-
-
-  .sorter-con .sorter-item {
-    float: left;
-    display: inline-block;
-    position: relative;
-    padding: 0 8px;
-    height: 23px;
-    line-height: 23px;
-    border: 1px solid #ccc;
-    margin-right: -1px;
-    background: #fff;
-    color: #333;
+  .link {
     cursor: pointer;
-    font-size: 13px;
+    text-decoration: none;
   }
 
-  .sorter-con .sorter-item.active {
-    background: #c60023;
-    border: 1px solid #c60023;
-    color: #fff;
-  }
-
-  .fa {
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  .sorter-con .sorter-item .fa-sort-desc {
-    position: absolute;
-    top: 7px;
-    right: 8px;
-  }
-
-  .el-rate span {
-    height: 15px;
-  }
-
-  .sorter-item i.active {
-    opacity: .6;
-  }
 </style>

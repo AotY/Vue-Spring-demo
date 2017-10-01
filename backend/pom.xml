@@ -138,15 +138,15 @@
             <version>2.4</version>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-oxm</artifactId>-->
-            <!--<version>${org.springframework.version}</version>-->
+        <!--<groupId>org.springframework</groupId>-->
+        <!--<artifactId>spring-oxm</artifactId>-->
+        <!--<version>${org.springframework.version}</version>-->
         <!--</dependency>-->
 
         <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-tx</artifactId>-->
-            <!--<version>${org.springframework.version}</version>-->
+        <!--<groupId>org.springframework</groupId>-->
+        <!--<artifactId>spring-tx</artifactId>-->
+        <!--<version>${org.springframework.version}</version>-->
         <!--</dependency>-->
 
         <dependency>

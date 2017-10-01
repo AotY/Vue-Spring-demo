@@ -1,6 +1,13 @@
 <template>
-  <div class="cart-wrapper">
 
+  <div v-if="isBlank">
+    <h1>购物车空空如也</h1>
+    <a href="/">
+      <h2>马上去购物</h2>
+    </a>
+  </div>
+
+  <div class="cart-wrapper" v-else>
     <div class="cart-header">
       <table class="cart-table">
         <tbody>
@@ -44,13 +51,13 @@
 
           <td class="cart-cell cell-count">
             <span class="count-btn" data-opera-type="minus" v-on:click="changeCount(cartProductVo, 'minus')">-</span>
-            <el-input class="count-input" v-model="cartProductVo.quantity" @keyup.enter.native="handleCountInput(cartProductVo)"></el-input>
+            <el-input class="count-input" v-model="cartProductVo.quantity" @keyup.enter.native="handleInputCount(cartProductVo)"></el-input>
             <span class="count-btn" data-opera-type="plus" v-on:click="changeCount(cartProductVo, 'plus')">+</span>
           </td>
 
           <td class="cart-cell cell-total">{{ cartProductVo.productTotalPrice | priceFormat }}</td>
           <td class="cart-cell cell-opera">
-            <a class="link cart-delete">删除</a>
+            <a class="link cart-delete" v-on:click="deleteProduct(cartProductVo.productId)">删除</a>
           </td>
         </tr>
         </tbody>
@@ -66,7 +73,7 @@
       </div>
 
       <div class="delete-con">
-        <a class="cart-delete-seleced link">
+        <a class="cart-delete-seleced link" v-on:click="deleteSelect">
           <i class="el-icon-delete" aria-hidden="true"></i>
           <span>删除选中</span>
         </a>
@@ -89,10 +96,12 @@
 
     data () {
       return {
-        data: {}
+        data: {},
+        isBlank: true
       }
     },
     created () {
+      this.$store.dispatch('updateBreadcrumbs', this)
       this.getCartData()
     },
     methods: {
@@ -102,6 +111,12 @@
           console.log(response.data)
           if (response.data.status === 0) {
             self.data = response.data.data
+            console.log('self.data.cartProductVoList.length: ', self.data.cartProductVoList.length)
+            if (self.data.cartProductVoList.length > 0) {
+              self.isBlank = false
+            } else {
+              self.isBlank = true
+            }
           } else if (response.data.status === 3) {
             self.$router.push('/login')
           }
@@ -160,7 +175,7 @@
           }
         })
       },
-      handleCountInput (cartProductVo) {
+      handleInputCount (cartProductVo) {
         let self = this
         // 检查输入是否合法，为数值，同时在范围之内
 //        console.log(cartProductVo.quantity)
@@ -181,12 +196,74 @@
             }
           })
         }
-      }
-    },
-    components: {},
-    filters: {
-      checkedFilter (value) {
-        console.log('checkedFilter: ', value)
+      },
+      openMsgBox () {
+        const h = this.$createElement
+        return this.$msgbox({
+          title: '提示',
+          message: h('p', null, [
+            h('span', null, '确定要删除吗？')
+          ]),
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        })
+      },
+      // 删除指定商品
+      deleteProduct (productId) {
+        console.log('productId: ', productId)
+        let self = this
+        self.openMsgBox().then(action => {
+          console.log('action: ', action)
+          if (action === 'confirm') {
+            // 删除选中商品
+            cartApi.delete(self, productId).then(function (response) {
+              self.$message({
+                message: response.data.msg,
+                type: 'success'
+              })
+              if (response.data.status === 0) {
+                self.getCartData()
+              } else if (response.data.status === 3) {
+                self.$router.push('/login')
+              } else {
+                self.$message({
+                  message: response.data.msg,
+                  type: 'error'
+                })
+              }
+            })
+          }
+        })
+      },
+      deleteSelect () {
+        let self = this
+        self.openMsgBox().then(action => {
+          console.log('action: ', action)
+          if (action === 'confirm') {
+            cartApi.deleteSelect(self).then(function (response) {
+              if (response.data.status === 0) {
+                self.$message({
+                  message: response.data.msg,
+                  type: 'success'
+                })
+                self.getCartData()
+              } else if (response.data.status === 3) {
+                self.$router.push('/login')
+              } else {
+                self.$message({
+                  message: response.data.msg,
+                  type: 'error'
+                })
+              }
+            })
+          }
+        })
+      },
+      filters: {
+        checkedFilter (value) {
+          console.log('checkedFilter: ', value)
+        }
       }
     }
   }
@@ -194,6 +271,27 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+
+  h1 {
+    font-weight: 200;
+    font-size: 38px;
+  }
+
+  h2 {
+    font-weight: 200;
+    font-size: 26px;
+    cursor: pointer;
+  }
+
+  h2:hover {
+    color: #c60023;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
 
   .cart-wrapper {
     width: 1080px;
@@ -428,4 +526,6 @@
   .el-input__inner {
     height: 30px;
   }
+
+
 </style>

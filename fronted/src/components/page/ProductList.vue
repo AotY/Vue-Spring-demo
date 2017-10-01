@@ -2,46 +2,69 @@
   <div>
     <div class="list-wrapper">
 
-      <ul class="sorter-con">
-        <li v-bind:class="{active: isDefaultActive}" class="sorter-item " v-on:click="sort('default')" >
-          <span>默认排序</span>
-        </li>
+      <div v-if="isBlank">
+        <h1>没有符合条件商品</h1>
+        <a href="/">
+          <h2>看看其他商品</h2>
+        </a>
+      </div>
 
-        <li v-bind:class="{active: isPriceActive}" class="sorter-item" v-on:click="sort('price')" >
-        <!--<li class="sorter-item" v-on:clik="sort('price')">-->
-          <span>价格</span>
-          <!--<i class="sort-caret ascending"></i>-->
-          <!--<i class="sort-caret descending"></i>-->
-          <i v-bind:class="{active: isDesc}" class="fa fa-sort-asc"></i>
-          <i v-bind:class="{active: isAsc}" class="fa fa-sort-desc"></i>
-        </li>
-      </ul>
+      <div v-else>
+        <ul class="sorter-con">
+          <li v-bind:class="{active: isDefaultActive}" class="sorter-item " v-on:click="sort('default')">
+            <span>默认排序</span>
+          </li>
 
-      <el-row :gutter="10">
-        <el-col :span="6" v-for="item in list">
-          <el-card :body-style="{ padding: '0px'}">
-            <a v-bind:href="'#/detail/productId/' + item.id" class="card-link">
-              <img v-bind:src="item.imageHost + item.mainImage" class="image">
-              <div style="padding: 15px;">
-                <div class="line"></div>
-                <span class="name-span">{{ item.name }}</span>
-                <el-rate
-                  v-model="item.rate"
-                  disabled
-                  show-text
-                  text-color="#ff9900"
-                  text-template="{value}">
-                </el-rate>
-                <!--先经过过滤器处理-->
-                <span class="price">{{ item.price | priceFormat}}</span>
-                <div class="bottom clearfix">
+          <li v-bind:class="{active: isPriceActive}" class="sorter-item" v-on:click="sort('price')">
+            <!--<li class="sorter-item" v-on:clik="sort('price')">-->
+            <span>价格</span>
+            <!--<i class="sort-caret ascending"></i>-->
+            <!--<i class="sort-caret descending"></i>-->
+            <i v-bind:class="{active: isDesc}" class="fa fa-sort-asc"></i>
+            <i v-bind:class="{active: isAsc}" class="fa fa-sort-desc"></i>
+          </li>
+        </ul>
+
+        <el-row :gutter="10">
+          <el-col :span="6" v-for="item in data.list">
+            <el-card :body-style="{ padding: '0px'}">
+              <a v-bind:href="'#/detail/productId/' + item.id" class="card-link">
+                <img v-bind:src="item.imageHost + item.mainImage" class="image">
+                <div style="padding: 15px;">
+                  <div class="line"></div>
+                  <span class="name-span">{{ item.name }}</span>
+                  <el-rate
+                    v-model="item.rate"
+                    disabled
+                    show-text
+                    text-color="#ff9900"
+                    text-template="{value}">
+                  </el-rate>
+                  <!--先经过过滤器处理-->
+                  <span class="price">{{ item.price | priceFormat}}</span>
+                  <div class="bottom clearfix">
+                  </div>
                 </div>
-              </div>
               </a>
-          </el-card>
-        </el-col>
-      </el-row>
+            </el-card>
+          </el-col>
+        </el-row>
 
+        <div class="pagination-wrapper">
+          <div class="pagination">
+            <el-pagination
+              layout="prev, pager, next"
+              :current-page="data.pageNum"
+              :page-size="data.pageSize"
+              :total="data.pages"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              >
+            </el-pagination>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </template>
@@ -55,30 +78,33 @@
   export default {
     data () {
       return {
-        list: [],
+        data: {},
         isDefaultActive: true,
         isPriceActive: false,
         isAsc: false,
-        isDesc: false
+        isDesc: false,
+        isBlank: true
       }
     },
     created () {
+      this.$store.dispatch('updateBreadcrumbs', this)
       console.log('Productlist path', this.$route.path)
       console.log('Productlist params', this.$route.params)
-//      parts = this.$route.path.split('/')
-//      if (parts.length )
-//      let categoryId =
-//      let keyword = this.$route.path.split('/')[4]
-      this.params = this.$route.params
-      this.getData(this.params)
+      var params = this.$route.params
+      params.pageNum = 1
+      params.pageSize = 1
+      this.getData(params)
     },
     methods: {
       getData (params) {
         console.log('--- getData ---')
         let self = this
         productApi.getList(this, params).then((res) => {
-          self.list = res.data.data.list
-          console.log(self.list)
+          self.data = res.data.data
+          console.log('----getList self.data-----: ', self.data)
+          if (self.data.total > 0) {
+            self.isBlank = false
+          }
         })
       },
       sort (type) {
@@ -113,6 +139,16 @@
           console.log(this.params)
           this.getData(this.params)
         }
+      },
+      handleSizeChange (val) {
+        console.log(`每页 ${val} 条`)
+      },
+      handleCurrentChange (val) {
+        var params = this.$route.params
+        params.pageNum = val
+        this.getData(params)
+        console.log(`当前页: ${val}`)
+        // 重新加载
       }
     },
     watch: {
@@ -130,7 +166,21 @@
 
 <style scoped>
 
+  h1 {
+    font-weight: 200;
+    font-size: 38px;
+  }
 
+  h2 {
+    color: #333;
+    font-weight: 200;
+    font-size: 26px;
+    cursor: pointer;
+  }
+
+  h2:hover {
+    color: #c60023;
+  }
 
   .list-wrapper {
     margin: 0 auto;
@@ -160,7 +210,6 @@
     clear: both
   }
 
-
   .name-span {
     font-size: 13px;
     color: #333;
@@ -172,10 +221,9 @@
   }
 
   .sorter-con {
-    padding: 0px ;
+    padding: 0px;
     overflow: auto;
   }
-
 
   .sorter-con .sorter-item {
     float: left;
@@ -220,4 +268,16 @@
   .sorter-item i.active {
     opacity: .6;
   }
+
+  .pagination-wrapper {
+    margin-right: 300px;
+    margin-top: 50px;
+    width: 1080px;
+  }
+  .pagination {
+    float: right;
+    margin-right: 120px;
+    margin-bottom: 30px;
+  }
+
 </style>

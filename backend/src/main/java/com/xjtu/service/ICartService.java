@@ -18,11 +18,15 @@ public interface ICartService {
 
     public ServerResponse<CartVo> list(Integer userId);
 
-    public ServerResponse add(Integer userId, Integer productId, Integer quantity, Boolean checked);
+    public ServerResponse add(Integer userId, Integer productId, Integer quantity);
 
     public ServerResponse reverseAllSelect(Integer userId, Boolean checked);
 
     public ServerResponse reverseSelect(Integer userId, Integer productId, Boolean checked);
 
     public ServerResponse changeQuantity(Integer userId, Integer productId, Integer quantity);
+
+    public ServerResponse delete(Integer userId, Integer productId);
+
+    public ServerResponse deleteSelect(Integer userId);
 }

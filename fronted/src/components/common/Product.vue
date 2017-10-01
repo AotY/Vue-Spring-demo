@@ -13,6 +13,12 @@
   import vCrumb from './BreadCrumb.vue'
   // 请求服务器数据
   export default {
+    data () {
+      return {
+      }
+    },
+    created () {
+    },
     components: {
       vCrumb
     }

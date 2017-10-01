@@ -4,16 +4,19 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+// Vuex
+import Vuex from 'vuex'
+import store from './vuex/store'
+
 // 添加axios 和 element-ui
 import axios from 'axios'
 import ElementUI from 'element-ui'
-import VueLocalStorage from 'vue-localstorage'
 import 'element-ui/lib/theme-default/index.css'
 
 Vue.config.productionTip = false
 
+Vue.use(Vuex)
 Vue.use(ElementUI)
-Vue.use(VueLocalStorage)
 // Every JavaScript object has a prototype. The prototype is also an object.
 // The JavaScript prototype property allows you to add new properties to an existing prototype:
 
@@ -21,13 +24,29 @@ Vue.use(VueLocalStorage)
 Vue.config.debug = true
 
 axios.defaults.withCredentials = true
+axios.defaults.timeout = 5000
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+axios.defaults.baseURL = 'http://neteaseyanxuan.leanapp.cn/'
+
 Vue.prototype.$axios = axios
 
 /* eslint-disable no-new */
+// new Vue({
+//   router,
+//   Vuex,
+//   store,
+//   render: h => h(App)
+// }).$mount('#app')
+
+/* eslint-disable no-new */
 new Vue({
+  el: '#app',
   router,
-  render: h => h(App)
-}).$mount('#app')
+  Vuex,
+  store,
+  template: '<App/>',
+  components: {App}
+})
 
 // 全局过滤器
 Vue.filter('priceFormat', function (price) {

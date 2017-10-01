@@ -38,8 +38,7 @@ public class ProductManageController {
     @RequestMapping(value = "list.do", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse getList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                                                   @RequestParam(value = "pageSize", defaultValue = "10") int pageSize)
-    {
+                                  @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         return iProductService.getProductList(pageNum, pageSize);
     }
 

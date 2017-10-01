@@ -58,10 +58,16 @@
       return {
         data: {},
         activeName2: 'first',
-        count: 1
+        count: 1,
+        breadcrumbs: [
+          {name: '首页', link: '/'},
+          {name: '商品', link: '/list'},
+          {name: '商品列表', link: '/list/keyword/手机'}
+        ]
       }
     },
     created () {
+      this.$store.dispatch('updateBreadcrumbs', this)
       // 获取商品详细信息
       this.getData()
     },
@@ -94,26 +100,22 @@
       // 加入购物车
       add2Cart () {
         let self = this
-
         cartapi.add2Cart(self, self.data.id, self.count).then(function (response) {
           console.log('add2Cart: ', response.data)
           // 需要登入
           if (response.data.status === 3) {
             self.$router.push('/login')
-          } else if (response.data.status === 2) {
-            self.$message({
-              message: '添加失败',
-              type: 'success'
-            })
-          } else {
-            // 重新加载页面
-            self.$router.go({
-              path: self.$router.path,
-              force: true
-            })
+          } else if (response.data.status === 0) {
             self.$message({
               message: '添加成功',
               type: 'success'
+            })
+            // 重新加载购物车数量
+            self.$store.dispatch('updateCartCount', self)
+          } else {
+            self.$message({
+              message: '添加失败',
+              type: 'error'
             })
           }
         })
@@ -121,13 +123,6 @@
     },
     components: {
       vCarousel
-    },
-    filters: {
-//      priceFormat: function (price) {
-//        if (!price) return ''
-//        price = price.toString()
-//        return '￥' + parseFloat(price).toFixed(2)
-//      }
     }
   }
 </script>

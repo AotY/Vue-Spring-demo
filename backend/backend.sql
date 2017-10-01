@@ -275,3 +275,36 @@ INSERT INTO `user` VALUES ('1', 'admin', '427338237BD929443EC5D48E24FD2B1A', 'ad
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+
+
+
+-- ----------------------------
+--  Table structure for `carousel` 商品推荐
+-- ----------------------------
+DROP TABLE IF EXISTS `carousel`;
+CREATE TABLE `carousel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) DEFAULT NULL COMMENT '商品id',
+  `name` varchar(100) NOT NULL COMMENT '商品名称',
+  `image` varchar(500) DEFAULT NULL COMMENT '商品主图,url相对地址',
+  `create_time` datetime DEFAULT NULL COMMENT '记录创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '记录更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+
+
+-- ----------------------------
+--  Table structure for `carousel` 查询词
+-- ----------------------------
+DROP TABLE IF EXISTS `keyword`;
+CREATE TABLE `keyword` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `keyword` varchar(100) NOT NULL COMMENT '检索keyword',
+  `count` int(11) DEFAULT NULL COMMENT '检索次数',
+  `create_time` datetime DEFAULT NULL COMMENT '记录创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '记录更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+

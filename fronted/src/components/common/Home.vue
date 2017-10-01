@@ -18,6 +18,10 @@
   export default {
     components: {
       vHeader, vSiteNav, vSearchInput, vFooter
+    },
+    created () {
+      // 更新购物车信息
+      this.$store.dispatch('updateCartCount', this)
     }
   }
 </script>

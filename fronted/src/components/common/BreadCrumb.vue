@@ -1,15 +1,24 @@
 <template>
   <div class="crumb-wrapper">
     <el-breadcrumb class="bread-crumb" separator=">">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>商品列表</el-breadcrumb-item>
+      <el-breadcrumb-item class="breadcrumb-item" :to="{ path: breadcrumb.link }"  v-for="breadcrumb in breadcrumbs">
+        {{ breadcrumb.name }}
+      </el-breadcrumb-item>
     </el-breadcrumb>
   </div>
 </template>
 
 <script>
   export default {
-
+    data () {
+      return {
+      }
+    },
+    computed: {
+      breadcrumbs () {
+        return this.$store.getters.breadcrumbs
+      }
+    }
   }
 
 </script>

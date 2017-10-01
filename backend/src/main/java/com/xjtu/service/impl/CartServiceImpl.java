@@ -35,6 +35,7 @@ public class CartServiceImpl implements ICartService {
 
     /**
      * 获取购物车商品数量
+     *
      * @param userId
      * @return
      */
@@ -46,6 +47,7 @@ public class CartServiceImpl implements ICartService {
 
     /**
      * 获取购物车商品列表
+     *
      * @param userId
      * @return
      */
@@ -58,14 +60,14 @@ public class CartServiceImpl implements ICartService {
 
     /**
      * 添加购物车记录
+     *
      * @param userId
      * @param productId
      * @param quantity
-     * @param checked
      * @return
      */
     @Override
-    public ServerResponse add(Integer userId, Integer productId, Integer quantity, Boolean checked) {
+    public ServerResponse add(Integer userId, Integer productId, Integer quantity) {
 
         // 判断之前是否添加该商品到购物车
         Cart cart = cartMapper.selectByUserIdAndProductId(userId, productId);
@@ -86,7 +88,9 @@ public class CartServiceImpl implements ICartService {
             if (quantity > product.getStock())
                 quantity = product.getStock();
             insertCart.setQuantity(quantity);
-            insertCart.setChecked(checked);
+            // 默认为选中
+            insertCart.setChecked(true);
+
             insertCart.setProductId(productId);
             insertCart.setUserId(userId);
             effectRow = cartMapper.insert(insertCart);
@@ -100,6 +104,7 @@ public class CartServiceImpl implements ICartService {
 
     /**
      * 反转全选
+     *
      * @param userId
      * @return
      */
@@ -117,6 +122,7 @@ public class CartServiceImpl implements ICartService {
 
     /**
      * 反转选择
+     *
      * @param userId
      * @return
      */
@@ -156,6 +162,47 @@ public class CartServiceImpl implements ICartService {
 
     }
 
+    /**
+     * 通过ID删除购物车记录
+     *
+     * @param userId
+     * @return
+     * @Param productId
+     */
+    @Override
+    public ServerResponse delete(Integer userId, Integer productId) {
+        if (productId == null) {
+            return ServerResponse.createByError(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        int effectRow = cartMapper.deleteByUserIdAndProductId(userId, productId);
+        if (effectRow > 0)
+            return ServerResponse.createBySuccess(Const.Cart.DELETE_SUCCESS);
+        return ServerResponse.createByError(Const.Cart.DELETE_FAILED);
+
+    }
+
+    /**
+     * 删除选中商品
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public ServerResponse deleteSelect(Integer userId) {
+        List<Cart> cartList = cartMapper.selectListByUserId(userId);
+        int effectRow = 0;
+        for (Cart cart : cartList) {
+            // 如果选中，则删除
+            if (cart.getChecked()) {
+                effectRow += cartMapper.deleteByPrimaryKey(cart.getId());
+            }
+        }
+        if (effectRow > 0)
+            return ServerResponse.createBySuccess(Const.Cart.DELETE_SUCCESS);
+        return ServerResponse.createByError(Const.Cart.DELETE_FAILED);
+
+    }
+
     private int updateQuantity(Integer id, Integer stock, Integer quantity) {
         int effectRow = 0;
         Cart updateCart = new Cart();
@@ -167,8 +214,13 @@ public class CartServiceImpl implements ICartService {
         return effectRow;
     }
 
+
+
+
+
     /**
      * 获取返回给客户端的CartVo对象
+     *
      * @return
      */
     private CartVo getCartVo(Integer userId) {
@@ -183,7 +235,7 @@ public class CartServiceImpl implements ICartService {
 
         if (CollectionUtils.isNotEmpty(cartList)) {
             // 如果不为空，则组装CarVo对象
-            for (Cart cart: cartList) {
+            for (Cart cart : cartList) {
 
                 CartProductVo cartProductVo = new CartProductVo();
                 cartProductVo.setId(cart.getId());
@@ -222,7 +274,6 @@ public class CartServiceImpl implements ICartService {
                     cartProductVo.setQuantity(buyLimitCount);
 
 
-
                     // 计算当前商品总价格， 商品价格 * 商品数量
 //                    cartProductVo.setProductTotalPrice(BigDecimalUtil.mul(product.getPrice().doubleValue(),cartProductVo.getQuantity()));
                     cartProductVo.setProductTotalPrice(BigDecimalUtil.mul(product.getPrice().doubleValue(), cartProductVo.getQuantity()));
@@ -242,16 +293,11 @@ public class CartServiceImpl implements ICartService {
             }
         }
         cartVo.setCartProductVoList(cartProductVoList);
-        cartVo.setImageHost(PropertiesUtil.getProperty(Const.FTPSERVERHTTPPREFIX));
+        cartVo.setImageHost(PropertiesUtil.getProperty(Const.FTP_SERVER_HTTP_PREFIX));
         cartVo.setCartTotalPrice(totalPrice);
         cartVo.setAllChecked(isAllChecked);
         return cartVo;
     }
-
-
-
-
-
 
 
 }

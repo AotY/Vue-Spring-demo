@@ -40,8 +40,7 @@ public class ProductController {
                                   @RequestParam(value = "keyword", required = false) String keyword,
                                   @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                   @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
-                                  @RequestParam(value = "orderBy", defaultValue = "") String orderBy)
-    {
+                                  @RequestParam(value = "orderBy", defaultValue = "") String orderBy) {
         return iProductService.getProductByCategoryKeyword(categoryId, keyword, pageNum, pageSize, orderBy);
     }
 

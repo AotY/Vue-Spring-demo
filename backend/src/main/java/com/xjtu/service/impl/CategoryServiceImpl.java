@@ -3,7 +3,6 @@ package com.xjtu.service.impl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.xjtu.common.Const;
-import com.xjtu.common.ResponseCode;
 import com.xjtu.common.ServerResponse;
 import com.xjtu.dao.CategoryMapper;
 import com.xjtu.pojo.Category;
@@ -17,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -46,11 +44,11 @@ public class CategoryServiceImpl implements ICategoryService {
 
         //
         if (CollectionUtils.isEmpty(categories)) {
-            logger.info(Const.NOCHILDRENCATEGORIES);
+            logger.info(Const.NO_CHILDREN_CATEGORIES);
         }
 
         List<CategoryRecommendListVo> categoryRecommendListVoList = Lists.newArrayList();
-        for (Category curCategory: categories) {
+        for (Category curCategory : categories) {
             List<Category> childCategories = categoryMapper.selectCategoryChildrenByParentId(curCategory.getId());
             List<CategoryVo> categoryVoList = assembleCategoryVo(childCategories);
             CategoryRecommendListVo categoryRecommendListVo = new CategoryRecommendListVo();
@@ -62,18 +60,16 @@ public class CategoryServiceImpl implements ICategoryService {
         }
 
 
-
         return ServerResponse.createBySuccess(categoryRecommendListVoList);
     }
 
     /**
-     *
      * @param categories
      * @return
      */
     private List<CategoryVo> assembleCategoryVo(List<Category> categories) {
         List<CategoryVo> categoryVoList = Lists.newArrayList();
-        for (Category category: categories) {
+        for (Category category : categories) {
             CategoryVo categoryVo = new CategoryVo();
             categoryVo.setId(category.getId());
             categoryVo.setName(category.getName());
@@ -81,7 +77,7 @@ public class CategoryServiceImpl implements ICategoryService {
             categoryVo.setStatus(category.getStatus());
             categoryVo.setSortOrder(category.getSortOrder());
             categoryVo.setImage(category.getImage());
-            categoryVo.setImageHost(PropertiesUtil.getProperty(Const.FTPSERVERHTTPPREFIX,""));
+            categoryVo.setImageHost(PropertiesUtil.getProperty(Const.FTP_SERVER_HTTP_PREFIX, ""));
             categoryVoList.add(categoryVo);
         }
 

@@ -4,7 +4,7 @@ package com.xjtu.common;
  * Created by LeonTao on 2017/9/22.
  * 返回状态码和描述信息
  */
-public enum  ResponseCode {
+public enum ResponseCode {
 
     SUCCESS(0, "SUCCESS"),
     ERROR(1, "ERROR"),

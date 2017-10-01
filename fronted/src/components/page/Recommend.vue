@@ -52,6 +52,7 @@
       }
     },
     created () {
+      // 获取首页数据
       this.getData()
     },
     methods: {

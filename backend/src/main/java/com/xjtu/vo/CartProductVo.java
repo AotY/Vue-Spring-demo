@@ -37,8 +37,6 @@ public class CartProductVo {
     }
 
 
-
-
     public Integer getId() {
         return id;
     }

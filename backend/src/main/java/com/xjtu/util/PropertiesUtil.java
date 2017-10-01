@@ -22,12 +22,12 @@ public class PropertiesUtil {
      * 静态代码块
      */
     static {
-        String fileName = Const.PROPERTIESFILENAME;
+        String fileName = Const.PROPERTIES_FILENAME;
         properties = new Properties();
         try {
             properties.load(new InputStreamReader(PropertiesUtil.class.getClassLoader().getResourceAsStream(fileName), "UTF-8"));
         } catch (IOException e) {
-            logger.error(Const.READPROPERTIESERROR,e);
+            logger.error(Const.READ_PROPERTIES_ERROR, e);
         }
     }
 

@@ -73,6 +73,7 @@ export default new Router({
       children: [
         {
           path: '',
+          name: 'Login',
           component: resolve => require(['../components/page/Login.vue'], resolve)
         }
       ]
@@ -84,6 +85,7 @@ export default new Router({
       children: [
         {
           path: '',
+          name: 'Register',
           component: resolve => require(['../components/page/Register.vue'], resolve)
         }
       ]

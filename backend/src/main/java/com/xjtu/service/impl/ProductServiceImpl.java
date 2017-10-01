@@ -40,20 +40,21 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
 
     /**
      * 获取商品详情
+     *
      * @param productId
      * @return
      */
     @Override
     public ServerResponse<ProductDetailVo> getProductDetail(Integer productId) {
-        if (productId == null){
+        if (productId == null) {
             return ServerResponse.createByError(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
         Product product = productMapper.selectByPrimaryKey(productId);
-        if (product == null){
-            return ServerResponse.createByError(Const.PRODUCTDELETED);
+        if (product == null) {
+            return ServerResponse.createByError(Const.PRODUCT_DELETED);
         }
-        if (product.getStatus() != Const.ProductStatusEnum.ONSLAE.getStatus()){
-            return ServerResponse.createByError(Const.PRODUCTNOTONSALE);
+        if (product.getStatus() != Const.ProductStatusEnum.ONSLAE.getStatus()) {
+            return ServerResponse.createByError(Const.PRODUCT_NOT_ON_SALE);
         }
 
         ProductDetailVo productDetailVo = assembleProductDetailVo(product);
@@ -63,6 +64,7 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
 
     /**
      * 组装ProductDetailVo对象
+     *
      * @param product
      * @return
      */
@@ -80,7 +82,7 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
         productDetailVo.setStatus(product.getStatus());
         productDetailVo.setStock(product.getStock());
 
-        productDetailVo.setImageHost(PropertiesUtil.getProperty(Const.FTPSERVERHTTPPREFIX,""));
+        productDetailVo.setImageHost(PropertiesUtil.getProperty(Const.FTP_SERVER_HTTP_PREFIX, ""));
 
         //TODO 设置商品父类别
         productDetailVo.setParentCategoryId(new Integer(0));
@@ -93,6 +95,7 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
 
     /**
      * 获取商品列表
+     *
      * @return
      */
     @Override
@@ -107,7 +110,7 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
         List<Product> productList = productMapper.selectList();
 
         List<ProductListVo> productListVos = Lists.newArrayList();
-        for (Product product: productList) {
+        for (Product product : productList) {
             ProductListVo productListVo = assembleProductListVo(product);
             productListVos.add(productListVo);
         }
@@ -121,6 +124,7 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
 
     /**
      * 根据categoryId和keyword查找类别和产品
+     *
      * @param categoryId
      * @param keyword
      * @param pageNum
@@ -171,7 +175,7 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
 
 
         List<ProductListVo> productListVoList = Lists.newArrayList();
-        for (Product product: products) {
+        for (Product product : products) {
             ProductListVo productListVo = assembleProductListVo(product);
             productListVoList.add(productListVo);
         }
@@ -183,6 +187,7 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
 
     /**
      * 组装ProductListVo对象
+     *
      * @param product
      * @return
      */
@@ -191,7 +196,7 @@ public class ProductServiceImpl implements com.xjtu.service.IProductService {
         productListVo.setId(product.getId());
         productListVo.setName(product.getName());
         productListVo.setCategoryId(product.getCategoryId());
-        productListVo.setImageHost(PropertiesUtil.getProperty(Const.FTPSERVERHTTPPREFIX,""));
+        productListVo.setImageHost(PropertiesUtil.getProperty(Const.FTP_SERVER_HTTP_PREFIX, ""));
         productListVo.setMainImage(product.getMainImage());
         productListVo.setPrice(product.getPrice());
         productListVo.setSubtitle(product.getSubtitle());

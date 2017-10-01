@@ -2,42 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xjtu.dao.ProductMapper">
 
-  <resultMap id="BaseResultMap" type="com.xjtu.pojo.Product">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="category_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="subtitle" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="main_image" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="sub_images" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="detail" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="stock" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="rate" javaType="java.lang.Float" jdbcType="REAL" />
-      <arg column="status" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.xjtu.pojo.Product">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="category_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="subtitle" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="main_image" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="sub_images" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="detail" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="stock" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="rate" javaType="java.lang.Float" jdbcType="REAL"/>
+            <arg column="status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
 
-  <sql id="Base_Column_List">
+    <sql id="Base_Column_List">
     id, category_id, name, subtitle, main_image, sub_images, detail, price, stock, rate,
     status, create_time, update_time
   </sql>
 
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from product
-    where id = #{id,jdbcType=INTEGER}
-  </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from product
+        where id = #{id,jdbcType=INTEGER}
+    </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from product
     where id = #{id,jdbcType=INTEGER}
   </delete>
 
-  <insert id="insert" parameterType="com.xjtu.pojo.Product">
+    <insert id="insert" parameterType="com.xjtu.pojo.Product">
     insert into product (id, category_id, name,
       subtitle, main_image, sub_images,
       detail, price, stock,
@@ -49,136 +49,136 @@
       #{rate,jdbcType=REAL}, #{status,jdbcType=INTEGER}, now(), now())
   </insert>
 
-  <insert id="insertSelective" parameterType="com.xjtu.pojo.Product">
-    insert into product
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="categoryId != null">
-        category_id,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="subtitle != null">
-        subtitle,
-      </if>
-      <if test="mainImage != null">
-        main_image,
-      </if>
-      <if test="subImages != null">
-        sub_images,
-      </if>
-      <if test="detail != null">
-        detail,
-      </if>
-      <if test="price != null">
-        price,
-      </if>
-      <if test="stock != null">
-        stock,
-      </if>
-      <if test="rate != null">
-        rate,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="categoryId != null">
-        #{categoryId,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="subtitle != null">
-        #{subtitle,jdbcType=VARCHAR},
-      </if>
-      <if test="mainImage != null">
-        #{mainImage,jdbcType=VARCHAR},
-      </if>
-      <if test="subImages != null">
-        #{subImages,jdbcType=VARCHAR},
-      </if>
-      <if test="detail != null">
-        #{detail,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null">
-        #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="stock != null">
-        #{stock,jdbcType=INTEGER},
-      </if>
-      <if test="rate != null">
-        #{rate,jdbcType=REAL},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
-        now(),
-      </if>
-      <if test="updateTime != null">
-        now(),
-      </if>
-    </trim>
-  </insert>
+    <insert id="insertSelective" parameterType="com.xjtu.pojo.Product">
+        insert into product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="subtitle != null">
+                subtitle,
+            </if>
+            <if test="mainImage != null">
+                main_image,
+            </if>
+            <if test="subImages != null">
+                sub_images,
+            </if>
+            <if test="detail != null">
+                detail,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="stock != null">
+                stock,
+            </if>
+            <if test="rate != null">
+                rate,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="subtitle != null">
+                #{subtitle,jdbcType=VARCHAR},
+            </if>
+            <if test="mainImage != null">
+                #{mainImage,jdbcType=VARCHAR},
+            </if>
+            <if test="subImages != null">
+                #{subImages,jdbcType=VARCHAR},
+            </if>
+            <if test="detail != null">
+                #{detail,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="stock != null">
+                #{stock,jdbcType=INTEGER},
+            </if>
+            <if test="rate != null">
+                #{rate,jdbcType=REAL},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                now(),
+            </if>
+            <if test="updateTime != null">
+                now(),
+            </if>
+        </trim>
+    </insert>
 
-  <update id="updateByPrimaryKeySelective" parameterType="com.xjtu.pojo.Product">
-    update product
-    <set>
-      <if test="categoryId != null">
-        category_id = #{categoryId,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="subtitle != null">
-        subtitle = #{subtitle,jdbcType=VARCHAR},
-      </if>
-      <if test="mainImage != null">
-        main_image = #{mainImage,jdbcType=VARCHAR},
-      </if>
-      <if test="subImages != null">
-        sub_images = #{subImages,jdbcType=VARCHAR},
-      </if>
-      <if test="detail != null">
-        detail = #{detail,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null">
-        price = #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="stock != null">
-        stock = #{stock,jdbcType=INTEGER},
-      </if>
-      <if test="rate != null">
-        rate = #{rate,jdbcType=REAL},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
-        create_time = now(),
-      </if>
-      <if test="updateTime != null">
-        update_time = now(),
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.xjtu.pojo.Product">
+        update product
+        <set>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="subtitle != null">
+                subtitle = #{subtitle,jdbcType=VARCHAR},
+            </if>
+            <if test="mainImage != null">
+                main_image = #{mainImage,jdbcType=VARCHAR},
+            </if>
+            <if test="subImages != null">
+                sub_images = #{subImages,jdbcType=VARCHAR},
+            </if>
+            <if test="detail != null">
+                detail = #{detail,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="stock != null">
+                stock = #{stock,jdbcType=INTEGER},
+            </if>
+            <if test="rate != null">
+                rate = #{rate,jdbcType=REAL},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = now(),
+            </if>
+            <if test="updateTime != null">
+                update_time = now(),
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 
-  <update id="updateByPrimaryKey" parameterType="com.xjtu.pojo.Product">
+    <update id="updateByPrimaryKey" parameterType="com.xjtu.pojo.Product">
     update product
     set category_id = #{categoryId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
@@ -196,38 +196,29 @@
   </update>
 
 
-  <select id="selectList" resultMap="BaseResultMap">
-    SELECT
-    <include refid="Base_Column_List"/>
-    FROM product
-    ORDER BY id ASC
-  </select>
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM product
+        ORDER BY id ASC
+    </select>
 
 
-  <select id="selectByKeywordAndCategoryIdList" resultMap="BaseResultMap" parameterType="map">
-    SELECT
-    <include refid="Base_Column_List"></include>
-    from product
-    where status = 1
-    <if test="keyword != null">
-      and name like #{keyword}
-    </if>
-    <if test="categoryIdList != null" >
-      and category_id in
-      <foreach item="item" index="index" open="(" separator="," close=")" collection="categoryIdList">
-        #{item}
-      </foreach>
-    </if>
-  </select>
-
-
-
-
-
-
-
-
-
+    <select id="selectByKeywordAndCategoryIdList" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        from product
+        where status = 1
+        <if test="keyword != null">
+            and name like #{keyword}
+        </if>
+        <if test="categoryIdList != null">
+            and category_id in
+            <foreach item="item" index="index" open="(" separator="," close=")" collection="categoryIdList">
+                #{item}
+            </foreach>
+        </if>
+    </select>
 
 
 </mapper>

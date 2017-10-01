@@ -1,5 +1,6 @@
 <template>
   <div class="footer-wrapper">
+    <div class="footer">
     <div class="links">
       <a class="link" href="https://www.vuejs.com/">Vue.js</a>
       |
@@ -8,6 +9,7 @@
       <a class="link" href="https://github.com/AotY/Vue-Spring-demo">Github</a>
     </div>
     <p class="copyright"> Copyright © 2017 vurspringdemo.com All Rights Reserved </p>
+    </div>
   </div>
 
 </template>
@@ -20,15 +22,13 @@
 
   .footer-wrapper {
     width:100%;
-    /*position:fixed;*/
-    left:0px;
-    bottom:0px;
-    /*background:#eee;*/
-    /*height:100px;*/
-    margin-top: 50px;
+    clear: right;
   }
 
-
+  .footer{
+    width: 1080px;
+    margin: 0 auto;
+  }
 
   .footer-wrapper .links {
     height: 30px;

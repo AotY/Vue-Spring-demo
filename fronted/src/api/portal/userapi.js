@@ -29,6 +29,35 @@ export default {
       }
     }
     return context.$axios.post(API_URL + '/logout.do', {}, config)
+  },
+  register (context, username, email, password) {
+    var config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      params: {
+        username: username,
+        email: email,
+        password: password
+      }
+    }
+    return context.$axios.post(API_URL + '/register.do', {}, config)
+  },
+  getUserInfo (context) {
+    return context.$axios.get(API_URL + '/get_user_info.do')
+  },
+  checkValid (context, value, field) {
+    var config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      params: {
+        value: value,
+        field: field
+      }
+    }
+    return context.$axios.post(API_URL + '/check_valid.do', {}, config)
   }
+
 }
 

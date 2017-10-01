@@ -38,12 +38,13 @@ public class MD5Util {
     }
 
     public static String MD5EncodeUTF8(String origin) {
-        String orgin = origin + PropertiesUtil.getProperty(Const.PASSWORDSALT);
+        String orgin = origin + PropertiesUtil.getProperty(Const.PASSWORD_SALT);
         return MD5Encode(origin, "UTF-8");
     }
 
     /**
      * 将byte数组转换为十六进制字符串
+     *
      * @param encodeByte
      * @return
      */
@@ -58,9 +59,7 @@ public class MD5Util {
     }
 
 
-
     /**
-     *
      * @param b
      * @return
      */

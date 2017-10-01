@@ -3,6 +3,7 @@ const API_URL = 'http://backend.vuespringdemo.com/product'
 
 export default {
   getList (context, params) {
+    console.log('----getList-----: ', params)
     // return context.$axios.get(API_URL + '/list.do', {categoryId: 100001, keyword: '手机'})
     return context.$axios.get(API_URL + '/list.do', {params})
   },

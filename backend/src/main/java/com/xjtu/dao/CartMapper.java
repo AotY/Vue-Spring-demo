@@ -27,4 +27,6 @@ public interface CartMapper {
     int reverseAllSelect(@Param("userId") Integer userId, @Param("checked") Boolean checked);
 
     int reverseSelect(@Param("userId") Integer userId, @Param("productId") Integer productId, @Param("checked") Boolean checked);
+
+    int deleteByUserIdAndProductId(@Param("userId") Integer userId, @Param("productId") Integer productId);
 }

@@ -14,21 +14,27 @@ public class Const {
     public static final String PASSWORD = "password";
     public static final String EMAIL = "email";
 
-    public static final String CURRENTUSER = "cur_user";
+    public static final String CURRENT_USER = "cur_user";
 
-    public static final String PRODUCTDELETED = "商品已删除";
-    public static final String PRODUCTNOTONSALE = "商品已下架";
+    public static final String PRODUCT_DELETED = "商品已删除";
+    public static final String PRODUCT_NOT_ON_SALE = "商品已下架";
 
-    public static final String PROPERTIESFILENAME = "vue-spring-demo.properties";
-    public static final String READPROPERTIESERROR = "读取配置文件错误";
-    public static final java.lang.String FTPSERVERHTTPPREFIX = "ftp.server.http.prefix";
-    public static final String NOCHILDRENCATEGORIES = "未找到当前分类的子分类";
+    public static final String PROPERTIES_FILENAME = "vue-spring-demo.properties";
+    public static final String READ_PROPERTIES_ERROR = "读取配置文件错误";
+    public static final String FTP_SERVER_HTTP_PREFIX = "ftp.server.http.prefix";
+    public static final String NO_CHILDREN_CATEGORIES = "未找到当前分类的子分类";
 
 
-    public static final String USERNOTEXISTS = "用户名不存在";
-    public static final String USERNAMEORPASSWORDERROR = "用户名或密码错误";
+    public static final String USER_NOT_EXISTS = "用户名不存在";
+    public static final String USER_EXISTS = "用户名已存在";
 
-    public static final String PASSWORDSALT = "password.salt";
+    public static final String EMAIL_EXISTS = "该邮箱已注册";
+
+    public static final String USERNAME_OR_PASSWORD_ERROR = "用户名或密码错误";
+    public static final String PASSWORD_SALT = "password.salt";
+    public static final String REGISTER_SUCCESS = "注册成功";
+    public static final String REGISTER_FAILED = "注册失败";
+    public static final Integer KEYWORDS_LIMIT = 50;
 
 
     public interface UserRole {
@@ -68,8 +74,8 @@ public class Const {
     /**
      * 定义商品排序方式
      */
-    public interface ProductListOrderBy{
-        Set<String> PRICE_ASC_DESC = Sets.newHashSet("price_desc","price_asc");
+    public interface ProductListOrderBy {
+        Set<String> PRICE_ASC_DESC = Sets.newHashSet("price_desc", "price_asc");
     }
 
 
@@ -77,10 +83,8 @@ public class Const {
         String LIMIT_NUM_SUCCESS = "LIMIT_NUM_SUCCESS";
         String LIMIT_NUM_FAIL = "LIMIT_NUM_FAIL";
 
-        // 当前为选择状态
-        int CHECKED = 1;
 
-        //
-        int UN_CHECKED = 0;
+        String DELETE_SUCCESS = "删除成功";
+        String DELETE_FAILED = "删除失败";
     }
 }
