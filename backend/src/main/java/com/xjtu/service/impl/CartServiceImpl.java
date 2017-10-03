@@ -53,10 +53,35 @@ public class CartServiceImpl implements ICartService {
      */
     @Override
     public ServerResponse<CartVo> list(Integer userId) {
-        CartVo cartVo = this.getCartVo(userId);
+        CartVo cartVo = this.getCartVo(userId, Const.Cart.ALL);
         return ServerResponse.createBySuccess(cartVo);
     }
 
+
+    /**
+     * 获取购物车中选中的商品
+     * @param userId
+     * @return
+     */
+    @Override
+    public ServerResponse<CartVo> listSelected(Integer userId) {
+        CartVo cartVo = this.getCartVo(userId, Const.Cart.CHECKED);
+        return ServerResponse.createBySuccess(cartVo);
+    }
+
+    /**
+     * 删除购物车中选中的商品
+     * @param userId
+     * @return
+     */
+    @Override
+    public ServerResponse deleteSelectedList(Integer userId) {
+        int affectedRows = cartMapper.deleteSelectedListByUserId(userId);
+        if (affectedRows > 0) {
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
+    }
 
     /**
      * 添加购物车记录
@@ -76,11 +101,11 @@ public class CartServiceImpl implements ICartService {
         if (quantity < 1) {
             quantity = 1;
         }
-        int effectRow = 0;
+        int affectedRows = 0;
         if (cart != null) {
             // 更新，检查库存
             Integer updateQuantity = quantity + cart.getQuantity();
-            effectRow = this.updateQuantity(cart.getId(), product.getStock(), updateQuantity);
+            affectedRows = this.updateQuantity(cart.getId(), product.getStock(), updateQuantity);
         }
         // 添加
         else {
@@ -93,9 +118,9 @@ public class CartServiceImpl implements ICartService {
 
             insertCart.setProductId(productId);
             insertCart.setUserId(userId);
-            effectRow = cartMapper.insert(insertCart);
+            affectedRows = cartMapper.insert(insertCart);
         }
-        if (effectRow > 0) {
+        if (affectedRows > 0) {
             return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();
@@ -113,8 +138,8 @@ public class CartServiceImpl implements ICartService {
         if (checked == null) {
             return ServerResponse.createByError(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
-        int count = cartMapper.reverseAllSelect(userId, checked);
-        if (count > 0) {
+        int affectedRows = cartMapper.reverseAllSelect(userId, checked);
+        if (affectedRows > 0) {
             return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();
@@ -151,11 +176,11 @@ public class CartServiceImpl implements ICartService {
         if (quantity < 1) {
             quantity = 1;
         }
-        int effectRow = 0;
+        int affectedRows = 0;
         if (cart != null && product != null) {
             // 更新，检查库存
-            effectRow = this.updateQuantity(cart.getId(), product.getStock(), quantity);
-            if (effectRow > 0)
+            affectedRows = this.updateQuantity(cart.getId(), product.getStock(), quantity);
+            if (affectedRows > 0)
                 return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();
@@ -174,8 +199,8 @@ public class CartServiceImpl implements ICartService {
         if (productId == null) {
             return ServerResponse.createByError(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
-        int effectRow = cartMapper.deleteByUserIdAndProductId(userId, productId);
-        if (effectRow > 0)
+        int affectedRows = cartMapper.deleteByUserIdAndProductId(userId, productId);
+        if (affectedRows > 0)
             return ServerResponse.createBySuccess(Const.Cart.DELETE_SUCCESS);
         return ServerResponse.createByError(Const.Cart.DELETE_FAILED);
 
@@ -190,28 +215,30 @@ public class CartServiceImpl implements ICartService {
     @Override
     public ServerResponse deleteSelect(Integer userId) {
         List<Cart> cartList = cartMapper.selectListByUserId(userId);
-        int effectRow = 0;
+        int affectedRows = 0;
         for (Cart cart : cartList) {
             // 如果选中，则删除
             if (cart.getChecked()) {
-                effectRow += cartMapper.deleteByPrimaryKey(cart.getId());
+                affectedRows += cartMapper.deleteByPrimaryKey(cart.getId());
             }
         }
-        if (effectRow > 0)
+        if (affectedRows > 0)
             return ServerResponse.createBySuccess(Const.Cart.DELETE_SUCCESS);
         return ServerResponse.createByError(Const.Cart.DELETE_FAILED);
 
     }
 
+
+
     private int updateQuantity(Integer id, Integer stock, Integer quantity) {
-        int effectRow = 0;
+        int affectedRows = 0;
         Cart updateCart = new Cart();
         updateCart.setId(id);
         if (quantity > stock)
             quantity = stock;
         updateCart.setQuantity(quantity);
-        effectRow = cartMapper.updateByPrimaryKeySelective(updateCart);
-        return effectRow;
+        affectedRows = cartMapper.updateByPrimaryKeySelective(updateCart);
+        return affectedRows;
     }
 
 
@@ -220,13 +247,21 @@ public class CartServiceImpl implements ICartService {
 
     /**
      * 获取返回给客户端的CartVo对象
-     *
+     * type: 是否选择全部，还是只选择已经checked的商品
      * @return
      */
-    private CartVo getCartVo(Integer userId) {
+    private CartVo getCartVo(Integer userId, int type) {
         CartVo cartVo = new CartVo();
-        //
-        List<Cart> cartList = cartMapper.selectListByUserId(userId);
+
+        List<Cart> cartList = null;
+
+        // 如果只需要选择已经勾选的商品
+        if (type == Const.Cart.CHECKED) {
+            cartList = cartMapper.selectedListByUserId(userId);
+        } else {
+            cartList = cartMapper.selectListByUserId(userId);
+        }
+
         List<CartProductVo> cartProductVoList = Lists.newArrayList();
         // 计算总金额
         BigDecimal totalPrice = new BigDecimal("0");

@@ -7,8 +7,8 @@
     </a>
   </div>
 
-  <div class="cart-wrapper" v-else>
-    <div class="cart-header">
+  <div class="confirm-wrapper" v-else>
+    <div class="confirm-header">
       <table class="cart-table">
         <tbody>
         <tr>
@@ -82,7 +82,8 @@
       <div class="submit-con">
         <span>总价：</span>
         <span class="submit-total">{{ data.cartTotalPrice | priceFormat }}</span>
-        <span class="btn submit-btn">去结算</span>
+        <!--<a href="#/confirm"><span class="btn submit-btn">去结算</span></a>-->
+        <a v-on:click="confirm(data)"><span class="btn submit-btn">去结算</span></a>
       </div>
     </div>
 
@@ -178,7 +179,6 @@
       handleInputCount (cartProductVo) {
         let self = this
         // 检查输入是否合法，为数值，同时在范围之内
-//        console.log(cartProductVo.quantity)
         var quantity = parseInt(cartProductVo.quantity, 10)
         console.log(quantity)
         if (isNaN(quantity)) {
@@ -260,9 +260,20 @@
           }
         })
       },
-      filters: {
-        checkedFilter (value) {
-          console.log('checkedFilter: ', value)
+      confirm (data) {
+        // 如果没有选择商品，则不跳转到confirm页面
+        var i
+        var isGoOn = false
+        for (i in data.cartProductVoList) {
+          isGoOn = data.cartProductVoList[i].productChecked
+        }
+        if (isGoOn) {
+          this.$router.push('/confirm')
+        } else {
+          this.$message({
+            message: '没有选择商品',
+            type: 'error'
+          })
         }
       }
     }
@@ -293,7 +304,7 @@
   }
 
 
-  .cart-wrapper {
+  .confirm-wrapper {
     width: 1080px;
     margin: 0 auto;
     position: relative;
@@ -302,14 +313,14 @@
     text-align: left;
   }
 
-  .cart-wrapper .cart-table {
+  .confirm-wrapper .cart-table {
     width: 100%;
     border-collapse: collapse;
     border: 1px solid #ebebeb;
     margin-bottom: 10px;
   }
 
-  .cart-wrapper .cart-header {
+  .confirm-wrapper .confirm-header {
     background-color: #eee;
   }
 
@@ -346,42 +357,42 @@
   }
 
 
-  .cart-wrapper .cart-header .cart-cell {
+  .confirm-wrapper .confirm-header .cart-cell {
     height: 40px;
     line-height: 40px;
   }
 
-  .cart-wrapper .cart-table .cell-check {
+  .confirm-wrapper .cart-table .cell-check {
     width: 30px;
     padding-left: 20px;
     text-align: left;
   }
 
-  .cart-wrapper .cart-header .cell-check {
+  .confirm-wrapper .confirm-header .cell-check {
     width: 130px;
   }
 
-  .cart-wrapper .cart-table .cell-info {
+  .confirm-wrapper .cart-table .cell-info {
     width: 400px;
     padding: 0 10px;
   }
 
-  .cart-wrapper .cart-table .cell-price {
+  .confirm-wrapper .cart-table .cell-price {
     width: 100px;
     text-align: center;
   }
 
-  .cart-wrapper .cart-table .cell-count {
+  .confirm-wrapper .cart-table .cell-count {
     width: 200px;
     text-align: center;
   }
 
-  .cart-wrapper .cart-table .cell-total {
+  .confirm-wrapper .cart-table .cell-total {
     width: 100px;
     text-align: center;
   }
 
-  .cart-wrapper .cart-table .cell-opera {
+  .confirm-wrapper .cart-table .cell-opera {
     width: 110px;
     text-align: center;
   }
@@ -390,32 +401,32 @@
     width: 80px;
   }
 
-  .cart-wrapper .cart-list .cart-table .cell-img {
+  .confirm-wrapper .cart-list .cart-table .cell-img {
     width: 80px;
     padding: 10px;
   }
 
-  .cart-wrapper .cart-table .cell-info {
+  .confirm-wrapper .cart-table .cell-info {
     width: 400px;
     padding: 0 10px;
   }
 
-  .cart-wrapper .cart-table .cell-info .p-name {
+  .confirm-wrapper .cart-table .cell-info .p-name {
     font-size: 12px;
     line-height: 18px;
   }
 
-  .cart-wrapper .cart-table .cell-price {
+  .confirm-wrapper .cart-table .cell-price {
     width: 100px;
     text-align: center;
   }
 
-  .cart-wrapper .cart-table .cell-count {
+  .confirm-wrapper .cart-table .cell-count {
     width: 200px;
     text-align: center;
   }
 
-  .cart-wrapper .cart-table .cell-count .count-btn {
+  .confirm-wrapper .cart-table .cell-count .count-btn {
     display: inline-block;
     width: 20px;
     height: 34px;
@@ -430,25 +441,17 @@
     user-select: none;
   }
 
-  .cart-wrapper .cart-table .cell-count .count-input {
-    /*margin-top: 0px;*/
+  .confirm-wrapper .cart-table .cell-count .count-input {
     width: 60px;
     text-align: center;
-    /*height: 20%;*/
-    /*height: 20px;*/
-    /*line-height: 28px;*/
-    /*border: 1px solid #ddd;*/
-    /*text-align: center;*/
-    /*vertical-align: middle;*/
-    /*outline: none;*/
   }
 
-  .cart-wrapper .cart-list .cart-table .cell-total {
+  .confirm-wrapper .cart-list .cart-table .cell-total {
     color: #000;
     font-weight: 700;
   }
 
-  .cart-wrapper .cart-table .cell-total {
+  .confirm-wrapper .cart-table .cell-total {
     width: 100px;
     text-align: center;
   }
@@ -465,7 +468,7 @@
   }
 
 
-  .cart-wrapper .cart-footer {
+  .confirm-wrapper .cart-footer {
     height: 50px;
     margin-top: 10px;
     position: relative;
@@ -473,12 +476,12 @@
     background: #eee;
   }
 
-  .cart-wrapper .cart-footer .select-con {
+  .confirm-wrapper .cart-footer .select-con {
     float: left;
     padding-left: 20px;
   }
 
-  .cart-wrapper .cart-footer .delete-con {
+  .confirm-wrapper .cart-footer .delete-con {
     float: left;
     margin-left: 20px;
   }
@@ -489,12 +492,12 @@
     cursor: pointer;
   }
 
-  .cart-wrapper .cart-footer .submit-con {
+  .confirm-wrapper .cart-footer .submit-con {
     float: right;
   }
 
 
-  .cart-wrapper .cart-footer .submit-con .submit-total {
+  .confirm-wrapper .cart-footer .submit-con .submit-total {
     font-size: 18px;
     color: #c60023;
     font-weight: 700;
@@ -521,10 +524,6 @@
     outline: none;
     cursor: pointer;
     text-decoration: none;
-  }
-
-  .el-input__inner {
-    height: 30px;
   }
 
 

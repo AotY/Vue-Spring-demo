@@ -61,6 +61,9 @@ export default {
   },
   deleteSelect (context) {
     return context.$axios.delete(API_URL + '/delete_select.do')
+  },
+  getSelectedProducts (context) {
+    return context.$axios.get(API_URL + '/list_selected.do')
   }
 }
 

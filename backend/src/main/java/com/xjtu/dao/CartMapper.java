@@ -22,6 +22,8 @@ public interface CartMapper {
 
     List<Cart> selectListByUserId(Integer userId);
 
+    List<Cart> selectedListByUserId(Integer userId);
+
     Cart selectByUserIdAndProductId(@Param("userId") Integer userId, @Param("productId") Integer productId);
 
     int reverseAllSelect(@Param("userId") Integer userId, @Param("checked") Boolean checked);
@@ -29,4 +31,6 @@ public interface CartMapper {
     int reverseSelect(@Param("userId") Integer userId, @Param("productId") Integer productId, @Param("checked") Boolean checked);
 
     int deleteByUserIdAndProductId(@Param("userId") Integer userId, @Param("productId") Integer productId);
+
+    int deleteSelectedListByUserId(Integer userId);
 }

@@ -105,7 +105,7 @@
     },
     methods: {
       submitForm (formName) {
-        console.log('submitForm')
+        console.log('submitForm', this.$refs[formName])
         let self = this
         this.$refs[formName].validate((valid) => {
           if (valid) {

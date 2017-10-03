@@ -11,6 +11,7 @@ import com.xjtu.dao.ProductMapper;
 import com.xjtu.pojo.Category;
 import com.xjtu.pojo.Product;
 import com.xjtu.service.ICategoryService;
+import com.xjtu.service.IProductService;
 import com.xjtu.util.DateTimeUtil;
 import com.xjtu.util.PropertiesUtil;
 import com.xjtu.vo.ProductDetailVo;
@@ -27,7 +28,7 @@ import java.util.List;
  * 现在先实现最简单的返回商品列表功能
  */
 @Service("iProductService")
-public class ProductServiceImpl implements com.xjtu.service.IProductService {
+public class ProductServiceImpl implements IProductService {
 
     @Autowired
     private ProductMapper productMapper;

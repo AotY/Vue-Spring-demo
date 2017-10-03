@@ -22,18 +22,21 @@
     from carousel
     where id = #{id,jdbcType=INTEGER}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from carousel
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="com.xjtu.pojo.Carousel">
     insert into carousel (id, product_id, name, 
       image, create_time, update_time
       )
     values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{image,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      #{image,jdbcType=VARCHAR}, now(), now()
       )
   </insert>
+
   <insert id="insertSelective" parameterType="com.xjtu.pojo.Carousel">
     insert into carousel
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -70,13 +73,14 @@
         #{image,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.xjtu.pojo.Carousel">
     update carousel
     <set>
@@ -93,18 +97,19 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = now(),
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.xjtu.pojo.Carousel">
     update carousel
     set product_id = #{productId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       image = #{image,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
 

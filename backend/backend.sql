@@ -100,14 +100,14 @@ COMMIT;
 
 
 -- ----------------------------
---  Table structure for `order` 订单记录
+--  Table structure for `order_` 订单记录(order是关键字）
 -- ----------------------------
-DROP TABLE IF EXISTS `order`;
-CREATE TABLE `order` (
+DROP TABLE IF EXISTS `order_`;
+CREATE TABLE `order_` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单id',
   `order_no` bigint(20) DEFAULT NULL COMMENT '订单号',
   `user_id` int(11) DEFAULT NULL COMMENT '用户id',
-  `shipping_id` int(11) DEFAULT NULL,
+  `shipping_id` int(11) DEFAULT NULL COMMENT '收货人信息',,
   `payment` decimal(20,2) DEFAULT NULL COMMENT '实际付款金额,单位是元,保留两位小数',
   `payment_type` int(4) DEFAULT NULL COMMENT '支付类型,1-在线支付',
   `postage` int(10) DEFAULT NULL COMMENT '运费,单位是元',
@@ -221,6 +221,7 @@ COMMIT;
 
 -- ----------------------------
 --  Table structure for `shipping` 收货地址（shipping address）
+--  增加是否为默认收货地址字段
 -- ----------------------------
 DROP TABLE IF EXISTS `shipping`;
 CREATE TABLE `shipping` (
@@ -234,6 +235,7 @@ CREATE TABLE `shipping` (
   `receiver_district` varchar(20) DEFAULT NULL COMMENT '区/县',
   `receiver_address` varchar(200) DEFAULT NULL COMMENT '详细地址',
   `receiver_zip` varchar(6) DEFAULT NULL COMMENT '邮编',
+  `is_default` tinyint(1) DEFAULT '0' COMMENT '是否为默认收货地址',
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)

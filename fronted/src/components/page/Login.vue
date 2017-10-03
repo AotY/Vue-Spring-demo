@@ -74,6 +74,7 @@
                 })
 //                self.$router.go(-1)
                 self.$router.push({name: 'Recommend'})
+//                window.history.back()
               }
             })
           } else {
@@ -83,7 +84,8 @@
       },
       cancelLogin () {
         // 返回
-        window.history.back()
+//        window.history.back()
+        this.$router.push({name: 'Recommend'})
 //        this.$router.go(-1, )
       }
     }

@@ -52,6 +52,16 @@ public class CartController {
         return iCartService.list(user.getId());
     }
 
+    @RequestMapping(value = "list_selected.do", method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse<CartVo> listSelected(HttpSession session) {
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServerResponse.createByError(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iCartService.listSelected(user.getId());
+    }
+
     @RequestMapping(value = "add.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse add(Integer productId, Integer quantity, HttpSession session) {

@@ -140,6 +140,14 @@
         WHERE user_id = #{userId}
     </select>
 
+    <select id="selectedListByUserId" resultMap="BaseResultMap" parameterType="Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cart
+        WHERE user_id = #{userId} and checked = 1
+    </select>
+
+
     <select id="selectByUserIdAndProductId" resultType="com.xjtu.pojo.Cart">
         SELECT
         <include refid="Base_Column_List"/>
@@ -160,12 +168,15 @@
   </update>
 
     <delete id="deleteByUserIdAndProductId" parameterType="map">
-    DELETE FROM cart
-    WHERE user_id = #{userId} and product_id = #{productId}
-  </delete>
+        DELETE FROM cart
+        WHERE user_id = #{userId} and product_id = #{productId}
+    </delete>
 
-
-
+    <delete id="deleteSelectedListByUserId" parameterType="Integer">
+      DELETE
+      FROM cart
+      WHERE user_id = #{userId} and checked = 1
+    </delete>
 
 
 </mapper>

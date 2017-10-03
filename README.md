@@ -8,7 +8,7 @@ typora-copy-images-to: ipic
 
 - 首页
 
-![index](https://ws3.sinaimg.cn/large/006tKfTcly1fk2tvdiq2wj31kw0zkn86.jpg)
+![](https://ws3.sinaimg.cn/large/006tKfTcly1fk2tvdiq2wj31kw0zkn86.jpg)
 
 - 列表
 
@@ -16,11 +16,11 @@ typora-copy-images-to: ipic
 
 - 详情
 
-![detail](https://ws3.sinaimg.cn/large/006tKfTcly1fk2tvj0yt3j31kw0zkagw.jpg)
+![](https://ws3.sinaimg.cn/large/006tKfTcly1fk2tvj0yt3j31kw0zkagw.jpg)
 
 - 购物车
 
-![cart](https://ws3.sinaimg.cn/large/006tKfTcly1fk2tvmrwnpj31kw0zk10k.jpg)
+![](https://ws3.sinaimg.cn/large/006tKfTcly1fk2tvmrwnpj31kw0zk10k.jpg)
 
 
 
@@ -30,7 +30,7 @@ typora-copy-images-to: ipic
 
 1. 下载地址
 
-   http://mirrors.aliyun.com/centos/6.8/isos/x86_64/CentOS-6.8-x86_64-bin-DVD1.iso 
+   http://mirrors.aliyun.com/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1708.iso
 
 2. 安装
 
@@ -199,7 +199,7 @@ sudo yum -y install git
 
 ### 1.6 Tomcat配置
 
- 	1. 下载安装
+       	1. 下载安装
 
 ```
 wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-8/v8.5.20/bin/apache-tomcat-8.5.20.tar.gz

@@ -90,8 +90,8 @@ public class UserServiceImpl implements IUserService {
         user.setRole(Const.UserRole.NORMAL);
 
         //
-        int effectRow = userMapper.insert(user);
-        if (effectRow > 0) {
+        int affectedRows = userMapper.insert(user);
+        if (affectedRows > 0) {
             return ServerResponse.createBySuccess(Const.REGISTER_SUCCESS);
         }
         return ServerResponse.createByError(Const.REGISTER_FAILED);

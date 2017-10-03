@@ -145,7 +145,8 @@
   }
 
   .link-text {
-    color: #777;
+    font-size: 13px;
+    color: #555;
     text-decoration: none;
   }
 

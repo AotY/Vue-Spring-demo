@@ -63,6 +63,58 @@ export default new Router({
               component: resolve => require(['../components/page/Cart.vue'], resolve)
             }
           ]
+        },
+        {
+          // 确认页面
+          path: '/confirm',
+          component: resolve => require(['../components/common/Product.vue'], resolve),
+          children: [
+            {
+              path: '',
+              component: resolve => require(['../components/page/Confirm.vue'], resolve)
+            }
+          ]
+        },
+        {
+          // 支付页面
+          path: '/payment',
+          component: resolve => require(['../components/common/Product.vue'], resolve),
+          children: [
+            {
+              path: '/payment',
+              redirect: '/payment/orderNo/'
+            },
+            {
+              path: '/payment/orderNo/:orderNo',
+              component: resolve => require(['../components/page/Payment.vue'], resolve)
+            }
+          ]
+        },
+        {
+          // 订单详情页面
+          path: '/order-detail',
+          component: resolve => require(['../components/common/Product.vue'], resolve),
+          children: [
+            {
+              path: '',
+              redirect: '/order-detail/orderNo/:orderNo'
+            },
+            {
+              path: '/order-detail/orderNo/:orderNo',
+              component: resolve => require(['../components/page/OrderDetail.vue'], resolve)
+            }
+          ]
+        },
+        {
+          // 订单列表页面
+          path: '/order-list',
+          component: resolve => require(['../components/common/Product.vue'], resolve),
+          children: [
+            {
+              path: '',
+              component: resolve => require(['../components/page/OrderList.vue'], resolve)
+            }
+          ]
         }
       ]
     },

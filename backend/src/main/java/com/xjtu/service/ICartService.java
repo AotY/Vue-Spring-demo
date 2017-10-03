@@ -29,4 +29,8 @@ public interface ICartService {
     public ServerResponse delete(Integer userId, Integer productId);
 
     public ServerResponse deleteSelect(Integer userId);
+
+    public ServerResponse<CartVo> listSelected(Integer userId);
+
+    public ServerResponse deleteSelectedList(Integer userId);
 }
