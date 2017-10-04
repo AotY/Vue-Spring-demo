@@ -9,7 +9,7 @@ echo "1. 进入项目目录"
 cd $GIT_REPOSITORY/Vue-Spring-demo
 
 echo "2. git 切换到v1.0分支"
-git checkout v1.0
+git checkout v2.0
 
 echo "3. git fetch"
 git fetch
@@ -48,16 +48,16 @@ $TOMCAT_HOME/bin/startup.sh
 
 
 
-# echo "部署前端"
+echo "部署前端"
 
-# echo "1. 进入项目目录"
-# cd $GIT_REPOSITORY/Vue-Spring-demo/fronted
+echo "1. 进入项目目录"
+cd $GIT_REPOSITORY/Vue-Spring-demo/fronted
 
-# echo "2. 安装依赖"
-# cnpm install
+echo "2. 安装依赖"
+cnpm install
 
-# echo "3. build，生成dist文件夹"
-# npm run build 
+echo "3. build，生成dist文件夹"
+npm run build 
 
 
 
