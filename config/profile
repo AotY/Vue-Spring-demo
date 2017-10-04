@@ -18,7 +18,7 @@ export CATALINA_HOME=/developer/apache-tomcat-8.5.20
 
 
 export NODE_HOME=/usr/local/nodejs/node-v6.11.3
-export RUBY_HOME=/usr/local/bin/ruby
+
 
 export NGINX_HOME=/usr/local/nginx
 
