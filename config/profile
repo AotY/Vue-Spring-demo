@@ -8,7 +8,7 @@
 # /etc/profile.d/ to make custom changes to your environment, as this
 # will prevent the need for merging in future updates.
 
-export MAVEN_HOME=/developer/maven
+export MAVEN_HOME=/developer/apache-maven-3.0.5
 
 export JAVA_HOME=/usr/java/jdk1.7.0_80
 CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
