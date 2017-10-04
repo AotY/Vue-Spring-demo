@@ -13,7 +13,7 @@ export MAVEN_HOME=/developer/maven
 export JAVA_HOME=/usr/java/jdk1.7.0_80
 CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 
-#export CATALINA_HOME=/developer/apache-tomcat-7.0.73
+
 export CATALINA_HOME=/developer/apache-tomcat-8.5.20
 
 
