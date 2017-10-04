@@ -7,7 +7,7 @@
         <el-card :body-style="{ padding: '50px', margin: '0px auto'}">
           <div style="padding: 14px;">
             <span>请打开支付宝进行扫描或者先 </span>
-            <span><a v-bind:href="'/order/detail/'+ orderNo" >查看订单</a></span>
+            <span><a v-bind:href="'#/order-detail/orderNo/'+ orderNo" >查看订单</a></span>
             <div class="bottom clearfix">
             </div>
           </div>

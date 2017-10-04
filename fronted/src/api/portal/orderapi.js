@@ -13,7 +13,7 @@ export default {
         shippingId: shippingId
       }
     }
-    return context.$axios.post(API_URL + '/add.do', {}, config)
+    return context.$axios.post(API_URL + '/create.do', {}, config)
   },
   cancel (context, orderNo) {
     return context.$axios.get(API_URL + '/cancel.do?orderNo=' + orderNo)

@@ -310,7 +310,10 @@ public class OrderServiceImpl implements IOrderService {
 
         // 检查订单状态
         if (order.getStatus() >= Const.OrderStatus.PAID.getCode()) {
-            return ServerResponse.createByError(Const.ALIPAY_REPEATED_REQUEST);
+
+            // return ServerResponse.createByError(Const.ALIPAY_REPEATED_REQUEST);
+            // 应该返回success，防止支付宝再次重复调用
+            return ServerResponse.createBySuccess(Const.ALIPAY_REPEATED_REQUEST);
         }
 
         // 付款成功

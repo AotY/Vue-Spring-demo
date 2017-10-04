@@ -101,7 +101,6 @@ public class OrderController {
 
         try {
             boolean alipayRSACheckedV2 = AlipaySignature.rsaCheckV2(params, Configs.getAlipayPublicKey(), "UTF-8", Configs.getSignType());
-
             if (!alipayRSACheckedV2) {
                 return ServerResponse.createByError(Const.ILLEGAL_REQUEST);
             }

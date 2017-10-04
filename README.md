@@ -24,17 +24,29 @@ typora-copy-images-to: ipic
 
 
 
+- 订单确认
+
+  ![confirm](https://ws2.sinaimg.cn/large/006tKfTcly1fk60bjddqdj31kw0zkwj0.jpg)
+
+- 订单支付
+
+  ![payment](https://ws4.sinaimg.cn/large/006tKfTcly1fk60bi142zj31kw0zkgst.jpg)
+
+- 订单详情
+
+![order-detail](https://ws4.sinaimg.cn/large/006tKfTcly1fk60bm8fuhj31kw0zkn3j.jpg)
+
 ## 1. 环境配置
 
-### 1.1 安装CentOS
+### 1.1 安装CentOS (安装时用户名：xjtu，密码：xjtuxjtu)
 
 1. 下载地址
 
    http://mirrors.aliyun.com/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1708.iso
 
-2. 安装
+2. 在虚拟机中安装CentOS
 
-3. 配置阿里云Linux安装软件镜像源
+3. 安装成功后配置阿里云Linux安装软件镜像源（为了提高安装软件速度）
 
    ```
    1. 备份你的原镜像文件
@@ -53,9 +65,17 @@ typora-copy-images-to: ipic
    ```
 
    ​
+### 1.2 selinux配置
+
+```
+sudo wget -O /etc/sysconfig/selinux https://github.com/AotY/Vue-Spring-demo/blob/master/config/selinux/config
+
+sudo setenfore 0
+```
 
 
-### 1.2 配置iptables
+
+### 1.3 配置iptables
 
 1. 关闭防火墙
 
@@ -86,15 +106,199 @@ typora-copy-images-to: ipic
 
 
 
-### 1.3 selinux配置
+
+### 1.4 Java配置
+
+1. 下载
+
+   ```
+   wget http://learning.happymmall.com/jdk/jdk-7u80-linux-x64.rpm
+   ```
+
+2. 安装 (安装默认位置在/usr/java/)
+
+   ```
+   sudo rpm -Uvh jdk-7u80-linux-x64.rpm
+   ```
+
+3. 配置profile
+
+   ```
+   wget wget -O /etc/profile https://github.com/AotY/Vue-Spring-demo/blob/master/config/profile
+   ```
+
+
+
+
+### 1.5 Tomcat配置
+
+1. 下载安装
+
+   ```
+   wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-8/v8.5.20/bin/apache-tomcat-8.5.20.tar.gz
+
+   tar -xvf apache-tomcat-8.5.20.tar.gz
+
+   sudo mkdir /developer
+
+   sudo chown -R xjtu.xjtu /ftpfile
+
+   mv apache-tomcat-8.5.20 /developer
+   ```
+
+   ​
+
+2. 配置
+
+   ```
+   wget -O /developer/apache-tomcat-8.5.20/conf/server.xml https://github.com/AotY/Vue-Spring-demo/blob/master/config/tomcat/server.xml
+
+   wget -O /developer/apache-tomcat-8.5.20/bin/setenv.sh https://github.com/AotY/Vue-Spring-demo/blob/master/config/tomcat/setenv.sh
+   ```
+
+   ​
+
+3. 启动
+
+
+   ```
+   sudo /developer/apache-tomcat-8.5.20/bin/startup.sh
+   ```
+
+
+
+### 1.6 安装Maven
 
 ```
-sudo wget -O /etc/sysconfig/selinux https://github.com/AotY/Vue-Spring-demo/blob/master/config/selinux/config
+wget http://learning.happymmall.com/maven/apache-maven-3.0.5-bin.tar.gz
+
+tar -xvf apache-maven-3.0.5
+
+mv maven /developer
 ```
 
 
 
-### 1.4 MySQL配置
+### 1.7 安装git
+
+1. 下载安装
+
+   ```
+   sudo yum -y install git 
+   ```
+
+2. 下载项目代码
+
+   ```
+   sudo mkdir /developer/git-repository
+
+   cd /developer/git-repository
+
+   git clone https://github.com/AotY/Vue-Spring-demo
+   ```
+
+   ​
+
+### 1. 8 vsftpd配置
+
+1. 安装vsftpd
+
+   ```
+   sudo yum install -y vsftpd
+   ```
+
+   ​
+
+2. 配置vsftpd
+
+   ```
+   1. 创建ftp用户(只能登录ftp，不能登录系统)
+   sudo mkdir /ftpfile # ftp文件夹
+
+   sudo useradd ftpuser -d /ftpfile -s /sbin/nologin  #创建用户，没有登陆系统权限
+
+   sudo chown -R ftpuser.ftpuser /ftpfile  #赋予ftpuser访问ftpfile文件夹权限
+
+   sudo passwd ftpuser 12345678 #设置ftpuser密码
+
+   2. 配置vsftpd.conf
+   sudo wget -O /etc/vsftpd/vsftpd.conf https://github.com/AotY/Vue-Spring-demo/blob/master/config/vsftp/vsftpd.conf
+   ```
+
+   ​
+
+3. 启动vsftpd
+
+  ```
+  sudo service vsftpd start
+
+  sudo chkconfig vsftpd on # 设置开机自启
+
+  相关命令：
+  sudo service vsftpd start
+  sudo service vsftpd stop
+  sudo service vsftpd restart
+  ```
+
+4. 导入项目需要使用的图片
+
+   ```
+   sudo yum install -y unzip
+
+   cd /ftpfile/image
+
+   wget https://github.com/AotY/Vue-Spring-demo/blob/master/ftpfile/image.zip
+
+   unzip image.zip
+   ```
+
+   ​
+
+### 1.9 nginx配置 
+
+1. 下载安装
+
+   ```
+   http://nginx.org/download/nginx-1.12.1.tar.gz
+
+   tar -xvf nginx-1.12.1.tar.gz
+
+   cd nginx-1.12.1
+
+   ./configure --prefix=path 
+
+   make
+
+   sudo make install
+   ```
+
+2. 配置
+
+   ```
+   cd /usr/local/nginx/conf
+
+   sudo wget -O /etc/vsftpd/vsftpd.conf https://github.com/AotY/Vue-Spring-demo/blob/master/config/nginx/nginx.conf
+
+   sudo mkdir vhost & cd vhost
+
+   sudo wget https://github.com/AotY/Vue-Spring-demo/blob/master/config/nginx/vhost/www.vuespringdemo.com.conf
+
+   sudo wget https://github.com/AotY/Vue-Spring-demo/blob/master/config/nginx/vhost/image.vuespringdemo.com.conf
+
+   sudo wget https://github.com/AotY/Vue-Spring-demo/blob/master/config/nginx/vhost/backend.vuespringdemo.com.conf
+   ```
+
+3. 启动nginx
+
+   ```
+   cd /usr/local/nginx/sbin
+   sudo ./nginx
+   ```
+
+   ​
+
+
+### 1.10 MySQL配置
 
 1. 安装
 
@@ -129,7 +333,7 @@ sudo wget -O /etc/sysconfig/selinux https://github.com/AotY/Vue-Spring-demo/blob
    1. 查看用户
    select user, host, password from mysql.user\G;
    2. 设置密码
-   set password for root@localhost=password('xxxx');
+   set password for root@localhost=password('xjtuxjtu');
    3.刷新权限
    flush privileges; 
    ```
@@ -137,214 +341,49 @@ sudo wget -O /etc/sysconfig/selinux https://github.com/AotY/Vue-Spring-demo/blob
 5. 新增用户 
 
    ```
-   insert into mysql.user(Host, User, Password) values ("localhost", "qingtao", password("xxxx"));
+   insert into mysql.user(Host, User, Password) values ("localhost", "xjtu", password("xjtuxjtu"));
    ```
 
-6. 新增数据库
+6. 导入数据库
 
    ```
-   grant all privileges on vue_spring_demo.* to qintao@localhost identified by 'qingtao'
+   cd ~
+
+   wget https://github.com/AotY/Vue-Spring-demo/blob/master/backend/vue_spring_demo.sql
+
+   mysql -u xjtu -p vue_spring_demo < vue_spring_demo.sql
    ```
+
+   ​
 
 7. 赋予用户权限
 
    ```
    1. 本地权限
-   grant all privileges on vue_spring_demo.* to qintao@localhost identified by 'xxxx'
+   grant all privileges on vue_spring_demo.* to xjtu@localhost identified by 'xjtuxjtu'
    2. 远程权限
-   grant all privileges on vue_spring_demo.* to qingtao@'%' identified by 'xxxx';
-   ```
-
-
-### 1.5 Java配置
-
-1. 下载
-
-   ```
-   wget http://learning.happymmall.com/jdk/jdk-7u80-linux-x64.rpm
-   ```
-
-2. 安装 (安装默认位置在/usr/java/)
-
-   ```
-   sudo rpm -Uvh jdk-7u80-linux-x64.rpm
-   ```
-
-3. 配置profile
-
-   ```
-   wget wget -O /etc/profile https://github.com/AotY/Vue-Spring-demo/blob/master/config/profile
-   ```
-
-
-
-### 1.6 安装Maven
-
-```
-wget http://learning.happymmall.com/maven/apache-maven-3.0.5-bin.tar.gz
-tar -xvf apache-maven-3.0.5
-mv apache-maven-3.0.5 maven
-mv maven /developer
-```
-
-
-
-### 1.7 安装git
-
-```
-sudo yum -y install git 
-```
-
-
-
-### 1.6 Tomcat配置
-
-       	1. 下载安装
-
-```
-wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-8/v8.5.20/bin/apache-tomcat-8.5.20.tar.gz
-tar -xvf apache-tomcat-8.5.20.tar.gz
-mv apache-tomcat-8.5.20 /developer
-```
-
-2. 启动
-
-   ```
-   /developer/apache-tomcat-8.5.20/bin/startup.sh
-   ```
-
-   ​
-
-> 遇到的问题
->
-> 1. tcp6：
->   solution 1: 在server.xml(Connector port="8080"节点)添加address="0.0.0.0"
->   Solution 2：在bin文件夹下添加setenv.sh文件，输入 JVM_REQUIRED_ARGS="-Djava.awt.headless=true -Datlassian.standalone=JIRA -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true -Dmail.mime.decodeparameters=true -Djava.net.preferIPv4Stack=true" ，然后保存
->
-> 2. 编码：
->   在server.xml（Connector port="8080"节点）添加 URIEncoding="UTF-8"
-
-
-
-### 1. 8 vsftpd配置
-
-1. [vsftpd配置](http://learning.happymmall.com/vsftpdconfig/)
-
-
-### 1.9 nginx配置 
-
-[nginx配置](http://learning.happymmall.com/nginx/linux_conf/)
-
-
-
-## backend 后端代码
-
-### 项目目录
-```
-pojo: (Plain Old Java Object)持久化类
-```
-
-
-   ```
-   配置图片服务器：
-   server {
-       listen 80;
-       autoindex off;
-       server_name image.qingtao.com;
-       access_log /usr/local/nginx/logs/access.log combined;
-       index index.html index.htm index.jsp index.php;
-       #error_page 404 /404.html;
-       if ( $query_string ~* ".*[\;'\<\>].*" ){
-           return 404;
-       }
-
-       location ~ /(mmall_fe|mmall_admin_fe)/dist/view/* {
-           deny all;
-       }
-
-       location / {
-           root /ftpfile/image/;
-           add_header Access-Control-Allow-Origin *;
-       }
-   }
-
-   后端服务器：
-   server {
-           listen 80;
-           autoindex on;
-           server_name qingtao.com www.qingtao.com;
-           access_log /usr/local/nginx/logs/access.log combined;
-           index index.html index.htm index.jsp index.php;
-           if ( $query_string ~* ".*[\;'\<\>].*" ){
-                   return 404;
-                   }
-
-           #location = / {
-           #        root /product/front/mmall_fe/dist/view;
-           #        index index.html;
-           #}
-
-           #location ~ .*\.html$ {
-           #        root /product/front/mmall_fe/dist/view;
-           #        index index.html;
-           #}
-           
-           location / {
-                   proxy_pass http://127.0.0.1:8080/;
-                   add_header Access-Control-Allow-Origin *;
-           }
-
-           location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|ico)$ {
-                   proxy_pass http://127.0.0.1:8080;
-                   expires 30d;
-           }
-
-           location ~ .*\.(js|css)?$ {
-                   proxy_pass http://127.0.0.1:8080;
-                   expires 7d;
-           }
-   }
-
-   前端服务器：
-   server {
-       listen 80;
-       autoindex off;
-       server_name s.qingtao.com;
-       access_log /usr/local/nginx/logs/access.log combined;
-       index index.html index.htm index.jsp index.php;
-       if ( $query_string ~* ".*[\;'\<\>].*" ){
-           return 404;
-       }
-
-       location ~ /(mmall_fe|mmall_admin_fe)/dist/view/* {
-           deny all;
-       }
-
-       location / {
-           root /product/front/;
-           add_header Access-Control-Allow-Origin *;
-       }
-   }
+   grant all privileges on vue_spring_demo.* to xjtu@'%' identified by 'xxxx';
+   3.刷新权限
+   flush privileges; 
    ```
 
 
 
 
-## fronted 前端代码
-
-### 配置
-
-#### 安装Nodejs
+### 1.11 Node js配置
 
 1. 下载安装nodejs
 
   ```
-
   wget https://nodejs.org/dist/v6.11.3/node-v6.11.3-linux-x64.tar.xz
+
   sudo mkdir /usr/local/nodejs
+
   sudo tar -xJvf node-v6.11.3-linux-x64.tar.xz -C /usr/local/nodejs
+
   sudo mv /usr/local/nodejs/node-v6.11.3-linux-x64/ /usr/local/nodejs/node-v6.11.3
   ```
+
 2. 配置环境变量
   ```
   export NODEJS_HOME=/usr/local/nodejs/node-v6.11.3
@@ -354,63 +393,32 @@ pojo: (Plain Old Java Object)持久化类
 3. 验证
   ```
   node -v
-
   npm version
   ```
 
+4. 安装cnpm（为了提高安装依赖包的速度）
 
-#### 安装Ruby
-
-1. 下载源码
 
    ```
-   wget https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.2.tar.gz
+   npm install -g cnpm --registry=https://registry.npm.taobao.org
    ```
 
-2. 编译安装
+   ​
+
+   ​
+
+## 2. 部署
+
+1. 进入项目目录
 
    ```
-   ./configure
-   make
-   sudo make install
-
-   By default, this will install Ruby into /usr/local. To change, pass the --prefix=DIR option to the ./configure script.
+   cd /developer/git-repository/Vue-Spring-demo
    ```
 
+2. 编译部署
 
+   ```
+   ./deploy.sh
+   ```
 
-### Build Setup
-
-``` bash
-# install dependencies
-npm install
-npm i element-ui -S
-npm install axios
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-
-
-
-### package-locak.json
-
-package-lock.json is automatically generated for any operations where npm modifies either the node_modules tree, or package.json. It describes the exact tree that was generated, such that subsequent installs are able to generate identical trees, regardless of intermediate dependency updates.
-
+   ​
