@@ -9,7 +9,7 @@ echo "1. 进入项目目录"
 cd $GIT_REPOSITORY/Vue-Spring-demo
 
 echo "2. git 切换到v1.0分支"
-git checkout v2.0
+git checkout master
 
 echo "3. git fetch"
 git fetch
