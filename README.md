@@ -38,7 +38,11 @@ typora-copy-images-to: ipic
 
 ## 1. 环境配置
 
-### 1.1 安装CentOS (安装时用户名：xjtu，密码：xjtuxjtu)
+### 1.1 安装CentOS 
+
+> 安装时用户名：xjtu
+>
+> 密码：xjtuxjtu
 
 1. 下载地址
 
@@ -52,30 +56,68 @@ typora-copy-images-to: ipic
    1. 备份你的原镜像文件
    sudo mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bac
    2. 下载新的CentOS-Base.repo 到/etc/yum.repos.d/
-   sudo wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-6.repo
+   sudo wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
    3. 运行yum makecache生成缓存
-   sudo yum clean all
    sudo yum makecache
    ```
 
-4. 安装SSH（远程登录）
+4. 安装SSH（远程登录）和wget
 
    ```
    sudo yum -y install openssh-server
+
+   sudo yum install -y wget
    ```
 
+5. 添加xjtu到sudoers文件
+
+   ```
+   xjtu	ALL=(ALL)	ALL
+   ```
+
+6. 配置网络（确保能上网）
+
    ​
-### 1.2 selinux配置
+### 1.2 安装git下载源码
+
+1. 下载安装
+
+   ```
+   sudo yum -y install git 
+   ```
+
+2. 下载项目代码
+
+   ```
+   sudo mkdir /developer
+
+   sudo chown -R xjtu.xjtu /developer
+
+   mkdir /developer/git-repository
+     
+   cd /developer/git-repository
+
+   git clone https://github.com/AotY/Vue-Spring-demo
+   ```
+
+
+
+
+### 1.3 selinux配置
 
 ```
-sudo wget -O /etc/sysconfig/selinux https://github.com/AotY/Vue-Spring-demo/blob/master/config/selinux/config
+sudo cp /developer/git-repository/Vue-Spring-demo/config/selinux/config /etc/sysconfig/selinux
 
-sudo setenfore 0
+su
+
+setenforce 0
+
+exit
 ```
 
 
 
-### 1.3 配置iptables
+### 1.4 配置iptables
 
 1. 关闭防火墙
 
@@ -87,17 +129,17 @@ sudo setenfore 0
 2. 安装iptables
 
    ```
-   sudo yum install iptables-services
+   sudo yum install -y iptables-services
    sudo systemctl enable iptables
    ```
 
-3. 配置
+3. 配置iptables
 
    ```
-   sudo wget -O /etc/sysconfig/iptables https://github.com/AotY/Vue-Spring-demo/blob/master/config/iptables
+   sudo cp /developer/git-repository/Vue-Spring-demo/config/iptables /etc/sysconfig/iptables
    ```
 
-4. 启动
+4. 启动iptables
 
    ```
    sudo service iptables save
@@ -107,11 +149,21 @@ sudo setenfore 0
 
 
 
-### 1.4 Java配置
+### 1.5 hosts配置
+
+```
+sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
+```
+
+
+
+### 1.6 Java配置
 
 1. 下载
 
    ```
+   cd ~
+
    wget http://learning.happymmall.com/jdk/jdk-7u80-linux-x64.rpm
    ```
 
@@ -124,24 +176,22 @@ sudo setenfore 0
 3. 配置profile
 
    ```
-   wget wget -O /etc/profile https://github.com/AotY/Vue-Spring-demo/blob/master/config/profile
+   sudo cp /developer/git-repository/Vue-Spring-demo/config/profile /etc/profile
    ```
 
 
 
 
-### 1.5 Tomcat配置
+### 1.7 Tomcat配置
 
 1. 下载安装
 
    ```
+   cd ~
+
    wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-8/v8.5.20/bin/apache-tomcat-8.5.20.tar.gz
 
    tar -xvf apache-tomcat-8.5.20.tar.gz
-
-   sudo mkdir /developer
-
-   sudo chown -R xjtu.xjtu /ftpfile
 
    mv apache-tomcat-8.5.20 /developer
    ```
@@ -151,9 +201,9 @@ sudo setenfore 0
 2. 配置
 
    ```
-   wget -O /developer/apache-tomcat-8.5.20/conf/server.xml https://github.com/AotY/Vue-Spring-demo/blob/master/config/tomcat/server.xml
+   sudo cp /developer/git-repository/Vue-Spring-demo/config/tomcat/server.xml /developer/apache-tomcat-8.5.20/conf/server.xml
 
-   wget -O /developer/apache-tomcat-8.5.20/bin/setenv.sh https://github.com/AotY/Vue-Spring-demo/blob/master/config/tomcat/setenv.sh
+   sudo cp /developer/git-repository/Vue-Spring-demo/config/tomcat/setenv.sh /developer/apache-tomcat-8.5.20/bin/setenv.sh
    ```
 
    ​
@@ -162,44 +212,34 @@ sudo setenfore 0
 
 
    ```
-   sudo /developer/apache-tomcat-8.5.20/bin/startup.sh
-   ```
-
-
-
-### 1.6 安装Maven
-
-```
-wget http://learning.happymmall.com/maven/apache-maven-3.0.5-bin.tar.gz
-
-tar -xvf apache-maven-3.0.5
-
-mv maven /developer
-```
-
-
-
-### 1.7 安装git
-
-1. 下载安装
-
-   ```
-   sudo yum -y install git 
-   ```
-
-2. 下载项目代码
-
-   ```
-   sudo mkdir /developer/git-repository
-
-   cd /developer/git-repository
-
-   git clone https://github.com/AotY/Vue-Spring-demo
+   /developer/apache-tomcat-8.5.20/bin/startup.sh
    ```
 
    ​
 
-### 1. 8 vsftpd配置
+### 1.8 安装Maven
+
+1. 安装
+
+   ```
+   wget http://learning.happymmall.com/maven/apache-maven-3.0.5-bin.tar.gz
+
+   tar -xvf apache-maven-3.0.5-bin.tar.gz
+
+   mv apache-maven-3.0.5 /developer
+   ```
+
+2. 配置
+
+   ```
+
+   ```
+
+   ​
+
+
+
+### 1. 9 vsftpd配置
 
 1. 安装vsftpd
 
@@ -217,15 +257,15 @@ mv maven /developer
 
    sudo useradd ftpuser -d /ftpfile -s /sbin/nologin  #创建用户，没有登陆系统权限
 
+   sudo passwd ftpuser  #设置ftpuser密码(这里设置为12345678)
+
    sudo chown -R ftpuser.ftpuser /ftpfile  #赋予ftpuser访问ftpfile文件夹权限
 
-   sudo passwd ftpuser 12345678 #设置ftpuser密码
-
    2. 配置vsftpd.conf
-   sudo wget -O /etc/vsftpd/vsftpd.conf https://github.com/AotY/Vue-Spring-demo/blob/master/config/vsftp/vsftpd.conf
-   ```
+   sudo cp /developer/git-repository/Vue-Spring-demo/config/vsftp/vsftpd.conf /etc/vsftpd/vsftpd.conf
 
-   ​
+   sudo cp /developer/git-repository/Vue-Spring-demo/config/vsftp/chroot_list /etc/vsftpd/chroot_list
+   ```
 
 3. 启动vsftpd
 
@@ -234,7 +274,7 @@ mv maven /developer
 
   sudo chkconfig vsftpd on # 设置开机自启
 
-  相关命令：
+  vsftpd相关命令：
   sudo service vsftpd start
   sudo service vsftpd stop
   sudo service vsftpd restart
@@ -245,27 +285,33 @@ mv maven /developer
    ```
    sudo yum install -y unzip
 
-   cd /ftpfile/image
+   sudo cp /developer/git-repository/Vue-Spring-demo/ftpfile/image.zip /ftpfile/
 
-   wget https://github.com/AotY/Vue-Spring-demo/blob/master/ftpfile/image.zip
+   cd /ftpfile
 
-   unzip image.zip
+   sudo unzip image.zip
+
+   sudo chown -R ftpuser.ftpuser /ftpfile #(因为image.zip拥有者是root)
    ```
 
    ​
 
-### 1.9 nginx配置 
+### 1.10 nginx配置 
 
 1. 下载安装
 
    ```
-   http://nginx.org/download/nginx-1.12.1.tar.gz
+   cd ~
+
+   wget http://nginx.org/download/nginx-1.12.1.tar.gz
 
    tar -xvf nginx-1.12.1.tar.gz
 
    cd nginx-1.12.1
 
-   ./configure --prefix=path 
+   sudo yum install -y gcc gcc-c++ make zlib-devel pcre-devel openssl-devel
+
+   ./configure --prefix=/usr/local/nginx
 
    make
 
@@ -275,17 +321,17 @@ mv maven /developer
 2. 配置
 
    ```
-   cd /usr/local/nginx/conf
+   sudo cp /developer/git-repository/Vue-Spring-demo/config/nginx/nginx.conf /usr/local/nginx/conf
 
-   sudo wget -O /etc/vsftpd/vsftpd.conf https://github.com/AotY/Vue-Spring-demo/blob/master/config/nginx/nginx.conf
 
-   sudo mkdir vhost & cd vhost
+   sudo mkdir /usr/local/nginx/conf/vhost
 
-   sudo wget https://github.com/AotY/Vue-Spring-demo/blob/master/config/nginx/vhost/www.vuespringdemo.com.conf
+   sudo cp /developer/git-repository/Vue-Spring-demo/config/nginx/vhost/www.vuespringdemo.com.conf /usr/local/nginx/conf/vhost/
 
-   sudo wget https://github.com/AotY/Vue-Spring-demo/blob/master/config/nginx/vhost/image.vuespringdemo.com.conf
 
-   sudo wget https://github.com/AotY/Vue-Spring-demo/blob/master/config/nginx/vhost/backend.vuespringdemo.com.conf
+   sudo cp /developer/git-repository/Vue-Spring-demo/config/nginx/vhost/backend.vuespringdemo.com.conf /usr/local/nginx/conf/vhost/
+
+   sudo cp /developer/git-repository/Vue-Spring-demo/config/nginx/vhost/image.vuespringdemo.com.conf /usr/local/nginx/conf/vhost/
    ```
 
 3. 启动nginx
@@ -298,83 +344,112 @@ mv maven /developer
    ​
 
 
-### 1.10 MySQL配置
+### 1.11 MySQL配置
 
 1. 安装
 
    ```
-   1. 查看系统是否安装了MySQL，如果安装了使用(sudo rpm -e --nodeps mysql-*卸载)
+   1. 查看系统是否安装了MySQL
    rpm -qa | grep mysql
-   2. 安装MySQL
-   sudo yum -y install mysql-server
-   3. 安装完成后执行初始化命令
-   sudo service mysqld start 
+   2. 如果安装了使用下面命令卸载
+   sudo rpm -qa | grep mysql
+   yum remove mysql mysql-client mysql-server mysql-common mysql-devel
+   sudo mv /var/lib/mysql /var/lib/mysql_old_backup
+   sudo rm -rf /var/lib/mysql/
+   sudo rm -rf /etc/my.cnf
    ```
 
-2. 配置
-
-   修改MySQL的配置文件(my.cnf)
+2. 安装
 
    ```
-   sudo wget -O /etc/my.cnf https://github.com/AotY/Vue-Spring-demo/blob/master/config/mysql/my.cnf
-   重启MySQL服务
-   sudo service mysqld restart 
+   wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+
+   sudo rpm -ivh mysql-community-release-el7-5.noarch.rpm
+
+   sudo yum update
+
+   sudo yum install mysql-server
    ```
 
-3. 登录
+3. 启动MySQL
 
    ```
-   mysql -uroot -p (第一次登录不用密码)
+   sudo systemctl start mysqld
    ```
 
-4. 修改root密码
+4. 登录（第一次登录不用密码）
+
+   ```
+   mysql -uroot -p
+   ```
+
+5. 修改root密码
 
    ```
    1. 查看用户
    select user, host, password from mysql.user\G;
    2. 设置密码
    set password for root@localhost=password('xjtuxjtu');
-   3.刷新权限
+   set password for root@xjtu=password('xjtuxjtu');
+   set password for root@127.0.0.1=password('xjtuxjtu');
+   ```
+
+6. 删除匿名用户
+
+   ```
+   delete from mysql.user where user='';
+   刷新权限
    flush privileges; 
    ```
 
-5. 新增用户 
+7. 新增用户 
 
    ```
-   insert into mysql.user(Host, User, Password) values ("localhost", "xjtu", password("xjtuxjtu"));
+   insert into mysql.user(host, user, password, ssl_cipher,x509_issuer,x509_subject) values ("localhost", "xjtu", password("xjtuxjtu"), "", "", "");
    ```
 
-6. 导入数据库
+8. 创建数据库
 
    ```
-   cd ~
+   CREATE DATABASE `vue_spring_demo` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-   wget https://github.com/AotY/Vue-Spring-demo/blob/master/backend/vue_spring_demo.sql
+   use vue_spring_demo;
+   ```
 
-   mysql -u xjtu -p vue_spring_demo < vue_spring_demo.sql
+9. 赋予用户权限
+
+   ```
+   1. 本地权限
+   grant all privileges on vue_spring_demo.* to xjtu@localhost identified by 'xjtuxjtu';
+   2. 远程权限
+   grant all privileges on vue_spring_demo.* to xjtu@'%' identified by 'xjtuxjtu';
+   3.刷新权限
+   flush privileges; 
    ```
 
    ​
 
-7. 赋予用户权限
+10. 导入数据库
 
    ```
-   1. 本地权限
-   grant all privileges on vue_spring_demo.* to xjtu@localhost identified by 'xjtuxjtu'
-   2. 远程权限
-   grant all privileges on vue_spring_demo.* to xjtu@'%' identified by 'xxxx';
-   3.刷新权限
-   flush privileges; 
+   exit;
+
+   mysql -u xjtu -p vue_spring_demo < /developer/git-repository/Vue-Spring-demo/backend/vue_spring_demo.sql
    ```
 
 
 
 
-### 1.11 Node js配置
+
+> `::1` is the IPv6 address for localhost.
+
+### 1.12 Node js配置
 
 1. 下载安装nodejs
 
   ```
+  cd ~
+
   wget https://nodejs.org/dist/v6.11.3/node-v6.11.3-linux-x64.tar.xz
 
   sudo mkdir /usr/local/nodejs
@@ -384,10 +459,9 @@ mv maven /developer
   sudo mv /usr/local/nodejs/node-v6.11.3-linux-x64/ /usr/local/nodejs/node-v6.11.3
   ```
 
-2. 配置环境变量
+2. 使环境变量（之前已经配置）
   ```
-  export NODEJS_HOME=/usr/local/nodejs/node-v6.11.3
-  export PATH=$NODEJS_HOME/bin:$PATH
+  source /etc/profile
   ```
 
 3. 验证
@@ -403,11 +477,23 @@ mv maven /developer
    npm install -g cnpm --registry=https://registry.npm.taobao.org
    ```
 
-   ​
+      
 
-   ​
+### 1.13 本机host配置
 
-## 2. 部署
+在本机（不是虚拟机）hosts文件中添加一下几行目录。
+
+> 注意的是，需要将前面的IP换为自己虚拟机中的centOS的IP。
+
+```
+192.168.246.204 image.vuespringdemo.com
+192.168.246.204 backend.vuespringdemo.com
+192.168.246.204 www.vuespringdemo.com
+```
+
+
+
+## 2. 编译部署
 
 1. 进入项目目录
 
@@ -418,7 +504,382 @@ mv maven /developer
 2. 编译部署
 
    ```
-   ./deploy.sh
+   sh ./deploy.sh
    ```
 
    ​
+
+## 3. 接口说明
+
+### 3.1 user（用户相关）
+
+#### 3.1.1 登录
+
+- 接口
+
+  ```
+  http://backend.vuespringdemo.com/user/login.do
+  ```
+
+- 请求方式
+
+  ```
+  POST
+  ```
+
+- 参数
+
+  ```
+  username=admin
+  password=1234
+  ```
+
+- 返回值
+
+  ```
+  {
+    "status": 0,
+    "data":{
+      "id": 26,
+      "username": "admin",
+      "password": "",
+      "email": "qingtaogg@gmail.com",
+      "phone": "13800138000",
+      "question": "问题",
+      "answer": "答案",
+      "role": 1,
+      "createTime": null,
+      "updateTime": null
+    }
+  }
+  ```
+
+
+
+#### 3.1.2 注销
+
+- 接口
+
+  ```
+  http://backend.vuespringdemo.com/user/logout.do
+  ```
+
+- 请求方式
+
+  ```
+  POST
+  ```
+
+- 参数
+
+  ```
+  无
+  ```
+
+- 返回值
+
+  ```
+  {
+    "status": 0,
+    "msg": "SUCCESS"
+  }
+  ```
+
+
+
+#### 3.1.3 注册
+
+- 接口
+
+  ```
+  http://backend.vuespringdemo.com/user/register.do
+  ```
+
+- 请求方式
+
+  ```
+  POST
+  ```
+
+- 参数
+
+  ```
+  username=test
+  password=1234
+  email=test@test.com
+  ```
+
+- 返回值
+
+  ```
+  {
+    "status": 0,
+    "msg": "注册成功"
+  }
+  ```
+
+
+
+#### 3.1.4 获取用户信息
+
+- 接口
+
+  ```
+  http://backend.vuespringdemo.com/user/get_user_info.do
+  ```
+
+- 请求方式
+
+  ```
+  GET
+  ```
+
+- 参数
+
+  ```
+  无
+  ```
+
+- 返回值
+
+  ```
+  {
+    "status": 0,
+    "data":{
+      "id": 26,
+      "username": "admin",
+      "password": "",
+      "email": "qingtaogg@gmail.com",
+      "phone": "13800138000",
+      "question": "问题",
+      "answer": "答案",
+      "role": 1,
+      "createTime": null,
+      "updateTime": null
+    }
+  }
+  ```
+
+
+
+### 3.2 推荐
+
+#### 3.2.1 滚动图片
+
+- 接口
+
+  ```
+  http://backend.vuespringdemo.com/recommend/carousel.do
+  ```
+
+- 请求方式
+
+  ```
+  GET
+  ```
+
+- 参数
+
+  ```
+  无
+  ```
+
+- 返回值
+
+  ```
+  {
+    "status": 0,
+    "data":{
+    "imageHost": "http://image.vuespringdemo.com/",
+    "carousels":[
+      {"id": 32, "productId": 27, "name": "Apple iPhone 8 (A1863) 64GB 深空灰色 移动联通电信4G手机", "image": "carousel-iPhone8.jpg",…},
+      {"id": 33, "productId": 28, "name": "锤子 坚果Pro 128GB 细红线特别版 全网通 移动联通电信4G手机 双卡双待", "image": "carousel-smartian-u2.jpg",…}
+    ]
+    }
+  }
+  ```
+
+
+
+#### 3.2.1 推荐搜索关键词
+
+- 接口
+
+  ```
+  http://backend.vuespringdemo.com/recommend/keyword.do
+  ```
+
+- 请求方式
+
+  ```
+  GET
+  ```
+
+- 参数
+
+  ```
+  无
+  ```
+
+- 返回值
+
+  ```
+  {
+    "status": 0,
+    "data":[
+      "手机",
+      "锤子"
+    ]
+  }
+  ```
+
+
+
+### 3.3 product (商品相关)
+
+#### 3.3.1 商品列表
+
+- 接口
+
+  ```
+  http://backend.vuespringdemo.com/product/list.do?keyword=手机&categoryId=0&orderBy=price_desc&pageSize=10&pageNum=1
+  ```
+
+- 请求方式
+
+  ```
+  GET
+  ```
+
+- 参数
+
+  ```
+  keyword=手机 (可选)
+  categoryId=0(可选)
+  orderBy=price_desc(可选)
+  pageSize=10(可选)
+  pageNum=1 (可选)
+  ```
+
+- 返回值
+
+  ```
+  {
+    "status": 0,
+    "data":{
+      "pageNum": 1,
+      "pageSize": 1,
+      "size": 1,
+      "orderBy": "price desc",
+      "startRow": 1,
+      "endRow": 1,
+      "total": 3,
+      "pages": 3,
+      "list":[
+        {"id": 27, "categoryId": 100012, "name": "Apple iPhone 8 Plus (A1864) 256GB 金色 移动联通电信4G手机", "subtitle": "【iPhone新品上市】新一代iPhone，让智能看起来更不一样",…}
+        ],
+      "firstPage": 1,
+      "prePage": 0,
+      "nextPage": 2,
+      "lastPage": 3,
+      "isFirstPage": true,
+      "isLastPage": false,
+      "hasPreviousPage": false,
+      "hasNextPage": true,
+      "navigatePages": 8,
+      "navigatepageNums":[
+      1,
+      2,
+      3
+      ]
+    }
+  }
+  ```
+
+​	
+
+#### 3.3.2 商品详情
+
+- 接口
+
+  ```
+  http://backend.vuespringdemo.com/product/detail.do?productId=26
+  ```
+
+- 请求方式
+
+  ```
+  GET
+  ```
+
+- 参数
+
+  ```
+  productId=26
+  ```
+
+- 返回值
+
+  ```
+  {
+    "status": 0,
+    "data":{
+      "id": 26,
+      "categoryId": 100012,
+      "name": "Apple iPhone 8 (A1863) 64GB 深空灰色 移动联通电信4G手机",
+      "subtitle": "【iPhone新品上市】新一代iPhone，让智能看起来更不一样",
+      "mainImage": "iphone8.png",
+      "subImages": "iphone2.png",
+      "detail": "iphone-detail.jpg",
+      "price": 5888,
+      "stock": 9991,
+      "rate": 4.7,
+      "status": 1,
+      "createTime": "2017-09-23 15:42:52",
+      "updateTime": "2017-09-23 15:42:55",
+      "imageHost": "http://image.vuespringdemo.com/",
+      "parentCategoryId": 0
+  	}
+  }
+  ```
+
+​	
+
+### 3.4 cart（购物车相关）
+
+#### 3.4.1 添加商品到购物车
+
+- 接口
+
+  ```
+  http://backend.vuespringdemo.com/cart/add.do
+  ```
+
+- 请求方式
+
+  ```
+  POST
+  ```
+
+- 参数
+
+  ```
+  productId=26
+  quantity=2
+  ```
+
+- 返回值
+
+  ```
+  {
+    "status": 0,
+    "msg": "SUCCESS"
+   }
+  ```
+
+​	
+
+### 
+
+
+

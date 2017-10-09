@@ -2,15 +2,15 @@
  Navicat Premium Data Transfer
 
  Source Server         : 192.168.246.160
- Source Server Type    : MySQL
- Source Server Version : 5.6.36
+ Source Server Type    : MariaDB
+ Source Server Version : 5.5.56-MariaDB MariaDB Server
  Source Host           : 192.168.246.160
  Source Database       : vue_spring_demo
 
- Target Server Type    : MySQL
- Target Server Version : 5.6.36
+ Target Server Type    : MariaDB
+ Target Server Version : 5.5.56
  Character set         : utf-8
- Collation 		   	   : utf8_general_ci
+ Collation 		   	     : utf8_general_ci
  Date: 2017/9/22 
 
 
