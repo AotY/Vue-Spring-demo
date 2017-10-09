@@ -78,7 +78,7 @@ typora-copy-images-to: ipic
 6. 配置网络（确保能上网）
 
    ​
-### 1.2 安装git下载源码
+### 1.2 git配置
 
 1. 下载安装
 
@@ -117,7 +117,7 @@ exit
 
 
 
-### 1.4 配置iptables
+### 1.4 iptables配置
 
 1. 关闭防火墙
 
@@ -201,9 +201,9 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 2. 配置
 
    ```
-   sudo cp /developer/git-repository/Vue-Spring-demo/config/tomcat/server.xml /developer/apache-tomcat-8.5.20/conf/server.xml
+   cp /developer/git-repository/Vue-Spring-demo/config/tomcat/server.xml /developer/apache-tomcat-8.5.20/conf/server.xml
 
-   sudo cp /developer/git-repository/Vue-Spring-demo/config/tomcat/setenv.sh /developer/apache-tomcat-8.5.20/bin/setenv.sh
+   cp /developer/git-repository/Vue-Spring-demo/config/tomcat/setenv.sh /developer/apache-tomcat-8.5.20/bin/setenv.sh
    ```
 
    ​
@@ -217,7 +217,7 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 
    ​
 
-### 1.8 安装Maven
+### 1.8 Maven配置
 
 1. 安装
 
@@ -232,10 +232,8 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 2. 配置
 
    ```
-
+   cp /developer/git-repository/Vue-Spring-demo/config/maven/settings.xml /developer/apache-maven-3.0.5/conf/settings.xml
    ```
-
-   ​
 
 
 
@@ -374,6 +372,8 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 3. 启动MySQL
 
    ```
+   sudo systemctl enable mysqld
+
    sudo systemctl start mysqld
    ```
 
@@ -481,7 +481,7 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 
 ### 1.13 本机host配置
 
-在本机（不是虚拟机）hosts文件中添加一下几行目录。
+在本机（不是虚拟机）hosts文件中添加以下几行记录。
 
 > 注意的是，需要将前面的IP换为自己虚拟机中的centOS的IP。
 
