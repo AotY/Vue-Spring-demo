@@ -36,8 +36,8 @@ rm -rf $TOMCAT_HOME/webapps/ROOT
 echo "10. 关闭tomcat" 
 $TOMCAT_HOME/bin/shutdown.sh 
 
-echo "11. sleep 10s" 
-for i in {1..10} 
+echo "11. sleep 5s" 
+for i in {1..5} 
 do 
    	echo $i"s" 
    	sleep 1s 
@@ -56,7 +56,10 @@ cd $GIT_REPOSITORY/Vue-Spring-demo/fronted
 echo "2. 安装依赖"
 cnpm install
 
-echo "3. build，生成dist文件夹"
+echo "3. 替换element-ui theme"
+mv $GIT_REPOSITORY/Vue-Spring-demo/fronted/theme-default $GIT_REPOSITORY/Vue-Spring-demo/fronted/node_modules/element-ui/lib/
+
+echo "4. build，生成dist文件夹"
 npm run build 
 
 

@@ -12,7 +12,7 @@
             </div>
           </div>
           <!--<img src="http://image.vuespringdemo.com/qr-1506955845058.png" class="image">-->
-          <img v-bind:src="qrUrl" class="image">
+          <img v-bind:src="qrUrl" class="image" v-loading.body="loading">
         </el-card>
       </el-col>
     </el-row>
@@ -27,7 +27,8 @@
     data () {
       return {
         orderNo: '',
-        qrUrl: ''
+        qrUrl: '',
+        loading: true
       }
     },
     created () {
@@ -45,6 +46,7 @@
           if (response.data.status === 0) {
             self.orderNo = response.data.data.orderNo
             self.qrUrl = response.data.data.qrUrl
+            self.loading = false
           } else if (response.data.status === 3) {
             self.$router.push('/login')
           } else {

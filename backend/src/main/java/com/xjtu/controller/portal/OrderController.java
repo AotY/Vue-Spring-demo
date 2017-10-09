@@ -78,11 +78,10 @@ public class OrderController {
     @RequestMapping("alipay_callback.do")
     @ResponseBody
     public Object alipayCallback(HttpServletRequest request) {
-
         Map<String, String> params = Maps.newHashMap();
 
+        // 支付宝回调时传递回来的参数
         Map requestsParams = request.getParameterMap();
-
         for (Iterator iterator = requestsParams.keySet().iterator(); iterator.hasNext(); ) {
             String name = (String) iterator.next();
             String[] values = (String[]) requestsParams.get(name);
