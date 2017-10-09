@@ -1,29 +1,38 @@
 <template>
 
   <div class="order-wrapper">
+    <div>
+      <div class="panel">
+        <h3 class="product-info">订单信息</h3>
+        <div class="panel-body">
+          <div class="order-info">
 
-    <div class="panel">
-      <h3 class="product-info">订单信息</h3>
-      <div class="panel-body">
-        <div class="order-info">
-
-          <div class="text-line">
-            <span class="text">订单号：{{orderDetail.orderNo}}</span>
-            <span class="text">创建时间：{{orderDetail.createTime}}</span>
-          </div>
-          <div class="text-line">
-            <span class="text">收件人：{{orderDetail.receiverName}}  </span>
-          </div>
-          <div class="text-line">
-            <span class="text">订单状态：{{orderDetail.statusDesc}}</span>
-          </div>
-          <div class="text-line">
+            <div class="text-line">
+              <span class="text">订单号：{{orderDetail.orderNo}}</span>
+              <span class="text">创建时间：{{orderDetail.createTime}}</span>
+            </div>
+            <div class="text-line">
+              <span class="text">收件人：{{orderDetail.receiverName}}  </span>
+            </div>
+            <div class="text-line">
+              <span class="text">订单状态：{{orderDetail.statusDesc}}</span>
+            </div>
+            <div class="text-line">
             <span class="text">支付方式：{{orderDetail.paymentTypeDesc}}
             </span>
+            </div>
+
+            <div>
+              <div class="text-line" v-if="orderDetail.status === 10">
+                <a class="btn btn-mini" v-bind:href="'#/payment/orderNo/' + orderDetail.orderNo">去支付</a>
+                <a class="btn btn-mini order-cancel" v-on:click="cancel">取消订单</a>
+              </div>
+
+              <div class="text-line" v-else-if="orderDetail.status === 0">
+                <a class="btn btn-mini order-cancel" v-on:click="deleteOrder">删除订单</a>
+              </div>
+            </div>
           </div>
-          <div class="text-line" v-if="orderDetail.status == 10">
-            <a class="btn btn-mini" v-bind:href="'#/payment/orderNo/' + orderDetail.orderNo">去支付</a>
-            <a class="btn btn-mini order-cancel" v-on:click="cancel">取消订单</a></div>
         </div>
 
       </div>
@@ -61,16 +70,14 @@
         </tr>
         </tbody>
       </table>
+
       <div class="total-wrapper">
         <p class="total pull-right">
           <span>订单总价：</span>
           <span class="enhance">￥17997</span>
         </p>
       </div>
-
     </div>
-
-
   </div>
 </template>
 
@@ -110,6 +117,23 @@
           if (response.data.status === 0) {
             self.$message({
               message: '取消成功',
+              type: 'success'
+            })
+            self.getOrderDetail(self.orderNo)
+          } else if (response.data.status === 3) {
+            self.$message({
+              message: response.data.msg,
+              type: 'error'
+            })
+          }
+        })
+      },
+      deleteOrder () {
+        let self = this
+        orderApi.deleteOrder(self, self.orderNo).then(function (response) {
+          if (response.data.status === 0) {
+            self.$message({
+              message: '删除成功',
               type: 'success'
             })
             self.getOrderDetail(self.orderNo)

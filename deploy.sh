@@ -57,7 +57,7 @@ echo "2. 安装依赖"
 cnpm install
 
 echo "3. 替换element-ui theme"
-mv $GIT_REPOSITORY/Vue-Spring-demo/fronted/theme-default $GIT_REPOSITORY/Vue-Spring-demo/fronted/node_modules/element-ui/lib/
+cp -rf $GIT_REPOSITORY/Vue-Spring-demo/fronted/theme-default $GIT_REPOSITORY/Vue-Spring-demo/fronted/node_modules/element-ui/lib/
 
 echo "4. build，生成dist文件夹"
 npm run build 

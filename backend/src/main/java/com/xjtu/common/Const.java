@@ -165,8 +165,9 @@ public class Const {
         NO_PAY(10, "未付款"),
         PAID(20, "已付款"),
         SHIPPED(40, "已发货"),
-        ORDER_SUCCESS(40, "交易成功"),
-        ORDER_CLOSE(40, "交易关闭");
+        ORDER_SUCCESS(50, "交易成功"),
+        ORDER_CLOSE(60, "交易关闭"),
+        ORDER_DELETED(70, "交易已删除");
 
         private int code;
         private String value;

@@ -1,10 +1,6 @@
----
-typora-copy-images-to: ipic
----
-
 # Vue-Spring-demo
 
-**目前效果图：（目前v2.0版本）**
+****
 
 - 首页
 
@@ -369,7 +365,7 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
    sudo yum install mysql-server
    ```
 
-3. 启动MySQL
+3. 启动
 
    ```
    sudo systemctl enable mysqld

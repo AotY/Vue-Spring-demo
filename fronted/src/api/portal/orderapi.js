@@ -23,6 +23,9 @@ export default {
   },
   getDetail (context, orderNo) {
     return context.$axios.get(API_URL + '/detail.do?orderNo=' + orderNo)
+  },
+  deleteOrder (context, orderNo) {
+    return context.$axios.delete(API_URL + '/delete.do?orderNo=' + orderNo)
   }
 }
 

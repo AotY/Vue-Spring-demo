@@ -19,4 +19,6 @@ public interface IOrderService {
     public ServerResponse getOrderDetail(Integer userId, Long orderNo);
 
     public ServerResponse cancelOrder(Integer userId, Long orderNo);
+
+    public ServerResponse deleteOrder(Integer id, Long orderNo);
 }

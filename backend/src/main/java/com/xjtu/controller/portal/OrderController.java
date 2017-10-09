@@ -169,6 +169,21 @@ public class OrderController {
         return iOrderService.cancelOrder(user.getId(), orderNo);
     }
 
+    /**
+     * 删除订单
+     * @return
+     */
+    @RequestMapping("delete.do")
+    @ResponseBody
+    public ServerResponse delete(Long orderNo, HttpSession session) {
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServerResponse.createByError(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+        }
+
+        return iOrderService.deleteOrder(user.getId(), orderNo);
+    }
+
 
 
 

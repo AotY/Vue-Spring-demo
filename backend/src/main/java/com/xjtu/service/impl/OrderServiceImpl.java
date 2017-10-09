@@ -421,6 +421,36 @@ public class OrderServiceImpl implements IOrderService {
         return ServerResponse.createByError();
     }
 
+
+    /**
+     * 用户删除订单
+     * @param userId
+     * @param orderNo
+     * @return
+     */
+    @Override
+    public ServerResponse deleteOrder(Integer userId, Long orderNo) {
+        ServerResponse checkResponse = this.checkUserIdAndOrderNo(userId, orderNo);
+        if (!checkResponse.isSuccess()) {
+            return checkResponse;
+        }
+        Order order = (Order) checkResponse.getData();
+
+        // 只能删除已经取消的、交易关闭、交易成功的订单
+        if (
+                order.getStatus() == Const.OrderStatus.CANCELED.getCode() ||
+                order.getStatus() == Const.OrderStatus.ORDER_CLOSE.getCode() ||
+                order.getStatus() == Const.OrderStatus.ORDER_SUCCESS.getCode()
+                ) {
+            order.setStatus(Const.OrderStatus.ORDER_DELETED.getCode());
+            int affectedRows = orderMapper.updateByPrimaryKeySelective(order);
+            if (affectedRows > 0) {
+                return ServerResponse.createBySuccess();
+            }
+        }
+        return ServerResponse.createByError();
+    }
+
     /**
      * 组装OrderVo List
      * @param orderList
@@ -431,6 +461,9 @@ public class OrderServiceImpl implements IOrderService {
         List<OrderVo> orderVoList = Lists.newArrayList();
         if (orderList.size() > 0) {
             for (Order order: orderList) {
+                // 不返回用户已经删除的订单
+                if (order.getStatus() == Const.OrderStatus.ORDER_DELETED.getCode())
+                    continue;
                 List<OrderItem> orderItemList = orderItemMapper.selectByOrderNo(order.getOrderNo());
                 OrderVo orderVo = this.assembleOrderVo(order, orderItemList);
                 orderVoList.add(orderVo);
