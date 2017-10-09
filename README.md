@@ -387,7 +387,7 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 
    ```
    1. 查看用户
-   select user, host, password from mysql.user\G;
+   select user, host, password from mysql.user;
    2. 设置密码
    set password for root@localhost=password('xjtuxjtu');
    set password for root@xjtu=password('xjtuxjtu');
@@ -406,6 +406,8 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 
    ```
    insert into mysql.user(host, user, password, ssl_cipher,x509_issuer,x509_subject) values ("localhost", "xjtu", password("xjtuxjtu"), "", "", "");
+
+   flush privileges; 
    ```
 
 8. 创建数据库
