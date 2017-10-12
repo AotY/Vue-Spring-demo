@@ -11,7 +11,6 @@ target/springboot_vue-0.0.1-SNAPSHOT.jar.original
 
 ### JAVA
 *.class
-#*.jar
 
 ### STS ###
 .apt_generated
@@ -92,7 +91,6 @@ Thumbs.db
 
 
 ## maven
-classes
 classes/
 
 
