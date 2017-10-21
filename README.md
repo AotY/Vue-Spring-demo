@@ -1,6 +1,8 @@
 # Vue-Spring-demo
 
-****
+
+
+## 项目展示
 
 - 首页
 
@@ -32,6 +34,22 @@
 
 ![order-detail](https://ws4.sinaimg.cn/large/006tKfTcly1fk60bm8fuhj31kw0zkn3j.jpg)
 
+
+
+## 技术栈
+
+### 1. 后端
+
+- spring-mvc
+- MySQL
+
+### 2. 前端
+
+- Vue.js
+- Vue Router
+- Vuex
+- axios
+
 ## 1. 环境配置
 
 ### 1.1 安装CentOS 
@@ -39,6 +57,8 @@
 > 安装时用户名：xjtu
 >
 > 密码：xjtuxjtu
+>
+> 用户名和密码请保持一致。
 
 1. 下载地址
 
@@ -206,12 +226,12 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 
 3. 启动
 
-
    ```
    /developer/apache-tomcat-8.5.20/bin/startup.sh
    ```
 
-   ​
+      
+
 
 ### 1.8 Maven配置
 
@@ -317,26 +337,28 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
    ```
    sudo cp /developer/git-repository/Vue-Spring-demo/config/nginx/nginx.conf /usr/local/nginx/conf
 
-
    sudo mkdir /usr/local/nginx/conf/vhost
 
    sudo cp /developer/git-repository/Vue-Spring-demo/config/nginx/vhost/www.vuespringdemo.com.conf /usr/local/nginx/conf/vhost/
 
-
    sudo cp /developer/git-repository/Vue-Spring-demo/config/nginx/vhost/backend.vuespringdemo.com.conf /usr/local/nginx/conf/vhost/
 
    sudo cp /developer/git-repository/Vue-Spring-demo/config/nginx/vhost/image.vuespringdemo.com.conf /usr/local/nginx/conf/vhost/
+
    ```
+
+
+   
 
 3. 启动nginx
 
    ```
    cd /usr/local/nginx/sbin
+
    sudo ./nginx
    ```
 
    ​
-
 
 ### 1.11 MySQL配置
 
@@ -352,6 +374,9 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
    sudo rm -rf /var/lib/mysql/
    sudo rm -rf /etc/my.cnf
    ```
+
+   ​
+
 
 2. 安装
 
@@ -390,10 +415,13 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
    set password for root@127.0.0.1=password('xjtuxjtu');
    ```
 
+   ​
+
 6. 删除匿名用户
 
    ```
    delete from mysql.user where user='';
+
    刷新权限
    flush privileges; 
    ```
@@ -401,7 +429,7 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 7. 新增用户 
 
    ```
-   insert into mysql.user(host, user, password, ssl_cipher,x509_issuer,x509_subject) values ("localhost", "xjtu", password("xjtuxjtu"), "", "", "");
+   insert into mysql.user(host, user, password, ssl_cipher,x509issuer,x509subject) values ("localhost", "xjtu", password("xjtuxjtu"), "", "", "");
 
    flush privileges; 
    ```
@@ -409,7 +437,7 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 8. 创建数据库
 
    ```
-   CREATE DATABASE `vue_spring_demo` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+   CREATE DATABASE vue_spring_demo DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
    use vue_spring_demo;
    ```
@@ -425,68 +453,72 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
    flush privileges; 
    ```
 
-   ​
-
 10. 导入数据库
 
-   ```
-   exit;
+    ```
+    exit;
 
-   mysql -u xjtu -p vue_spring_demo < /developer/git-repository/Vue-Spring-demo/backend/vue_spring_demo.sql
-   ```
+    mysql -u xjtu -p vue_spring_demo < /developer/git-repository/Vue-Spring-demo/backend/vue_spring_demo.sql
 
-
-
-
+    ```
 
 > `::1` is the IPv6 address for localhost.
+
+   
 
 ### 1.12 Node js配置
 
 1. 下载安装nodejs
 
-  ```
-  cd ~
+   ```
+   cd ~
 
-  wget https://nodejs.org/dist/v6.11.3/node-v6.11.3-linux-x64.tar.xz
+   wget https://nodejs.org/dist/v6.11.3/node-v6.11.3-linux-x64.tar.xz
 
-  sudo mkdir /usr/local/nodejs
+   sudo mkdir /usr/local/nodejs
 
-  sudo tar -xJvf node-v6.11.3-linux-x64.tar.xz -C /usr/local/nodejs
+   sudo tar -xJvf node-v6.11.3-linux-x64.tar.xz -C /usr/local/nodejs
 
-  sudo mv /usr/local/nodejs/node-v6.11.3-linux-x64/ /usr/local/nodejs/node-v6.11.3
-  ```
+   sudo mv /usr/local/nodejs/node-v6.11.3-linux-x64/ /usr/local/nodejs/node-v6.11.3
+   ```
 
-2. 使环境变量（之前已经配置）
-  ```
-  source /etc/profile
-  ```
+   ​
+
+2. 使环境变量（之前已经配置）  
+
+   ```
+   source /etc/profile
+   ```
 
 3. 验证
-  ```
-  node -v
-  npm version
-  ```
-
-4. 安装cnpm（为了提高安装依赖包的速度）
-
 
    ```
-   npm install -g cnpm --registry=https://registry.npm.taobao.org
+   node -v
+
+   npm version
    ```
 
-      
+4. 安装cnpm（为了提高安装依赖包的速度）  
 
-### 1.13 本机host配置
+   ```
+    npm install -g cnpm --registry=https://registry.npm.taobao.org
+   ```
+
+   ​
+
+ ### 1.13 本机host配置 
 
 在本机（不是虚拟机）hosts文件中添加以下几行记录。
 
 > 注意的是，需要将前面的IP换为自己虚拟机中的centOS的IP。
 
 ```
-192.168.246.204 image.vuespringdemo.com
-192.168.246.204 backend.vuespringdemo.com
-192.168.246.204 www.vuespringdemo.com
+192.168.246.204(替换为自己的虚拟机ip) image.vuespringdemo.com
+
+192.168.246.204(替换为自己的虚拟机ip) backend.vuespringdemo.com
+
+192.168.246.204(替换为自己的虚拟机ip) www.vuespringdemo.com
+
 ```
 
 
@@ -495,17 +527,26 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 
 1. 进入项目目录
 
-   ```
-   cd /developer/git-repository/Vue-Spring-demo
-   ```
-
+```
+cd /developer/git-repository/Vue-Spring-demo
+```
 2. 编译部署
 
    ```
-   sh ./deploy.sh
+sh ./deploy.sh
+   ```
+3. 访问测试 
+
+   在本机打开浏览器，地址栏输入：
+
+   ```
+  www.vuespringdemo.com
    ```
 
-   ​
+
+如果能够看到页面主页则说明配置成功。
+
+
 
 ## 3. 接口说明
 
@@ -515,108 +556,91 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 
 - 接口
 
+  ```   ​  
+http://backend.vuespringdemo.com/user/login.do
   ```
-  http://backend.vuespringdemo.com/user/login.do
-  ```
-
 - 请求方式
 
   ```
-  POST
+POST
   ```
-
-- 参数
+- 参数（例子）
 
   ```
-  username=admin
-  password=1234
+username=admin
+password=1234
   ```
-
 - 返回值
 
   ```
-  {
-    "status": 0,
-    "data":{
-      "id": 26,
-      "username": "admin",
-      "password": "",
-      "email": "qingtaogg@gmail.com",
-      "phone": "13800138000",
-      "question": "问题",
-      "answer": "答案",
-      "role": 1,
-      "createTime": null,
-      "updateTime": null
-    }
+{
+"status": 0,
+"data":{
+  "id": 26,
+  "username": "admin",
+  "password": "",
+  "email": "qingtaogg@gmail.com",
+  "phone": "13800138000",
+  "question": "问题",
+  "answer": "答案",
+  "role": 1,
+  "createTime": null,
+  "updateTime": null
   }
+}
   ```
-
 
 
 #### 3.1.2 注销
 
 - 接口
 
-  ```
-  http://backend.vuespringdemo.com/user/logout.do
-  ```
-
+    http://backend.vuespringdemo.com/user/logout.do
 - 请求方式
 
   ```
-  POST
+POST
   ```
-
 - 参数
 
   ```
-  无
+无
   ```
-
 - 返回值
 
   ```
-  {
-    "status": 0,
-    "msg": "SUCCESS"
-  }
+{
+  "status": 0,
+  "msg": "SUCCESS"
+}
   ```
-
-
-
 #### 3.1.3 注册
 
 - 接口
 
   ```
-  http://backend.vuespringdemo.com/user/register.do
+http://backend.vuespringdemo.com/user/register.do
   ```
-
 - 请求方式
 
   ```
-  POST
+POST
   ```
-
-- 参数
+- 参数（例子）
 
   ```
-  username=test
-  password=1234
-  email=test@test.com
+username=test
+password=1234
+email=test@test.com
   ```
-
 - 返回值
 
   ```
-  {
-    "status": 0,
-    "msg": "注册成功"
-  }
+{
+  "status": 0,
+  "msg": "注册成功"
+}
   ```
-
-
 
 #### 3.1.4 获取用户信息
 
@@ -625,37 +649,34 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
   ```
   http://backend.vuespringdemo.com/user/get_user_info.do
   ```
-
 - 请求方式
 
   ```
-  GET
+GET
   ```
-
 - 参数
 
   ```
-  无
+无
   ```
-
 - 返回值
 
   ```
-  {
-    "status": 0,
-    "data":{
-      "id": 26,
-      "username": "admin",
-      "password": "",
-      "email": "qingtaogg@gmail.com",
-      "phone": "13800138000",
-      "question": "问题",
-      "answer": "答案",
-      "role": 1,
-      "createTime": null,
-      "updateTime": null
-    }
+{
+"status": 0,
+"data":{
+  "id": 26,
+  "username": "admin",
+  "password": "",
+  "email": "qingtaogg@gmail.com",
+  "phone": "13800138000",
+  "question": "问题",
+  "answer": "答案",
+  "role": 1,
+  "createTime": null,
+  "updateTime": null
   }
+}
   ```
 
 
@@ -664,39 +685,36 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 
 #### 3.2.1 滚动图片
 
-- 接口
+- 接口  
 
   ```
   http://backend.vuespringdemo.com/recommend/carousel.do
   ```
-
 - 请求方式
 
   ```
-  GET
+GET
   ```
-
 - 参数
 
   ```
-  无
+无
   ```
-
 - 返回值
 
   ```
-  {
-    "status": 0,
-    "data":{
-    "imageHost": "http://image.vuespringdemo.com/",
-    "carousels":[
-      {"id": 32, "productId": 27, "name": "Apple iPhone 8 (A1863) 64GB 深空灰色 移动联通电信4G手机", "image": "carousel-iPhone8.jpg",…},
-      {"id": 33, "productId": 28, "name": "锤子 坚果Pro 128GB 细红线特别版 全网通 移动联通电信4G手机 双卡双待", "image": "carousel-smartian-u2.jpg",…}
+{
+  "status": 0,
+  "data":{
+  "imageHost": "http://image.vuespringdemo.com/",
+  "carousels":[
+    {"id": 32, "productId": 27, "name": "Apple iPhone 8 (A1863) 64GB 深空灰色 移动联通电信4G手机", "image": "carousel-iPhone8.jpg",…},
+    {"id": 33, "productId": 28, "name": "锤子 坚果Pro 128GB 细红线特别版 全网通 移动联通电信4G手机 双卡双待", "image": "carousel-smartian-u2.jpg",…}
     ]
-    }
   }
+}
   ```
-
+  
 
 
 #### 3.2.1 推荐搜索关键词
@@ -704,31 +722,28 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 - 接口
 
   ```
-  http://backend.vuespringdemo.com/recommend/keyword.do
+http://backend.vuespringdemo.com/recommend/keyword.do
   ```
-
 - 请求方式
 
   ```
-  GET
+GET
   ```
-
 - 参数
 
   ```
-  无
+无
   ```
-
 - 返回值
 
   ```
-  {
-    "status": 0,
-    "data":[
-      "手机",
-      "锤子"
-    ]
-  }
+{
+"status": 0,
+  "data":[
+  "手机",
+  "锤子"
+  ]
+}
   ```
 
 
@@ -740,108 +755,100 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 - 接口
 
   ```
-  http://backend.vuespringdemo.com/product/list.do?keyword=手机&categoryId=0&orderBy=price_desc&pageSize=10&pageNum=1
+http://backend.vuespringdemo.com/product/list.do?keyword=手机&categoryId=0&orderBy=price_desc&pageSize=10&pageNum=1
   ```
-
 - 请求方式
 
   ```
-  GET
+GET
   ```
-
 - 参数
 
   ```
-  keyword=手机 (可选)
-  categoryId=0(可选)
-  orderBy=price_desc(可选)
-  pageSize=10(可选)
-  pageNum=1 (可选)
+keyword=手机 (可选)
+categoryId=0(可选)
+orderBy=price_desc(可选)
+pageSize=10(可选)
+pageNum=1 (可选)
   ```
-
 - 返回值
 
   ```
-  {
-    "status": 0,
-    "data":{
-      "pageNum": 1,
-      "pageSize": 1,
-      "size": 1,
-      "orderBy": "price desc",
-      "startRow": 1,
-      "endRow": 1,
-      "total": 3,
-      "pages": 3,
-      "list":[
-        {"id": 27, "categoryId": 100012, "name": "Apple iPhone 8 Plus (A1864) 256GB 金色 移动联通电信4G手机", "subtitle": "【iPhone新品上市】新一代iPhone，让智能看起来更不一样",…}
-        ],
-      "firstPage": 1,
-      "prePage": 0,
-      "nextPage": 2,
-      "lastPage": 3,
-      "isFirstPage": true,
-      "isLastPage": false,
-      "hasPreviousPage": false,
-      "hasNextPage": true,
-      "navigatePages": 8,
-      "navigatepageNums":[
-      1,
-      2,
-      3
-      ]
-    }
-  }
+{
+"status": 0,
+"data":{
+  "pageNum": 1,
+  "pageSize": 1,
+  "size": 1,
+  "orderBy": "price desc",
+  "startRow": 1,
+  "endRow": 1,
+  "total": 3,
+  "pages": 3,
+  "list":[
+    {"id": 27, "categoryId": 100012, "name": "Apple iPhone 8 Plus (A1864) 256GB 金色 移动联通电信4G手机", "subtitle": "【iPhone新品上市】新一代iPhone，让智能看起来更不一样",…}
+    ],
+  "firstPage": 1,
+  "prePage": 0,
+  "nextPage": 2,
+  "lastPage": 3,
+  "isFirstPage": true,
+  "isLastPage": false,
+  "hasPreviousPage": false,
+  "hasNextPage": true,
+  "navigatePages": 8,
+  "navigatepageNums":[
+  1,
+  2,
+  3
+  ]
+ }
+}
   ```
-
-​	
+  	
 
 #### 3.3.2 商品详情
 
 - 接口
 
   ```
-  http://backend.vuespringdemo.com/product/detail.do?productId=26
+http://backend.vuespringdemo.com/product/detail.do?productId=26
   ```
-
 - 请求方式
 
   ```
-  GET
+GET
   ```
-
-- 参数
+- 参数  
 
   ```
-  productId=26
+productId=26
   ```
-
 - 返回值
 
   ```
-  {
-    "status": 0,
-    "data":{
-      "id": 26,
-      "categoryId": 100012,
-      "name": "Apple iPhone 8 (A1863) 64GB 深空灰色 移动联通电信4G手机",
-      "subtitle": "【iPhone新品上市】新一代iPhone，让智能看起来更不一样",
-      "mainImage": "iphone8.png",
-      "subImages": "iphone2.png",
-      "detail": "iphone-detail.jpg",
-      "price": 5888,
-      "stock": 9991,
-      "rate": 4.7,
-      "status": 1,
-      "createTime": "2017-09-23 15:42:52",
-      "updateTime": "2017-09-23 15:42:55",
-      "imageHost": "http://image.vuespringdemo.com/",
-      "parentCategoryId": 0
-  	}
-  }
+{
+"status": 0,
+"data":{
+  "id": 26,
+  "categoryId": 100012,
+  "name": "Apple iPhone 8 (A1863) 64GB 深空灰色 移动联通电信4G手机",
+  "subtitle": "【iPhone新品上市】新一代iPhone，让智能看起来更不一样",
+  "mainImage": "iphone8.png",
+  "subImages": "iphone2.png",
+  "detail": "iphone-detail.jpg",
+  "price": 5888,
+  "stock": 9991,
+  "rate": 4.7,
+  "status": 1,
+  "createTime": "2017-09-23 15:42:52",
+  "updateTime": "2017-09-23 15:42:55",
+  "imageHost": "http://image.vuespringdemo.com/",
+  "parentCategoryId": 0
+ }
+}
   ```
-
-​	
+  	
 
 ### 3.4 cart（购物车相关）
 
@@ -850,34 +857,106 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 - 接口
 
   ```
-  http://backend.vuespringdemo.com/cart/add.do
+http://backend.vuespringdemo.com/cart/add.do
   ```
-
-- 请求方式
+- 请求方式 
 
   ```
-  POST
+POST
   ```
-
 - 参数
 
   ```
-  productId=26
-  quantity=2
+productId=26
+quantity=2
   ```
-
 - 返回值
 
   ```
-  {
-    "status": 0,
-    "msg": "SUCCESS"
-   }
+{
+  "status": 0,
+  "msg": "SUCCESS"
+}
   ```
+  
 
-​	
+#### 3.4.2 查看购物车列表
 
-### 
+- 接口
+
+```
+http://backend.vuespringdemo.com/cart/list.do
+```
+
+- 请求方式 
+
+```
+GET
+```
+
+- 参数
+
+```
+无
+```
+
+- 返回值
+
+
+
+  
+
+### 3.5 order（订单相关）
+
+#### 3.5.1 创建新订单
+
+- 接口
+
+```
+http://backend.vuespringdemo.com/order/create.do
+```
+
+- 请求方式 
+
+```
+POST
+```
+
+- 参数
+
+```
+shippingId=30
+```
+
+- 返回值
+
+```
+{
+  "status": 0,
+  "data":{
+  "orderNo": 1506955845058,
+  "payment": 69414,
+  "paymentType": 1,
+  "paymentTypeDesc": "在线支付",
+  "postage": 0,
+  "status": 10,
+  "statusDesc": "未付款",
+  "paymentTime": "",
+  "sendTime": "",
+  "endTime": "",
+  "closeTime": "",
+  "createTime": "",
+  "orderItemVoList":[
+  {"orderNo": 1506955845058, "productId": 26, "productName": null, "productImage": "iphone8.png",…},
+  {"orderNo": 1506955845058, "productId": 28, "productName": null, "productImage": "smartian-u2.png",…}
+  ],
+  "imageHost": "http://image.vuespringdemo.com/",
+  "shippingId": 30,
+  "receiverName": "无法长大",
+  "shippingVo":{"id": 30, "receiverName": "无法长大", "receiverPhone": "18764397221", "receiverMobile": "18764397221",…}
+  }
+}
+```
 
 
 
