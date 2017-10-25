@@ -173,6 +173,8 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 
 
 
+
+
 ### 1.6 Java配置
 
 1. 下载
@@ -230,7 +232,6 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
    /developer/apache-tomcat-8.5.20/bin/startup.sh
    ```
 
-      
 
 
 ### 1.8 Maven配置
@@ -455,12 +456,12 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 
 10. 导入数据库
 
-    ```
-    exit;
+  ```
+  exit;
 
-    mysql -u xjtu -p vue_spring_demo < /developer/git-repository/Vue-Spring-demo/backend/vue_spring_demo.sql
+  mysql -u xjtu -p vue_spring_demo < /developer/git-repository/Vue-Spring-demo/backend/vue_spring_demo.sql
 
-    ```
+  ```
 
 > `::1` is the IPv6 address for localhost.
 
@@ -527,20 +528,20 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 
 1. 进入项目目录
 
-```
-cd /developer/git-repository/Vue-Spring-demo
-```
+  ```
+  cd /developer/git-repository/Vue-Spring-demo
+  ```
 2. 编译部署
 
-   ```
-sh ./deploy.sh
-   ```
+  ```
+  sh ./deploy.sh
+  ```
 3. 访问测试 
 
    在本机打开浏览器，地址栏输入：
 
    ```
-  www.vuespringdemo.com
+   www.vuespringdemo.com
    ```
 
 
@@ -557,25 +558,25 @@ sh ./deploy.sh
 - 接口
 
   ```   ​  
-http://backend.vuespringdemo.com/user/login.do
+  http://backend.vuespringdemo.com/user/login.do
   ```
 - 请求方式
 
   ```
-POST
+  POST
   ```
 - 参数（例子）
 
   ```
-username=admin
-password=1234
+  username=admin
+  password=1234
   ```
 - 返回值
 
   ```
-{
-"status": 0,
-"data":{
+  {
+  "status": 0,
+  "data":{
   "id": 26,
   "username": "admin",
   "password": "",
@@ -587,59 +588,60 @@ password=1234
   "createTime": null,
   "updateTime": null
   }
-}
+  }
   ```
 
 
 #### 3.1.2 注销
 
 - 接口
-
-    http://backend.vuespringdemo.com/user/logout.do
+  ```
+  http://backend.vuespringdemo.com/user/logout.do
+  ```
 - 请求方式
 
   ```
-POST
+  POST
   ```
 - 参数
 
   ```
-无
+  无
   ```
 - 返回值
 
   ```
-{
+  {
   "status": 0,
   "msg": "SUCCESS"
-}
+  }
   ```
 #### 3.1.3 注册
 
 - 接口
 
   ```
-http://backend.vuespringdemo.com/user/register.do
+  http://backend.vuespringdemo.com/user/register.do
   ```
 - 请求方式
 
   ```
-POST
+  POST
   ```
 - 参数（例子）
 
   ```
-username=test
-password=1234
-email=test@test.com
+  username=test
+  password=1234
+  email=test@test.com
   ```
 - 返回值
 
   ```
-{
+  {
   "status": 0,
   "msg": "注册成功"
-}
+  }
   ```
 
 #### 3.1.4 获取用户信息
@@ -652,19 +654,19 @@ email=test@test.com
 - 请求方式
 
   ```
-GET
+  GET
   ```
 - 参数
 
   ```
-无
+  无
   ```
 - 返回值
 
   ```
-{
-"status": 0,
-"data":{
+  {
+  "status": 0,
+  "data":{
   "id": 26,
   "username": "admin",
   "password": "",
@@ -676,7 +678,7 @@ GET
   "createTime": null,
   "updateTime": null
   }
-}
+  }
   ```
 
 
@@ -693,17 +695,17 @@ GET
 - 请求方式
 
   ```
-GET
+  GET
   ```
 - 参数
 
   ```
-无
+  无
   ```
 - 返回值
 
   ```
-{
+  {
   "status": 0,
   "data":{
   "imageHost": "http://image.vuespringdemo.com/",
@@ -712,9 +714,8 @@ GET
     {"id": 33, "productId": 28, "name": "锤子 坚果Pro 128GB 细红线特别版 全网通 移动联通电信4G手机 双卡双待", "image": "carousel-smartian-u2.jpg",…}
     ]
   }
-}
+  }
   ```
-  
 
 
 #### 3.2.1 推荐搜索关键词
@@ -722,28 +723,28 @@ GET
 - 接口
 
   ```
-http://backend.vuespringdemo.com/recommend/keyword.do
+  http://backend.vuespringdemo.com/recommend/keyword.do
   ```
 - 请求方式
 
   ```
-GET
+  GET
   ```
 - 参数
 
   ```
-无
+  无
   ```
 - 返回值
 
   ```
-{
-"status": 0,
+  {
+  "status": 0,
   "data":[
   "手机",
   "锤子"
   ]
-}
+  }
   ```
 
 
@@ -755,28 +756,29 @@ GET
 - 接口
 
   ```
-http://backend.vuespringdemo.com/product/list.do?keyword=手机&categoryId=0&orderBy=price_desc&pageSize=10&pageNum=1
+  http://backend.vuespringdemo.com/product/list.do?keyword=手机&categoryId=0&orderBy=price_desc&pageSize=10&pageNum=1
   ```
 - 请求方式
 
   ```
-GET
+  GET
   ```
 - 参数
 
   ```
-keyword=手机 (可选)
-categoryId=0(可选)
-orderBy=price_desc(可选)
-pageSize=10(可选)
-pageNum=1 (可选)
+  keyword=手机 (可选)
+  categoryId=0(可选)
+  orderBy=price_desc(可选)
+  pageSize=10(可选)
+  pageNum=1 (可选)
   ```
+
 - 返回值
 
   ```
-{
-"status": 0,
-"data":{
+  {
+  "status": 0,
+  "data":{
   "pageNum": 1,
   "pageSize": 1,
   "size": 1,
@@ -802,34 +804,34 @@ pageNum=1 (可选)
   2,
   3
   ]
- }
-}
+   }
+  }
   ```
-  	
+
 
 #### 3.3.2 商品详情
 
 - 接口
 
   ```
-http://backend.vuespringdemo.com/product/detail.do?productId=26
+  http://backend.vuespringdemo.com/product/detail.do?productId=26
   ```
 - 请求方式
 
   ```
-GET
+  GET
   ```
 - 参数  
 
   ```
-productId=26
+  productId=26
   ```
 - 返回值
 
   ```
-{
-"status": 0,
-"data":{
+  {
+  "status": 0,
+  "data":{
   "id": 26,
   "categoryId": 100012,
   "name": "Apple iPhone 8 (A1863) 64GB 深空灰色 移动联通电信4G手机",
@@ -845,10 +847,10 @@ productId=26
   "updateTime": "2017-09-23 15:42:55",
   "imageHost": "http://image.vuespringdemo.com/",
   "parentCategoryId": 0
- }
-}
+   }
+  }
   ```
-  	
+
 
 ### 3.4 cart（购物车相关）
 
@@ -857,54 +859,62 @@ productId=26
 - 接口
 
   ```
-http://backend.vuespringdemo.com/cart/add.do
+  http://backend.vuespringdemo.com/cart/add.do
   ```
 - 请求方式 
 
   ```
-POST
+  POST
   ```
 - 参数
 
   ```
-productId=26
-quantity=2
+  productId=26
+  quantity=2
   ```
 - 返回值
 
   ```
-{
+  {
   "status": 0,
   "msg": "SUCCESS"
-}
+  }
   ```
-  
+
 
 #### 3.4.2 查看购物车列表
 
 - 接口
 
-```
-http://backend.vuespringdemo.com/cart/list.do
-```
+  ```
+  http://backend.vuespringdemo.com/cart/list.do
+  ```
+
+  ​
 
 - 请求方式 
 
-```
-GET
-```
+  ```
+  GET
+  ```
+
+  ​
+
 
 - 参数
 
-```
-无
-```
+  ```
+  无
+  ```
+
+  ​
+
 
 - 返回值
 
 
 
-  
+
 
 ### 3.5 order（订单相关）
 
@@ -912,51 +922,62 @@ GET
 
 - 接口
 
-```
-http://backend.vuespringdemo.com/order/create.do
-```
+  ```
+  http://backend.vuespringdemo.com/order/create.do
+  ```
+
+  ​
+
 
 - 请求方式 
 
-```
-POST
-```
+  ```
+  POST
+  ```
+
+  ​
+
 
 - 参数
 
-```
-shippingId=30
-```
+  ```
+  shippingId=30
+  ```
+
+  ​
+
 
 - 返回值
 
-```
-{
-  "status": 0,
-  "data":{
-  "orderNo": 1506955845058,
-  "payment": 69414,
-  "paymentType": 1,
-  "paymentTypeDesc": "在线支付",
-  "postage": 0,
-  "status": 10,
-  "statusDesc": "未付款",
-  "paymentTime": "",
-  "sendTime": "",
-  "endTime": "",
-  "closeTime": "",
-  "createTime": "",
-  "orderItemVoList":[
-  {"orderNo": 1506955845058, "productId": 26, "productName": null, "productImage": "iphone8.png",…},
-  {"orderNo": 1506955845058, "productId": 28, "productName": null, "productImage": "smartian-u2.png",…}
-  ],
-  "imageHost": "http://image.vuespringdemo.com/",
-  "shippingId": 30,
-  "receiverName": "无法长大",
-  "shippingVo":{"id": 30, "receiverName": "无法长大", "receiverPhone": "18764397221", "receiverMobile": "18764397221",…}
+  ```
+  {
+    "status": 0,
+    "data":{
+    "orderNo": 1506955845058,
+    "payment": 69414,
+    "paymentType": 1,
+    "paymentTypeDesc": "在线支付",
+    "postage": 0,
+    "status": 10,
+    "statusDesc": "未付款",
+    "paymentTime": "",
+    "sendTime": "",
+    "endTime": "",
+    "closeTime": "",
+    "createTime": "",
+    "orderItemVoList":[
+    {"orderNo": 1506955845058, "productId": 26, "productName": null, "productImage": "iphone8.png",…},
+    {"orderNo": 1506955845058, "productId": 28, "productName": null, "productImage": "smartian-u2.png",…}
+    ],
+    "imageHost": "http://image.vuespringdemo.com/",
+    "shippingId": 30,
+    "receiverName": "无法长大",
+    "shippingVo":{"id": 30, "receiverName": "无法长大", "receiverPhone": "18764397221", "receiverMobile": "18764397221",…}
+    }
   }
-}
-```
+  ```
+
+  ​
 
 
 
