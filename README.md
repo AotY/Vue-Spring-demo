@@ -71,11 +71,12 @@
    ```
    1. 备份你的原镜像文件
    sudo mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bac
-   2. 下载新的CentOS-Base.repo 到/etc/yum.repos.d/
+   2. 下载新的CentOS-Base.repo文件并保存到/etc/yum.repos.d/下
    sudo wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
    3. 运行yum makecache生成缓存
    sudo yum makecache
    ```
+   > 命令中的-O 是大写的O，不是数字0。
 
 4. 安装SSH（远程登录）和wget
 
