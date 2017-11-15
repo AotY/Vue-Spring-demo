@@ -60,13 +60,29 @@
 >
 > 用户名和密码请保持一致。
 
-1. 下载地址
+1. 下载CentOS镜像
 
    http://mirrors.aliyun.com/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1708.iso
 
-2. 在虚拟机中安装CentOS
+2. 在虚拟机中安装CentOS。
 
-3. 安装成功后配置阿里云Linux安装软件镜像源（为了提高安装软件速度）
+3. 添加xjtu用户到sudoers文件 （添加xjtu用户到sudo用户组）
+
+   ```
+   1. 切换到root用户
+   su
+   2. 编辑/etc/sudoers文件
+   vi /etc/sudoers
+   3. 在93行添加一下内容(set nu显示行号)
+   xjtu	ALL=(ALL)	ALL
+   4. 保存退出
+   5. 退出root用户
+   exit
+   ```
+
+   > 参考： https://jingyan.baidu.com/article/9f63fb91a9a7a3c8400f0ecb.html
+
+4. 安装成功后配置阿里云Linux安装软件镜像源（为了提高安装软件速度）
 
    ```
    1. 备份你的原镜像文件
@@ -78,18 +94,12 @@
    ```
    > 命令中的-O 是大写的O，不是数字0。
 
-4. 安装SSH（远程登录）和wget
+5. 安装SSH（远程登录）和wget
 
    ```
    sudo yum -y install openssh-server
 
    sudo yum install -y wget
-   ```
-
-5. 添加xjtu到sudoers文件
-
-   ```
-   xjtu	ALL=(ALL)	ALL
    ```
 
 6. 配置网络（确保能上网）
@@ -171,8 +181,6 @@ exit
 ```
 sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 ```
-
-
 
 
 
