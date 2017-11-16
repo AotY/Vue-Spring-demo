@@ -216,7 +216,9 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
    ```
    cd ~
 
-   wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-8/v8.5.20/bin/apache-tomcat-8.5.20.tar.gz
+   # wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-8/v8.5.20/bin/apache-tomcat-8.5.20.tar.gz (这个链接失效了，请使用下面的一条命令(地址))
+
+   wget https://oiw0skz2u.qnssl.com/o_1bv1pv3nh1aqv1b8q1p5s14411fu1h.gz\?attname\=apache-tomcat-8.5.20.tar.gz\&e\=1510819228\&token\=RhbJn4QNVTV6pnuObXel6iSMlhnWHKR9b_tp6Xeu:pbl1dUyUApZhRO8Xny1W04RhHlI\= -O apache-tomcat-8.5.20.tar.gz 
 
    tar -xvf apache-tomcat-8.5.20.tar.gz
 
@@ -439,7 +441,7 @@ sudo cp /developer/git-repository/Vue-Spring-demo/config/hosts /etc/hosts
 7. 新增用户 
 
    ```
-   insert into mysql.user(host, user, password, ssl_cipher,x509issuer,x509subject) values ("localhost", "xjtu", password("xjtuxjtu"), "", "", "");
+   insert into mysql.user(host, user, password, ssl_cipher, x509_issuer, x509_subject) values ("localhost", "xjtu", password("xjtuxjtu"), "", "", "");
 
    flush privileges; 
    ```
