@@ -2,13 +2,13 @@
   <div class="footer-wrapper">
     <div class="footer">
     <div class="links">
-      <a class="link" href="https://www.vuejs.com/">Vue.js</a>
+      <a class="link" href="https://www.vuejs.org">Vue.js</a>
       |
       <a class="link" href="http://element.eleme.io/#/zh-CN">Element</a>
       |
       <a class="link" href="https://github.com/AotY/Vue-Spring-demo">Github</a>
     </div>
-    <p class="copyright"> Copyright © 2017 vurspringdemo.com All Rights Reserved </p>
+    <p class="copyright"> Copyright © 2017 电信学院科创中心 All Rights Reserved </p>
     </div>
   </div>
 
